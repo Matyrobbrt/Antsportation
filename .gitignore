@@ -1,0 +1,5 @@
+src/generated/resources/coremods/
+build/
+*.launch
+.idea/
+.gradle/
