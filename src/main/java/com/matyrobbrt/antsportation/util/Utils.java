@@ -23,7 +23,7 @@ public class Utils {
     public static String getCompressedCount(int count) {
         if (count > 1000) {
             final var n = ((double) count) / 1000;
-            return String.valueOf(Math.round(n * 10.0) / 10.0);
+            return String.valueOf(Math.round(n * 10.0) / 10.0) + "k";
         }
         return String.valueOf(count);
     }

@@ -2,6 +2,7 @@ package com.matyrobbrt.antsportation.data;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.item.BoxItem;
+import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.data.DataGenerator;

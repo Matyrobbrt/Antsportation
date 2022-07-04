@@ -1,4 +1,5 @@
 {
+  "block.antsportation.ant_jar": "Ant Jar",
   "box_tier.antsportation.basic": "Basic",
   "item.antsportation.basic_box": "Basic Box",
   "tooltip.antsportation.and_more": "... and %s more",

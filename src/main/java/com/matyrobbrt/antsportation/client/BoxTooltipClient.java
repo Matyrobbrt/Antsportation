@@ -32,7 +32,7 @@ public final class BoxTooltipClient implements ClientTooltipComponent {
     private final int maxWidth;
 
     public static final int MAX_TOOLTIP_LENGTH = 5;
-    public static final int MAX_STACK_TOOLTIP_LENGTH = 70;
+    public static final int MAX_STACK_TOOLTIP_LENGTH = 150;
     public static final int MAX_SHOWN_STACKS = 10;
 
     public BoxTooltipClient(BoxItem.Tooltip tooltip) {
@@ -42,7 +42,7 @@ public final class BoxTooltipClient implements ClientTooltipComponent {
             final var stack = tooltip.stacks().get(i);
             final var extra = new TextComponent("  \u2022 ").append(Utils.textComponent(Utils.getCompressedCount(stack.getCount())).withStyle(ChatFormatting.GOLD)).append(" x ");
             final var display = stack.getHoverName();
-            final var name = Minecraft.getInstance().font.substrByWidth(display, 150 - Minecraft.getInstance().font.width(extra));
+            final var name = Minecraft.getInstance().font.substrByWidth(display, MAX_STACK_TOOLTIP_LENGTH - Minecraft.getInstance().font.width(extra));
             contentsTooltips.add(extra.append(Utils.getComponent(name, display.getStyle())).getVisualOrderText());
         }
         if (tooltip.stacks().size() > MAX_SHOWN_STACKS)
@@ -57,7 +57,7 @@ public final class BoxTooltipClient implements ClientTooltipComponent {
 
     @Override
     public int getWidth(@NotNull Font pFont) {
-        return Screen.hasShiftDown() ? maxWidth : getGridSize() * 18 + 2;
+        return Screen.hasShiftDown() ? maxWidth : getGridSize() * 18 + 2 + (tooltip.stacks().size() > MAX_TOOLTIP_LENGTH ? 20 : 0);
     }
 
     @Override
@@ -93,9 +93,10 @@ public final class BoxTooltipClient implements ClientTooltipComponent {
     private void renderSlot(int pX, int pY, int pItemIndex, Font pFont, PoseStack pPoseStack, ItemRenderer pItemRenderer, int pBlitOffset) {
         if (pItemIndex >= MAX_TOOLTIP_LENGTH) {
             pPoseStack.translate(0.0D, 0.0D, pBlitOffset + 200.0F);
-            final var xOffset = 25;
-            drawCenteredString(pPoseStack, pFont, Utils.textComponent(Utils.getCompressedCount(tooltip.stacks().size() - MAX_TOOLTIP_LENGTH)), pX + xOffset, pY + 2, 0xffffff);
-            drawCenteredString(pPoseStack, pFont, Translations.MORE.translate(), pX + xOffset, pY + 3 + pFont.lineHeight, 0xf8f8ff);
+            final var xOffset = 20;
+            final var y = pY - 2;
+            drawCenteredString(pPoseStack, pFont, Utils.textComponent(Utils.getCompressedCount(tooltip.stacks().size() - MAX_TOOLTIP_LENGTH)), pX + xOffset, y + 2, 0xffffff);
+            drawCenteredString(pPoseStack, pFont, Translations.MORE.translate(), pX + xOffset, y + 5 + pFont.lineHeight, 0xf8f8ff);
         } else {
             final var itemstack = tooltip.stacks().get(pItemIndex);
             blit(pPoseStack, pX, pY, pBlitOffset, Texture.SLOT);

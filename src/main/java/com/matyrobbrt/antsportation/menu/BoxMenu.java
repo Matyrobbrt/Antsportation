@@ -13,10 +13,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class BoxItemMenu extends AbstractContainerMenu {
+public class BoxMenu extends AbstractContainerMenu {
     public final ItemStack stack;
 
-    public BoxItemMenu(int pContainerId, Inventory inventory, ItemStack stack) {
+    public BoxMenu(int pContainerId, Inventory inventory, ItemStack stack) {
         super(AntsportationMenus.BOX.get(), pContainerId);
         this.stack = stack;
 
@@ -39,11 +39,11 @@ public class BoxItemMenu extends AbstractContainerMenu {
         if (slot != null && slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            if (pIndex >= 0 && pIndex < 29) {
-                if (!this.moveItemStackTo(itemstack1, 29, 38, false)) {
+            if (pIndex >= 0 && pIndex < 27) {
+                if (!this.moveItemStackTo(itemstack1, 27, 36, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (pIndex >= 29 && pIndex < 38 && !this.moveItemStackTo(itemstack1, 0, 29, false)) {
+            } else if (pIndex >= 27 && pIndex < 36 && !this.moveItemStackTo(itemstack1, 0, 27, false)) {
                 return ItemStack.EMPTY;
             }
 

@@ -2,11 +2,13 @@ package com.matyrobbrt.antsportation.item;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.matyrobbrt.antsportation.Antsportation;
-import com.matyrobbrt.antsportation.menu.BoxItemMenu;
+import com.matyrobbrt.antsportation.data.DatagenHelper;
+import com.matyrobbrt.antsportation.data.ShapedRecipe;
+import com.matyrobbrt.antsportation.menu.BoxMenu;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Utils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -26,6 +28,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -34,14 +37,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class BoxItem extends Item {
+public class BoxItem extends BaseItem {
     public static final String TAG_ITEMS = "Items";
     private final BoxTier tier;
     public BoxItem(Properties pProperties, BoxTier tier) {
@@ -115,12 +117,12 @@ public class BoxItem extends Item {
             NetworkHooks.openGui((ServerPlayer) pPlayer, new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return pPlayer.getItemInHand(pUsedHand).getDisplayName();
+                    return pPlayer.getItemInHand(pUsedHand).getHoverName().copy().withStyle(ChatFormatting.BLACK);
                 }
 
                 @Override
                 public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
-                    return new BoxItemMenu(pContainerId, pInventory, pPlayer.getItemInHand(pUsedHand));
+                    return new BoxMenu(pContainerId, pInventory, pPlayer.getItemInHand(pUsedHand));
                 }
             }, e -> e.writeEnum(pUsedHand));
         }
@@ -129,7 +131,7 @@ public class BoxItem extends Item {
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
-        load(stack, Registry.ITEM.byId(new Random().nextInt(Registry.ITEM.size())).getDefaultInstance());
+        // load(stack, Registry.ITEM.byId(new Random().nextInt(Registry.ITEM.size())).getDefaultInstance());
         return super.onLeftClickEntity(stack, player, entity);
     }
 
@@ -141,20 +143,35 @@ public class BoxItem extends Item {
                 .map(ItemStackInstance::getStack).toList()));
     }
 
+    @Override
+    public void generateRecipes(DatagenHelper helper) {
+        tier.recipe.accept(helper.shaped(this));
+    }
+
     public enum BoxTier implements ItemLike {
-        BASIC(256, 16, 0xffffff, Rarity.RARE);
+        BASIC(256, 16, 0xffffff, Rarity.COMMON, recipe -> recipe
+                .pattern(
+                        "SSS",
+                        "CIC",
+                        "SSS"
+                )
+                .define('S', Tags.Items.STONE)
+                .define('C', Tags.Items.CHESTS)
+                .define('I', Tags.Items.INGOTS_IRON));
 
         public final int space;
         public final int types;
         public final int colour;
         public final Rarity rarity;
         private RegistryObject<BoxItem> item;
+        private final Consumer<ShapedRecipe> recipe;
 
-        BoxTier(int space, int types, int colour, Rarity rarity) {
+        BoxTier(int space, int types, int colour, Rarity rarity, Consumer<ShapedRecipe> recipe) {
             this.space = space;
             this.types = types;
             this.colour = colour;
             this.rarity = rarity;
+            this.recipe = recipe;
         }
 
         public void registerItem(Item.Properties properties) {

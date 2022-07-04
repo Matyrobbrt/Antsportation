@@ -4,12 +4,13 @@ import com.google.common.collect.Lists;
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.client.BoxTooltipClient;
 import com.matyrobbrt.antsportation.item.BoxItem;
-import com.matyrobbrt.antsportation.menu.BoxItemMenu;
+import com.matyrobbrt.antsportation.menu.BoxMenu;
 import com.matyrobbrt.antsportation.util.Utils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -22,11 +23,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
+public class BoxScreen extends AbstractContainerScreen<BoxMenu> {
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Antsportation.MOD_ID, "textures/gui/box.png");
-    public BoxItemScreen(BoxItemMenu pMenu, Inventory pPlayerInventory, Component title) {
+    public BoxScreen(BoxMenu pMenu, Inventory pPlayerInventory, Component title) {
         super(pMenu, pPlayerInventory, title);
         imageHeight = 222;
+        imageWidth = 186;
         this.inventoryLabelY = this.imageHeight - 94;
     }
 
@@ -64,18 +66,27 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
         renderTooltip(pPoseStack, pMouseX, pMouseY);
     }
 
+    @Nullable
+    public ItemStack resolveStack(int mouseX, int mouseY) {
+        final var entry = list.getEntryAtPos(mouseX, mouseY);
+        if (entry != null) {
+            return entry.getStack(mouseX - entry.x);
+        }
+        return null;
+    }
+
     private class SelectionList extends AbstractSelectionList<Entry> {
 
         public SelectionList(Minecraft pMinecraft, int pWidth, int pHeight, int pY0, int pY1) {
             super(pMinecraft, pWidth, pHeight, pY0, pY1, 20);
-            x0 = BoxItemScreen.this.leftPos + 5;
+            x0 = BoxScreen.this.leftPos + 5;
             x1 = x0 + pWidth + 5;
             setRenderBackground(false);
             setRenderTopAndBottom(false);
 
             Lists.partition(BoxItem.getStoredItems(menu.stack)
                     .map(BoxItem.ItemStackInstance::getStack)
-                    .toList(), 9).forEach(stacks -> addEntry(new BoxItemScreen.Entry(stacks)));
+                    .toList(), 9).forEach(stacks -> addEntry(new BoxScreen.Entry(stacks)));
         }
 
         protected int getX0() {
@@ -98,16 +109,16 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
 
         @Override
         protected int getScrollbarPosition() {
-            return leftPos + width;
+            return leftPos + 177;
         }
 
         @Override
         public void updateNarration(@NotNull NarrationElementOutput pNarrationElementOutput) {
-
+            pNarrationElementOutput.add(NarratedElementType.TITLE, BoxScreen.this.title);
         }
 
         @Nullable
-        public BoxItemScreen.Entry getEntryAtPos(double mouseX, double mouseY) {
+        public BoxScreen.Entry getEntryAtPos(double mouseX, double mouseY) {
             return getEntryAtPosition(mouseX, mouseY);
         }
     }
@@ -127,7 +138,7 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
             this.y = pTop;
             for (int i = 0; i < stacks.size(); i++) {
                 final var x = pLeft + (i * 18);
-                if (isWithinBounds(pLeft, pTop, pTop + 20)) {
+                if (isWithinBounds(pTop, pTop + 20)) {
                     final var itemstack = stacks.get(i);
                     BoxTooltipClient.blit(pPoseStack, x, pTop, (int) itemRenderer.blitOffset, BoxTooltipClient.Texture.SLOT);
                     itemRenderer.renderAndDecorateItem(itemstack, x + 1, pTop + 1, i);
@@ -138,15 +149,24 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
 
         @Nullable
         public Component getTooltip(int relativeX) {
-            final var index = relativeX / 20;
-            if (stacks.size() > index && isWithinBounds(this.x, this.y, this.y + 20)) {
+            final var index = relativeX / 18;
+            if (stacks.size() > index && isWithinBounds(this.y, this.y + 20)) {
                 return stacks.get(index).getHoverName();
+            }
+            return null;
+        }
+
+        @Nullable
+        public ItemStack getStack(int relativeX) {
+            final var index = relativeX / 18;
+            if (stacks.size() > index && isWithinBounds(this.y, this.y + 20)) {
+                return stacks.get(index);
             }
             return null;
         }
     }
 
-    public boolean isWithinBounds(int x, int y0, int y1) {
-        return x >= list.getX0() && x <= list.getX1() && y0 >= list.getY0() && y0 <= list.getY1() && y1 >= list.getY0() && y1 <= list.getY1();
+    public boolean isWithinBounds(int y0, int y1) {
+        return y0 >= list.getY0() && y0 <= list.getY1() && y1 >= list.getY0() && y1 <= list.getY1();
     }
 }
