@@ -1,0 +1,11 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "MIT"
+
+[[mods]]
+modId = "antsportation"
+version = "1.0"
+displayName = "Antsportation"
+description = '''
+    An item transportation mod
+    '''

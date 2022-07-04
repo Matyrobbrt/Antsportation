@@ -1,5 +1,12 @@
 package com.matyrobbrt.antsportation;
 
+import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.registration.AntsportationItems;
+import com.matyrobbrt.antsportation.registration.AntsportationMenus;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -13,9 +20,17 @@ public class Antsportation {
     public Antsportation() {
         LOGGER.debug("Initialising Antsportation");
         final var bus = FMLJavaModLoadingContext.get().getModEventBus();
-        Registration.BLOCKS.register(bus);
-        Registration.ITEMS.register(bus);
-        Registration.ENTITIES.register(bus);
+        AntsportationBlocks.BLOCKS.register(bus);
+        AntsportationItems.ITEMS.register(bus);
+        AntsportationMenus.MENUS.register(bus);
+        AntsportationEntities.ENTITIES.register(bus);
         LOGGER.debug("Antsportation initialized");
     }
+
+    public static final CreativeModeTab TAB = new CreativeModeTab(CreativeModeTab.getGroupCountSafe(), MOD_ID) {
+        @Override
+        public ItemStack makeIcon() {
+            return Items.ACACIA_FENCE.getDefaultInstance(); // TODO tab icon
+        }
+    };
 }

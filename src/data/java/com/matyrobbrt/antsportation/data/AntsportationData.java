@@ -14,5 +14,6 @@ public class AntsportationData {
 
         gen.addProvider(new Models(gen, existingFileHelper));
         gen.addProvider(new Recipes(gen));
+        gen.addProvider(new Lang(gen));
     }
 }
