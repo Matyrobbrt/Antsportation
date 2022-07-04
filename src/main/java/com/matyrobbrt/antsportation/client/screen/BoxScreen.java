@@ -66,6 +66,15 @@ public class BoxScreen extends AbstractContainerScreen<BoxMenu> {
         renderTooltip(pPoseStack, pMouseX, pMouseY);
     }
 
+    @Nullable
+    public ItemStack resolveStack(int mouseX, int mouseY) {
+        final var entry = list.getEntryAtPos(mouseX, mouseY);
+        if (entry != null) {
+            return entry.getStack(mouseX - entry.x);
+        }
+        return null;
+    }
+
     private class SelectionList extends AbstractSelectionList<Entry> {
 
         public SelectionList(Minecraft pMinecraft, int pWidth, int pHeight, int pY0, int pY1) {
@@ -140,9 +149,18 @@ public class BoxScreen extends AbstractContainerScreen<BoxMenu> {
 
         @Nullable
         public Component getTooltip(int relativeX) {
-            final var index = relativeX / 20;
+            final var index = relativeX / 18;
             if (stacks.size() > index && isWithinBounds(this.y, this.y + 20)) {
                 return stacks.get(index).getHoverName();
+            }
+            return null;
+        }
+
+        @Nullable
+        public ItemStack getStack(int relativeX) {
+            final var index = relativeX / 18;
+            if (stacks.size() > index && isWithinBounds(this.y, this.y + 20)) {
+                return stacks.get(index);
             }
             return null;
         }
