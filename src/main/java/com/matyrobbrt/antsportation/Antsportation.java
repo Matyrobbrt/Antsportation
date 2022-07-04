@@ -4,6 +4,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationMenus;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -33,4 +34,8 @@ public class Antsportation {
             return Items.ACACIA_FENCE.getDefaultInstance(); // TODO tab icon
         }
     };
+
+    public static ResourceLocation rl(String path) {
+        return new ResourceLocation(MOD_ID, path);
+    }
 }
