@@ -2,7 +2,7 @@ package com.matyrobbrt.antsportation.item;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.matyrobbrt.antsportation.Antsportation;
-import com.matyrobbrt.antsportation.menu.BoxItemMenu;
+import com.matyrobbrt.antsportation.menu.BoxMenu;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Utils;
 import net.minecraft.ChatFormatting;
@@ -121,7 +121,7 @@ public class BoxItem extends Item {
 
                 @Override
                 public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
-                    return new BoxItemMenu(pContainerId, pInventory, pPlayer.getItemInHand(pUsedHand));
+                    return new BoxMenu(pContainerId, pInventory, pPlayer.getItemInHand(pUsedHand));
                 }
             }, e -> e.writeEnum(pUsedHand));
         }

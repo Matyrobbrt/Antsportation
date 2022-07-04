@@ -13,10 +13,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class BoxItemMenu extends AbstractContainerMenu {
+public class BoxMenu extends AbstractContainerMenu {
     public final ItemStack stack;
 
-    public BoxItemMenu(int pContainerId, Inventory inventory, ItemStack stack) {
+    public BoxMenu(int pContainerId, Inventory inventory, ItemStack stack) {
         super(AntsportationMenus.BOX.get(), pContainerId);
         this.stack = stack;
 

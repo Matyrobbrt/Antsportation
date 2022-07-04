@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.client.BoxTooltipClient;
 import com.matyrobbrt.antsportation.item.BoxItem;
-import com.matyrobbrt.antsportation.menu.BoxItemMenu;
+import com.matyrobbrt.antsportation.menu.BoxMenu;
 import com.matyrobbrt.antsportation.util.Utils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -23,9 +23,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
+public class BoxScreen extends AbstractContainerScreen<BoxMenu> {
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Antsportation.MOD_ID, "textures/gui/box.png");
-    public BoxItemScreen(BoxItemMenu pMenu, Inventory pPlayerInventory, Component title) {
+    public BoxScreen(BoxMenu pMenu, Inventory pPlayerInventory, Component title) {
         super(pMenu, pPlayerInventory, title);
         imageHeight = 222;
         imageWidth = 186;
@@ -70,14 +70,14 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
 
         public SelectionList(Minecraft pMinecraft, int pWidth, int pHeight, int pY0, int pY1) {
             super(pMinecraft, pWidth, pHeight, pY0, pY1, 20);
-            x0 = BoxItemScreen.this.leftPos + 5;
+            x0 = BoxScreen.this.leftPos + 5;
             x1 = x0 + pWidth + 5;
             setRenderBackground(false);
             setRenderTopAndBottom(false);
 
             Lists.partition(BoxItem.getStoredItems(menu.stack)
                     .map(BoxItem.ItemStackInstance::getStack)
-                    .toList(), 9).forEach(stacks -> addEntry(new BoxItemScreen.Entry(stacks)));
+                    .toList(), 9).forEach(stacks -> addEntry(new BoxScreen.Entry(stacks)));
         }
 
         protected int getX0() {
@@ -105,11 +105,11 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
 
         @Override
         public void updateNarration(@NotNull NarrationElementOutput pNarrationElementOutput) {
-            pNarrationElementOutput.add(NarratedElementType.TITLE, BoxItemScreen.this.title);
+            pNarrationElementOutput.add(NarratedElementType.TITLE, BoxScreen.this.title);
         }
 
         @Nullable
-        public BoxItemScreen.Entry getEntryAtPos(double mouseX, double mouseY) {
+        public BoxScreen.Entry getEntryAtPos(double mouseX, double mouseY) {
             return getEntryAtPosition(mouseX, mouseY);
         }
     }
