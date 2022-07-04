@@ -10,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -27,6 +28,7 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
     public BoxItemScreen(BoxItemMenu pMenu, Inventory pPlayerInventory, Component title) {
         super(pMenu, pPlayerInventory, title);
         imageHeight = 222;
+        imageWidth = 186;
         this.inventoryLabelY = this.imageHeight - 94;
     }
 
@@ -98,12 +100,12 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
 
         @Override
         protected int getScrollbarPosition() {
-            return leftPos + width;
+            return leftPos + 177;
         }
 
         @Override
         public void updateNarration(@NotNull NarrationElementOutput pNarrationElementOutput) {
-
+            pNarrationElementOutput.add(NarratedElementType.TITLE, BoxItemScreen.this.title);
         }
 
         @Nullable
@@ -127,7 +129,7 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
             this.y = pTop;
             for (int i = 0; i < stacks.size(); i++) {
                 final var x = pLeft + (i * 18);
-                if (isWithinBounds(pLeft, pTop, pTop + 20)) {
+                if (isWithinBounds(pTop, pTop + 20)) {
                     final var itemstack = stacks.get(i);
                     BoxTooltipClient.blit(pPoseStack, x, pTop, (int) itemRenderer.blitOffset, BoxTooltipClient.Texture.SLOT);
                     itemRenderer.renderAndDecorateItem(itemstack, x + 1, pTop + 1, i);
@@ -139,14 +141,14 @@ public class BoxItemScreen extends AbstractContainerScreen<BoxItemMenu> {
         @Nullable
         public Component getTooltip(int relativeX) {
             final var index = relativeX / 20;
-            if (stacks.size() > index && isWithinBounds(this.x, this.y, this.y + 20)) {
+            if (stacks.size() > index && isWithinBounds(this.y, this.y + 20)) {
                 return stacks.get(index).getHoverName();
             }
             return null;
         }
     }
 
-    public boolean isWithinBounds(int x, int y0, int y1) {
-        return x >= list.getX0() && x <= list.getX1() && y0 >= list.getY0() && y0 <= list.getY1() && y1 >= list.getY0() && y1 <= list.getY1();
+    public boolean isWithinBounds(int y0, int y1) {
+        return y0 >= list.getY0() && y0 <= list.getY1() && y1 >= list.getY0() && y1 <= list.getY1();
     }
 }

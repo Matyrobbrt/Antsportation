@@ -5,6 +5,7 @@ import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.menu.BoxItemMenu;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Utils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -115,7 +116,7 @@ public class BoxItem extends Item {
             NetworkHooks.openGui((ServerPlayer) pPlayer, new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return pPlayer.getItemInHand(pUsedHand).getDisplayName();
+                    return pPlayer.getItemInHand(pUsedHand).getHoverName().copy().withStyle(ChatFormatting.BLACK);
                 }
 
                 @Override
