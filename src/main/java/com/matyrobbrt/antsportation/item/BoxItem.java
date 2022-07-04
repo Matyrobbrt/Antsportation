@@ -130,7 +130,7 @@ public class BoxItem extends Item {
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
-        load(stack, Registry.ITEM.byId(new Random().nextInt(Registry.ITEM.size())).getDefaultInstance());
+        // load(stack, Registry.ITEM.byId(new Random().nextInt(Registry.ITEM.size())).getDefaultInstance());
         return super.onLeftClickEntity(stack, player, entity);
     }
 
