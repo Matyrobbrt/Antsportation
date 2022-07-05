@@ -2,9 +2,49 @@ package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import net.minecraft.core.Registry;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class AntsportationBlocks {
+    public static final Map<Supplier<? extends Block>, MineData> MINE_DATA = new HashMap<>();
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registry.BLOCK_REGISTRY, Antsportation.MOD_ID);
+
+    private static <T extends Block> RegistryObject<T> register(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {
+        final var reg = BLOCKS.register(name, factory);
+        MINE_DATA.put(reg, new MineData(mineable, tier));
+        return reg;
+    }
+    private static <T extends Block> RegistryObject<T> registerWithItem(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {
+        final var block = register(name, mineable, tier, factory);
+        AntsportationItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(Antsportation.TAB)));
+        return block;
+    }
+
+    public record MineData(Mineable mineable, ToolTier toolTier) {}
+
+    public enum Mineable {
+        PICKAXE(BlockTags.MINEABLE_WITH_PICKAXE);
+        public final TagKey<Block> tag;
+
+        Mineable(TagKey<Block> tag) {
+            this.tag = tag;
+        }
+    }
+    public enum ToolTier {
+        IRON(BlockTags.NEEDS_IRON_TOOL);
+        public final TagKey<Block> tag;
+
+        ToolTier(TagKey<Block> tag) {
+            this.tag = tag;
+        }
+    }
 }
