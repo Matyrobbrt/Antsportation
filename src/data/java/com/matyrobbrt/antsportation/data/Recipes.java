@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation.data;
 
+import com.matyrobbrt.antsportation.item.BaseBlockItem;
 import com.matyrobbrt.antsportation.item.BaseItem;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import net.minecraft.data.DataGenerator;
@@ -20,6 +21,8 @@ public class Recipes extends RecipeProvider {
         AntsportationItems.ITEMS.getEntries().forEach(it -> {
             final var item = it.get();
             if (item instanceof BaseItem base) {
+                base.generateRecipes(helper);
+            } else if (item instanceof BaseBlockItem base){
                 base.generateRecipes(helper);
             }
         });
