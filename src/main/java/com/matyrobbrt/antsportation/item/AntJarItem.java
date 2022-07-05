@@ -23,21 +23,27 @@ public class AntJarItem extends BlockItem {
     }
 
     public static boolean hasAntInside(ItemStack itemStack) {
-        return itemStack.getTag() != null && itemStack.getTag().getBoolean("antInside");
+        return itemStack.getTag() != null && itemStack.getTag().getCompound("BlockStateTag").getString("antinside").matches("true");
     }
 
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack pStack, @NotNull Player pPlayer, @NotNull LivingEntity pInteractionTarget, @NotNull InteractionHand pUsedHand) {
         //TODO: Change the entity to Ant queen.
         if (pInteractionTarget instanceof Silverfish) {
-            pStack.getOrCreateTag().putBoolean("antInside", true);
+            ItemStack itemStack = pStack.copy();
+            itemStack.getOrCreateTag();
+            if(itemStack.getTag() != null && !itemStack.getTag().contains("BlockStateTag")){
+                itemStack.getTag().put("BlockStateTag", new CompoundTag());
+            }
+            itemStack.getTag().getCompound("BlockStateTag").putString("antinside", "true");
+            pPlayer.setItemInHand(pUsedHand,itemStack);
             pInteractionTarget.remove(Entity.RemovalReason.DISCARDED);
-            //pPlayer.sendMessage(new TextComponent(pStack.getTag().toString()), pPlayer.getUUID());
             return InteractionResult.sidedSuccess(pPlayer.level.isClientSide());
         } else {
             return InteractionResult.FAIL;
         }
     }
+
 
 
     @Override
@@ -51,14 +57,14 @@ public class AntJarItem extends BlockItem {
         } else if (playerUsed.isCrouching()) {
             return this.place(new BlockPlaceContext(pContext));
         } else {
-            if (usedItemTag != null && usedItemTag.getBoolean("antInside")) {
+            if (usedItemTag != null && usedItemTag.getCompound("BlockStateTag").getString("antinside").matches("true")) {
                 //TODO: Change the entity to Ant queen.
                 if (!pContext.getLevel().isClientSide()) {
                     LivingEntity entityToSpawn = new Silverfish(EntityType.SILVERFISH, level);
                     entityToSpawn.setPos(pContext.getClickLocation());
                     level.addFreshEntity(entityToSpawn);
                 }
-                usedItemTag.putBoolean("antInside", false);
+                usedItemTag.getCompound("BlockStateTag").putString("antinside", "false");
                 return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.FAIL;
