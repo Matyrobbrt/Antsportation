@@ -4,6 +4,7 @@ import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.menu.BoxerMenu;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
 import com.matyrobbrt.antsportation.network.OpenTileContainerPacket;
+import com.matyrobbrt.antsportation.network.RequestUpdatePacket;
 import com.matyrobbrt.antsportation.network.UpdateBoxerPacket;
 import com.matyrobbrt.antsportation.util.RedstoneControl;
 import com.matyrobbrt.antsportation.util.Translations;
@@ -75,6 +76,7 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
         public ConfigurationScreen(BoxerMenu.Configuration pMenu, Inventory pPlayerInventory, Component pTitle) {
             super(pMenu, pPlayerInventory, pTitle);
             backgroundTexture = CONTAINER_BACKGROUND;
+            AntsportationNetwork.CHANNEL.sendToServer(RequestUpdatePacket.INSTANCE);
         }
 
         @Override
@@ -82,10 +84,10 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
             super.init();
             // TODO the back button needs to be adjusted
             addRenderableWidget(new Button(
-                    leftPos + 7, topPos + 7, 50, 20,
+                    leftPos + imageWidth - 7 - 36, topPos + 83 - 15, 36, 15,
                     CommonComponents.GUI_BACK, e -> back()
             ));
-            final var releaseWhenBox = new EditBox(minecraft.font, leftPos + 97 + 9, topPos + 11, 50, 20, NarratorChatListener.NO_TITLE);
+            final var releaseWhenBox = new EditBox(minecraft.font, leftPos + 97 + 9, topPos + 11 + 5, 50, 20, NarratorChatListener.NO_TITLE);
             releaseWhenBox.setValue(String.valueOf(menu.tile.releasePercent));
             releaseWhenBox.setResponder(v -> {
                 try {
@@ -120,7 +122,7 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
         @Override
         public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
             super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-            BoxerScreen.drawString(pPoseStack, minecraft.font, Translations.EJECT_WHEN.translate(), leftPos + 29, topPos + 11 + 5, ChatFormatting.AQUA.getColor());
+            BoxerScreen.drawString(pPoseStack, minecraft.font, Translations.EJECT_WHEN.translate(), leftPos + 29, topPos + 11 + 5 + 5, ChatFormatting.AQUA.getColor());
             BoxerScreen.drawString(pPoseStack, minecraft.font, Translations.REDSTONE_CONTROL.translate(), leftPos + 10, topPos + 44 + 5, ChatFormatting.AQUA.getColor());
 
             getChildAt(pMouseX, pMouseY).ifPresent(ev -> {

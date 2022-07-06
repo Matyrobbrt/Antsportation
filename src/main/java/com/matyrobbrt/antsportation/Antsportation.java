@@ -5,10 +5,12 @@ import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationMenus;
+import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -17,6 +19,8 @@ import org.slf4j.LoggerFactory;
 
 @Mod(Antsportation.MOD_ID)
 public class Antsportation {
+    public static final Rarity ADVANCED = Rarity.create("ADVANCED", ChatFormatting.RED);
+
     public static final String MOD_ID = "antsportation";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 

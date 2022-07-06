@@ -43,6 +43,7 @@ public class AntsportationNetwork {
         final var registrar = new Registrar();
         registrar.register(OpenTileContainerPacket.class, null, OpenTileContainerPacket::decode);
         registrar.register(UpdateBoxerPacket.class, null, UpdateBoxerPacket::decode);
+        registrar.register(RequestUpdatePacket.class, null, RequestUpdatePacket::decode);
     }
 
     public static  <MSG> void sendTo(MSG message, ServerPlayer player) {

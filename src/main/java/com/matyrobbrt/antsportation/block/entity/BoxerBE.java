@@ -50,9 +50,9 @@ public class BoxerBE extends BlockEntity implements MenuProvider, HasMultipleMen
 
     // TODO config
     private static final int BASE_MAX_PROGRESS = 100;
-    private static final int PROGRESS_DECREASE_PER_UPGRADE = 15;
+    public static final int PROGRESS_DECREASE_PER_UPGRADE = 15;
     private static final int BASE_ENERGY_USAGE = 50;
-    private static final int ENERGY_INCREASE_PER_UPGRADE = 20;
+    public static final int ENERGY_INCREASE_PER_UPGRADE = 20;
 
     public int maxProgress = BASE_MAX_PROGRESS;
     public int progress = 0;
@@ -167,7 +167,7 @@ public class BoxerBE extends BlockEntity implements MenuProvider, HasMultipleMen
                 final var madeProgress = new AtomicBoolean();
                 IntStream.range(0, inventory.getSlots())
                         .mapToObj(i -> new StackInstance(i, inventory.getStackInSlot(i)))
-                        .dropWhile(in -> in.stack().isEmpty())
+                        .filter(in -> !in.stack().isEmpty())
                         .limit(3)
                         .forEach(stack -> {
                             final var result = BoxItem.load(box, stack.stack());
