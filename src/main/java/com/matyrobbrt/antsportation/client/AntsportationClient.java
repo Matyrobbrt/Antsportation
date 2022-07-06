@@ -4,12 +4,15 @@ import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.client.screen.BaseContainerScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxerScreen;
+import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BoxItem;
+import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationMenus;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -26,6 +29,12 @@ public class AntsportationClient {
         MenuScreens.register(AntsportationMenus.BOX.get(), BoxScreen::new);
         MenuScreens.register(AntsportationMenus.BOXER.get(), BoxerScreen::new);
         MenuScreens.register(AntsportationMenus.BOXER_CONFIGURATION.get(), BoxerScreen.ConfigurationScreen::new);
+
+        addCustomItemProperties();
+    }
+
+    private static void addCustomItemProperties() {
+        ItemProperties.register(AntsportationItems.ANTJAR_ITEM.get(), Antsportation.rl("filled"), (stack, level, entity, seed)-> (AntJarItem.hasAntInside(stack)) ? 1 : 0);
     }
 
     public static void renderBg(BaseContainerScreen<?> containerScreen, ResourceLocation texture, PoseStack poseStack) {
@@ -36,4 +45,5 @@ public class AntsportationClient {
         final int j = (containerScreen.height - containerScreen.getImageHeight()) / 2;
         containerScreen.blit(poseStack, i, j, 0, 0, containerScreen.getImageWidth(), containerScreen.getImageHeight());
     }
+
 }

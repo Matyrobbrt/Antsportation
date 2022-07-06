@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.block.AntJarBlock;
 import com.matyrobbrt.antsportation.block.BoxerBlock;
 import com.matyrobbrt.antsportation.block.entity.BoxerBE;
 import net.minecraft.core.Registry;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -31,18 +33,23 @@ public class AntsportationBlocks {
     ));
     public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () -> BlockEntityType.Builder.of(BoxerBE::new, BOXER.get()).build(null));
 
+    public static final RegistryObject<Block> ANTJAR_BLOCK = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
+            () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS)));
+
     private static <T extends Block> RegistryObject<T> register(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {
         final var reg = BLOCKS.register(name, factory);
         MINE_DATA.put(reg, new MineData(mineable, tier));
         return reg;
     }
+
     private static <T extends Block> RegistryObject<T> registerWithItem(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {
         final var block = register(name, mineable, tier, factory);
         AntsportationItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(Antsportation.TAB)));
         return block;
     }
 
-    public record MineData(Mineable mineable, ToolTier toolTier) {}
+    public record MineData(Mineable mineable, ToolTier toolTier) {
+    }
 
     public enum Mineable {
         PICKAXE(BlockTags.MINEABLE_WITH_PICKAXE);
@@ -52,12 +59,15 @@ public class AntsportationBlocks {
             this.tag = tag;
         }
     }
+
     public enum ToolTier {
-        IRON(BlockTags.NEEDS_IRON_TOOL);
+        IRON(BlockTags.NEEDS_IRON_TOOL),
+        WOODEN(Tags.Blocks.NEEDS_WOOD_TOOL);
         public final TagKey<Block> tag;
 
         ToolTier(TagKey<Block> tag) {
             this.tag = tag;
         }
     }
+
 }
