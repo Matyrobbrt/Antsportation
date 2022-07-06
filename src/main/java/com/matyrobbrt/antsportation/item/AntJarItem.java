@@ -1,7 +1,6 @@
 package com.matyrobbrt.antsportation.item;
 
 import com.matyrobbrt.antsportation.data.DatagenHelper;
-import com.matyrobbrt.antsportation.data.ShapedRecipe;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -20,22 +19,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Consumer;
-
 @SuppressWarnings("SpellCheckingInspection")
 public class AntJarItem extends BaseBlockItem {
-    private final Consumer<ShapedRecipe> recipe;
 
     public AntJarItem(Block pBlock, Properties pProperties) {
         super(pBlock, pProperties);
-        recipe = recipe -> recipe.pattern(
-                "WWW",
-                "GBG",
-                "GGG"
-                )
-                .define('W', ItemTags.PLANKS)
-                .define('G', Tags.Items.GLASS)
-                .define('B', Items.GLASS_BOTTLE);
     }
 
     public static boolean hasAntInside(ItemStack itemStack) {
@@ -50,12 +38,12 @@ public class AntJarItem extends BaseBlockItem {
             if (itemStack.getTag() != null && !itemStack.getTag().contains("BlockStateTag")) {
                 itemStack.getTag().put("BlockStateTag", new CompoundTag());
             }
-            if(itemStack.getTag().getCompound("BlockStateTag").getString("antinside").matches("false")){
+            if (itemStack.getTag().getCompound("BlockStateTag").getString("antinside").matches("false")) {
                 itemStack.getTag().getCompound("BlockStateTag").putString("antinside", "true");
                 pPlayer.setItemInHand(pUsedHand, itemStack);
                 pInteractionTarget.remove(Entity.RemovalReason.DISCARDED);
                 return InteractionResult.sidedSuccess(pPlayer.level.isClientSide());
-            }else{
+            } else {
                 return InteractionResult.FAIL;
             }
         } else {
@@ -65,7 +53,15 @@ public class AntJarItem extends BaseBlockItem {
 
     @Override
     public void generateRecipes(DatagenHelper helper) {
-        recipe.accept(helper.shaped(this));
+        helper.shaped(this)
+                .pattern(
+                        "WWW",
+                        "GBG",
+                        "GGG"
+                )
+                .define('W', ItemTags.PLANKS)
+                .define('G', Tags.Items.GLASS)
+                .define('B', Items.GLASS_BOTTLE);
     }
 
     @Override
