@@ -1,4 +1,4 @@
-package com.matyrobbrt.antsportation.event;
+package com.matyrobbrt.antsportation.block.entity;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.client.entity.AntQueenModel;

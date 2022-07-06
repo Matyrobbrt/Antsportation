@@ -2,7 +2,9 @@ package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.AntJarBlock;
+import com.matyrobbrt.antsportation.block.AntNestBlock;
 import com.matyrobbrt.antsportation.block.BoxerBlock;
+import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.block.entity.BoxerBE;
 import net.minecraft.core.Registry;
 import net.minecraft.tags.BlockTags;
@@ -31,8 +33,15 @@ public class AntsportationBlocks {
             .color(MaterialColor.COLOR_BLACK)
             .strength(5.0f)
     ));
+    public static final RegistryObject<AntNestBlock> ANT_NEST = registerWithItem("ant_nest",Mineable.SHOVEL,ToolTier.WOODEN, ()-> new AntNestBlock(BlockBehaviour.Properties.of(Material.DIRT)
+            .color(MaterialColor.COLOR_BROWN)
+            .strength(1.0f)
+    ));
     public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () ->
             BlockEntityType.Builder.of(BoxerBE::new, BOXER.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<AntNestBE>> ANT_NEST_BE = BLOCK_ENTITIES.register("ant_nest", () ->
+            BlockEntityType.Builder.of(AntNestBE::new, ANT_NEST.get()).build(null));
 
     public static final RegistryObject<Block> ANTJAR_BLOCK = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
             () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));
@@ -53,6 +62,7 @@ public class AntsportationBlocks {
     }
 
     public enum Mineable {
+        SHOVEL(BlockTags.MINEABLE_WITH_SHOVEL),
         PICKAXE(BlockTags.MINEABLE_WITH_PICKAXE);
         public final TagKey<Block> tag;
 
