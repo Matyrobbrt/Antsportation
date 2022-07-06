@@ -9,6 +9,7 @@ import com.matyrobbrt.antsportation.network.UpdateBoxerPacket;
 import com.matyrobbrt.antsportation.util.RedstoneControl;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.Utils;
+import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.chat.NarratorChatListener;
@@ -49,14 +50,18 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
     protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
         super.renderBg(pPoseStack, pPartialTick, pMouseX, pMouseY);
         this.blit(pPoseStack, this.leftPos + 101, this.topPos + 40, 176, 0, this.menu.getProgressionScaled(), 17);
-        this.blit(pPoseStack, this.leftPos + 8, this.topPos + 76, 0, 249, this.menu.getEnergyScaled(), 7);
+        if (ServerConfig.CONFIG.boxing().useEnergy().get()) {
+            this.blit(pPoseStack, this.leftPos + 8, this.topPos + 76, 0, 249, this.menu.getEnergyScaled(), 7);
+        } else {
+            blit(pPoseStack, this.leftPos + 7, this.topPos + 75, 166, 247, 90, 9);
+        }
     }
 
     @Override
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
         renderTooltip(pPoseStack, pMouseX, pMouseY);
-        if (pMouseX <= leftPos + 97 && pMouseX >= leftPos + 7 && pMouseY <= topPos + 84 && pMouseY >= topPos + 75) {
+        if (ServerConfig.CONFIG.boxing().useEnergy().get() && pMouseX <= leftPos + 97 && pMouseX >= leftPos + 7 && pMouseY <= topPos + 84 && pMouseY >= topPos + 75) {
             renderTooltip(pPoseStack, Translations.STORED_ENERGY.translate(
                     Utils.textComponent(Utils.getCompressedCount(menu.tile.energy.getEnergyStored()), s -> s.withColor(ChatFormatting.GOLD)),
                     Utils.textComponent(Utils.getCompressedCount(menu.tile.energy.getMaxEnergyStored()), s -> s.withColor(ChatFormatting.AQUA))

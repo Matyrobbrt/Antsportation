@@ -8,6 +8,7 @@ import com.matyrobbrt.antsportation.util.DelegatingItemHandler;
 import com.matyrobbrt.antsportation.util.EnergyStorage;
 import com.matyrobbrt.antsportation.util.RedstoneControl;
 import com.matyrobbrt.antsportation.util.Translations;
+import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,22 +42,17 @@ public class BoxerBE extends BlockEntity implements MenuProvider, HasMultipleMen
         super(AntsportationBlocks.BOXER_BE.get(), pWorldPosition, pBlockState);
     }
 
-    public final EnergyStorage energy = new EnergyStorage(100_000, 1000, 0) {
+    public final EnergyStorage energy = new EnergyStorage(ServerConfig.CONFIG.boxing().energyCapacity().get(), 10 * (ServerConfig.CONFIG.boxing().baseUsedEnergy().get() +
+            AntsportationItems.SPEED_UPGRADE.get().getMaxStackSize() * ServerConfig.CONFIG.boxing().upgradeEnergyUsage().get()), 0) {
         @Override
         public void onChanged() {
              BoxerBE.this.setChanged();
         }
     };
 
-    // TODO config
-    private static final int BASE_MAX_PROGRESS = 100;
-    public static final int PROGRESS_DECREASE_PER_UPGRADE = 15;
-    private static final int BASE_ENERGY_USAGE = 50;
-    public static final int ENERGY_INCREASE_PER_UPGRADE = 20;
-
-    public int maxProgress = BASE_MAX_PROGRESS;
+    public int maxProgress = ServerConfig.CONFIG.boxing().baseNeededTicks().get();
     public int progress = 0;
-    private int energyUsage = BASE_ENERGY_USAGE;
+    private int energyUsage = ServerConfig.CONFIG.boxing().baseUsedEnergy().get();
     protected boolean isBoxLocked;
     public int releasePercent = 0;
     public RedstoneControl redstoneControl = RedstoneControl.DISABLED;
@@ -92,8 +88,8 @@ public class BoxerBE extends BlockEntity implements MenuProvider, HasMultipleMen
         @Override
         protected void onLoad() {
             final var stack = stacks.get(0);
-            maxProgress = BASE_MAX_PROGRESS - stack.getCount() * PROGRESS_DECREASE_PER_UPGRADE;
-            energyUsage = BASE_ENERGY_USAGE + stack.getCount() * ENERGY_INCREASE_PER_UPGRADE;
+            maxProgress = ServerConfig.getBoxing(ServerConfig.Boxing::baseNeededTicks) - stack.getCount() * ServerConfig.getBoxing(ServerConfig.Boxing::upgradeReduction);
+            energyUsage = ServerConfig.getBoxing(ServerConfig.Boxing::baseUsedEnergy) + stack.getCount() * ServerConfig.getBoxing(ServerConfig.Boxing::upgradeEnergyUsage);
         }
     };
 
@@ -192,7 +188,7 @@ public class BoxerBE extends BlockEntity implements MenuProvider, HasMultipleMen
                 setChanged();
             }
         } else {
-            if (energy.getEnergyStored() >= energyUsage && progress < maxProgress) {
+            if ((energy.getEnergyStored() >= energyUsage || !ServerConfig.CONFIG.boxing().useEnergy().get()) && progress < maxProgress) {
                 progress += 1;
                 energy.extractInternal(energyUsage);
                 setChanged();
@@ -215,7 +211,7 @@ public class BoxerBE extends BlockEntity implements MenuProvider, HasMultipleMen
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityEnergy.ENERGY) {
+        if (cap == CapabilityEnergy.ENERGY && ServerConfig.CONFIG.boxing().useEnergy().get()) {
             return energyLazy.cast();
         } else if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if (side != null && side.getAxis() == Direction.Axis.Y)

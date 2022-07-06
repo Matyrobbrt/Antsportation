@@ -6,13 +6,16 @@ import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationMenus;
 import com.matyrobbrt.antsportation.registration.AntsportationRecipes;
+import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -38,6 +41,8 @@ public class Antsportation {
         AntsportationRecipes.SERIALIZERS.register(bus);
 
         bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, MOD_ID + "-server.toml");
 
         LOGGER.debug("Antsportation initialized");
     }
