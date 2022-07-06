@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 @JeiPlugin
 public class AntsportationJei implements IModPlugin {
     public static final ResourceLocation ID = new ResourceLocation(Antsportation.MOD_ID, "jei");
+
     @Override
     public ResourceLocation getPluginUid() {
         return ID;

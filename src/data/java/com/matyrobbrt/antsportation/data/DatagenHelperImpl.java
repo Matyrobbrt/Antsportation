@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.data;
 
 import com.matyrobbrt.antsportation.data.builder.AntsportationRecipeBuilder;
+import com.matyrobbrt.antsportation.data.builder.EmptyNBTRequiredRecipeBuilder;
 import com.matyrobbrt.antsportation.data.builder.ExtendedShapedRecipeBuilder;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -21,5 +22,10 @@ public class DatagenHelperImpl implements DatagenHelper {
     }
     public void save(Consumer<FinishedRecipe> consumer) {
         builders.forEach(b -> b.save(consumer));
+    }
+
+    @Override
+    public EmptyNBTRequiredRecipe emptyNBT(ItemStack result) {
+        return create(new EmptyNBTRequiredRecipeBuilder(result));
     }
 }

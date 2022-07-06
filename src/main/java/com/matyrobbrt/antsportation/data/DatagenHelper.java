@@ -11,4 +11,12 @@ public interface DatagenHelper {
     default ShapedRecipe shaped(ItemLike result) {
         return shaped(result, 1);
     }
+
+    EmptyNBTRequiredRecipe emptyNBT(ItemStack result);
+    default EmptyNBTRequiredRecipe emptyNBT(ItemLike result, int count) {
+        return emptyNBT(new ItemStack(result, count));
+    }
+    default EmptyNBTRequiredRecipe emptyNBT(ItemLike result) {
+        return emptyNBT(result, 1);
+    }
 }

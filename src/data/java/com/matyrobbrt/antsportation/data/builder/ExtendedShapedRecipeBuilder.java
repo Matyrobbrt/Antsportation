@@ -27,14 +27,14 @@ import java.util.function.Consumer;
 
 @MethodsReturnNonnullByDefault
 public class ExtendedShapedRecipeBuilder implements AntsportationRecipeBuilder, ShapedRecipe {
-    private final Item result;
-    private final int count;
-    private CompoundTag nbt;
-    private final List<String> rows = Lists.newArrayList();
-    private ResourceLocation recipeId;
-    private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
+    protected final Item result;
+    protected final int count;
+    protected CompoundTag nbt;
+    protected final List<String> rows = Lists.newArrayList();
+    protected ResourceLocation recipeId;
+    protected final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
     @Nullable
-    private String group;
+    protected String group;
 
     public ExtendedShapedRecipeBuilder(ItemStack stack) {
         this.result = stack.getItem();
@@ -100,7 +100,11 @@ public class ExtendedShapedRecipeBuilder implements AntsportationRecipeBuilder, 
         if (recipeId == null)
             throw new IllegalArgumentException("No recipe ID defined!");
         this.ensureValid(recipeId);
-        pFinishedRecipeConsumer.accept(new Result(recipeId, this.result, this.count, this.group == null ? "" : this.group, this.rows, this.key, nbt));
+        pFinishedRecipeConsumer.accept(createResult());
+    }
+
+    protected Result createResult() {
+        return new Result(recipeId, this.result, this.count, this.group == null ? "" : this.group, this.rows, this.key, nbt);
     }
 
     public void ensureValid(ResourceLocation pId) {

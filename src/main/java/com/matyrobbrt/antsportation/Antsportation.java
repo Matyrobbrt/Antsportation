@@ -5,6 +5,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationMenus;
+import com.matyrobbrt.antsportation.registration.AntsportationRecipes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -33,6 +34,8 @@ public class Antsportation {
         AntsportationItems.ITEMS.register(bus);
         AntsportationMenus.MENUS.register(bus);
         AntsportationEntities.ENTITIES.register(bus);
+        AntsportationRecipes.TYPES.register(bus);
+        AntsportationRecipes.SERIALIZERS.register(bus);
 
         bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
 
@@ -49,4 +52,5 @@ public class Antsportation {
     public static ResourceLocation rl(String path) {
         return new ResourceLocation(MOD_ID, path);
     }
+
 }
