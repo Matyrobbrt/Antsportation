@@ -44,6 +44,7 @@ import java.util.function.Consumer;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+// TODO the box model should be common but with a tint based on tier colour
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class BoxItem extends BaseItem {
@@ -133,7 +134,7 @@ public class BoxItem extends BaseItem {
             NetworkHooks.openGui((ServerPlayer) pPlayer, new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return pPlayer.getItemInHand(pUsedHand).getHoverName().copy().withStyle(ChatFormatting.BLACK);
+                    return pPlayer.getItemInHand(pUsedHand).getHoverName().copy().withStyle(s -> s.withColor(tier.colour));
                 }
 
                 @Override
@@ -185,7 +186,26 @@ public class BoxItem extends BaseItem {
                 )
                 .define('S', Tags.Items.STONE)
                 .define('C', Tags.Items.CHESTS)
-                .define('I', Tags.Items.INGOTS_IRON));
+                .define('I', Tags.Items.INGOTS_IRON)),
+        ADVANCED(2048, 36, 0xFF0000, Antsportation.ADVANCED, recipe -> recipe
+                .pattern(
+                        "III",
+                        "CRC",
+                        "III"
+                )
+                .define('I', Tags.Items.INGOTS_IRON)
+                .define('C', Tags.Items.CHESTS)
+                .define('R', Tags.Items.DUSTS_REDSTONE)),
+        EPIC(16384, 64, Rarity.EPIC.color.getColor(), Rarity.EPIC, recipe -> recipe
+                .pattern(
+                        "IDI",
+                        "CCC",
+                        "IDI"
+                )
+                .define('I', Tags.Items.INGOTS_IRON)
+                .define('C', Tags.Items.CHESTS)
+                .define('D', Tags.Items.GEMS_DIAMOND))
+        ;
 
         public final int space;
         public final int types;

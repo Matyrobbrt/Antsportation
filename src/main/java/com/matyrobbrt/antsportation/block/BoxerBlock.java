@@ -71,7 +71,8 @@ public class BoxerBlock extends BaseEntityBlock implements HasRecipe {
 
     @Override
     public void generateRecipes(DatagenHelper helper) {
-        helper.shaped(this)
+        helper.emptyNBT(this)
+                .setEmptyNBTSlots(3, 4, 5)
                 .pattern("C", "B", "C")
                 .define('C', Tags.Items.CHESTS)
                 .define('B', TagKey.create(Registry.ITEM_REGISTRY, Antsportation.rl("boxes")));

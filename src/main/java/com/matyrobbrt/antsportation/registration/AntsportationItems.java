@@ -1,11 +1,14 @@
 package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.block.entity.BoxerBE;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.item.BaseItem;
 import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.util.Translations;
+import com.matyrobbrt.antsportation.util.Utils;
+import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
@@ -58,7 +61,13 @@ public class AntsportationItems {
         @Override
         @ParametersAreNonnullByDefault
         public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-            pTooltipComponents.add(Translations.SPEED_UPGRADE.translate().withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Translations.SPEED_UPGRADE_TOOLTIP.translate().withStyle(ChatFormatting.GOLD));
+            pTooltipComponents.add(Translations.SPEED_UPGRADE_TOOLTIP2.translate(
+                    Utils.textComponent(ServerConfig.getBoxing(ServerConfig.Boxing::upgradeReduction)).withStyle(ChatFormatting.AQUA)
+            ));
+            pTooltipComponents.add(Translations.SPEED_UPGRADE_TOOLTIP3.translate(
+                    Utils.textComponent(ServerConfig.getBoxing(ServerConfig.Boxing::upgradeEnergyUsage)).withStyle(ChatFormatting.GREEN)
+            ));
         }
     });
 }

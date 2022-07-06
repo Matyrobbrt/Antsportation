@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "antsportation:basic_box"
+    "antsportation:basic_box",
+    "antsportation:advanced_box",
+    "antsportation:epic_box"
   ]
 }

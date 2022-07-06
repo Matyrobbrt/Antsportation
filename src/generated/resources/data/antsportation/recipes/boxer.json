@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "antsportation:empty_nbt_required",
   "pattern": [
     "C",
     "B",
@@ -15,5 +15,10 @@
   },
   "result": {
     "item": "antsportation:boxer"
-  }
+  },
+  "emptyNbtSlots": [
+    3,
+    4,
+    5
+  ]
 }

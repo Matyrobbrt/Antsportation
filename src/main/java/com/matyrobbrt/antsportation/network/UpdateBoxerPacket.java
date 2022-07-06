@@ -24,6 +24,7 @@ public record UpdateBoxerPacket(BlockPos pos, int type, int newValue) implements
             } else {
                 boxerBE.redstoneControl = RedstoneControl.values()[newValue];
             }
+            boxerBE.setChanged();
         }
     }
 

@@ -25,9 +25,12 @@ public class Utils {
         keys.forEach(compoundTag::remove);
     }
     public static String getCompressedCount(int count) {
-        if (count > 1000) {
+        if (count >= 1_000_000) {
+            final var n = ((double) count) / 1_000_000;
+            return (Math.round(n * 10.0) / 10.0) + "M";
+        } else if (count > 1000) {
             final var n = ((double) count) / 1000;
-            return String.valueOf(Math.round(n * 10.0) / 10.0) + "k";
+            return (Math.round(n * 10.0) / 10.0) + "k";
         }
         return String.valueOf(count);
     }
