@@ -6,6 +6,7 @@ import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.ShapedRecipe;
 import com.matyrobbrt.antsportation.menu.BoxMenu;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
+import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -26,11 +27,13 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -45,10 +48,15 @@ import java.util.stream.Stream;
 @ParametersAreNonnullByDefault
 public class BoxItem extends BaseItem {
     public static final String TAG_ITEMS = "Items";
+
     private final BoxTier tier;
     public BoxItem(Properties pProperties, BoxTier tier) {
         super(pProperties);
         this.tier = tier;
+    }
+
+    public BoxTier tier() {
+        return tier;
     }
 
     public static Stream<ItemStackInstance> getStoredItems(ItemStack box) {
@@ -86,7 +94,10 @@ public class BoxItem extends BaseItem {
 
     @CanIgnoreReturnValue
     public static ItemStack load(ItemStack box, ItemStack toLoad) {
-        if (!(box.getItem() instanceof BoxItem boxItem)) return toLoad;
+        if (!(box.getItem() instanceof BoxItem boxItem))
+            return toLoad;
+        if (toLoad.getItem() instanceof BoxItem)
+            return toLoad;
         final var max = boxItem.tier.space;
         final var stored = getStoredCount(box);
         final var toInsert = Math.min(max - stored, toLoad.getCount());
@@ -112,6 +123,11 @@ public class BoxItem extends BaseItem {
     }
 
     @Override
+    public boolean canFitInsideContainerItems() {
+        return false;
+    }
+
+    @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         if (!pLevel.isClientSide()) {
             NetworkHooks.openGui((ServerPlayer) pPlayer, new MenuProvider() {
@@ -133,6 +149,18 @@ public class BoxItem extends BaseItem {
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
         // load(stack, Registry.ITEM.byId(new Random().nextInt(Registry.ITEM.size())).getDefaultInstance());
         return super.onLeftClickEntity(stack, player, entity);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Translations.TOOLTIP_ITEMS.translate(
+                Utils.textComponent(Utils.getCompressedCount(getStoredCount(pStack))).withStyle(ChatFormatting.GOLD),
+                Utils.textComponent(Utils.getCompressedCount(tier.space)).withStyle(ChatFormatting.GOLD)
+        ));
+        pTooltipComponents.add(Translations.TOOLTIP_TYPES.translate(
+                Utils.textComponent(Utils.getCompressedCount(getStoredTypes(pStack))).withStyle(ChatFormatting.GOLD),
+                Utils.textComponent(Utils.getCompressedCount(tier.types)).withStyle(ChatFormatting.GOLD)
+        ));
     }
 
     @Override

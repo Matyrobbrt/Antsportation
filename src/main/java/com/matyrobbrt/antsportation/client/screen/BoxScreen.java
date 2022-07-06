@@ -6,14 +6,11 @@ import com.matyrobbrt.antsportation.client.BoxTooltipClient;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.menu.BoxMenu;
 import com.matyrobbrt.antsportation.util.Utils;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,13 +20,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BoxScreen extends AbstractContainerScreen<BoxMenu> {
+public class BoxScreen extends BaseContainerScreen<BoxMenu> {
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Antsportation.MOD_ID, "textures/gui/box.png");
     public BoxScreen(BoxMenu pMenu, Inventory pPlayerInventory, Component title) {
         super(pMenu, pPlayerInventory, title);
         imageHeight = 222;
         imageWidth = 186;
         this.inventoryLabelY = this.imageHeight - 94;
+        backgroundTexture = CONTAINER_BACKGROUND;
     }
 
     private SelectionList list;
@@ -43,13 +41,8 @@ public class BoxScreen extends AbstractContainerScreen<BoxMenu> {
     }
 
     @Override
-    protected void renderBg(@NotNull PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, CONTAINER_BACKGROUND);
-        int i = (this.width - this.imageWidth) / 2;
-        int j = (this.height - this.imageHeight) / 2;
-        this.blit(pPoseStack, i, j, 0, 0, imageWidth, imageHeight);
+    public void onClose() {
+        super.onClose();
     }
 
     @Override
@@ -89,12 +82,6 @@ public class BoxScreen extends AbstractContainerScreen<BoxMenu> {
                     .toList(), 9).forEach(stacks -> addEntry(new BoxScreen.Entry(stacks)));
         }
 
-        protected int getX0() {
-            return x0;
-        }
-        protected int getX1() {
-            return x1;
-        }
         protected int getY0() {
             return y0;
         }

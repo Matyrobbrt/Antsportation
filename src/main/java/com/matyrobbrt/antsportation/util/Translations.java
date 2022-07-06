@@ -8,7 +8,29 @@ public enum Translations {
     EMPTY("tooltip", "empty", "Empty"),
     CONTENTS("tooltip", "contents", "Contents:"),
     AND_MORE("tooltip", "and_more", "... and %s more"),
-    MORE("tooltip", "more", "more");
+    MORE("tooltip", "more", "more"),
+    STORED_ENERGY("tooltip", "energy.stored", "Stored energy: %s / %s"),
+    CONFIGURATION("tooltip", "configuration", "Open configuration"),
+    TOOLTIP_TYPES("tooltip", "types", "%s / %s types"),
+    TOOLTIP_ITEMS("tooltip", "items", "%s / %s items"),
+
+    SPEED_UPGRADE("tooltip.item", "speed_upgrade", "Insert in a Boxer in order to make it faster."),
+
+    EJECT_WHEN("button", "eject_when", "Eject when:"),
+    REDSTONE_CONTROL("button", "redstone_control", "Redstone control:"),
+
+    BOXER_EJECT_WHEN_TOOLTIP("boxer_tooltip", "eject_when", "The percentage a box needs to be filled in order to allow extraction. 0 disables this functionality"),
+    BOXER_REDSTONE_CONTROL_TOOLTIP("boxer_tooltip", "redstone_control", "Decides when box extraction should be allowed, based on redstone signal. Use 'DISABLED' in order to keep the box locked until the ejection percent is hit."),
+
+    REDSTONE_DISABLED("redstone", "disabled", "Disabled"),
+    REDSTONE_PULSE("redstone", "pulse", "Pulse"),
+    REDSTONE_HIGH("redstone", "high", "High"),
+    REDSTONE_LOW("redstone", "low", "Low"),
+
+    BOXER("gui", "boxer", "Boxer"),
+    CONFIGURATION_GUI("gui", "configuration", "Configuration: %s"),
+    ;
+
     public final String key;
     public final String englishTranslation;
 

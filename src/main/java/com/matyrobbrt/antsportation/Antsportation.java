@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation;
 
+import com.matyrobbrt.antsportation.network.AntsportationNetwork;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
@@ -9,6 +10,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +22,16 @@ public class Antsportation {
 
     public Antsportation() {
         LOGGER.debug("Initialising Antsportation");
+
         final var bus = FMLJavaModLoadingContext.get().getModEventBus();
         AntsportationBlocks.BLOCKS.register(bus);
+        AntsportationBlocks.BLOCK_ENTITIES.register(bus);
         AntsportationItems.ITEMS.register(bus);
         AntsportationMenus.MENUS.register(bus);
         AntsportationEntities.ENTITIES.register(bus);
+
+        bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
+
         LOGGER.debug("Antsportation initialized");
     }
 

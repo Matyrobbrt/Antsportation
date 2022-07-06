@@ -24,7 +24,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO translations
 @ParametersAreNonnullByDefault
 public final class BoxTooltipClient implements ClientTooltipComponent {
     private final BoxItem.Tooltip tooltip;

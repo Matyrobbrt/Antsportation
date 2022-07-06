@@ -16,6 +16,8 @@ public class AntsportationData {
         gen.addProvider(new Recipes(gen));
         gen.addProvider(new Lang(gen));
 
-        gen.addProvider(new Tags.Blocks(gen, existingFileHelper));
+        final var blocks = new Tags.Blocks(gen, existingFileHelper);
+        gen.addProvider(blocks);
+        gen.addProvider(new Tags.Items(gen, blocks, existingFileHelper));
     }
 }

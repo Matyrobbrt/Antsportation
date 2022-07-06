@@ -63,8 +63,10 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.1.19'
 
-    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.195:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.195")
+    compileOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}")
+
+    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")
 
     dataImplementation sourceSets.main.output
 }

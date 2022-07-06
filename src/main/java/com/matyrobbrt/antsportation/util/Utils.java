@@ -7,8 +7,12 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 public class Utils {
     public static ItemStack withCount(ItemStack stack, int count) {
@@ -34,7 +38,10 @@ public class Utils {
             comp = comp.append(res.get());
         return comp;
     }
-    public static MutableComponent textComponent(String text) {
-        return new TextComponent(text);
+    public static MutableComponent textComponent(Object text) {
+        return new TextComponent(text.toString());
+    }
+    public static MutableComponent textComponent(Object text, @Nonnull UnaryOperator<Style> style) {
+        return new TextComponent(text.toString()).withStyle(style);
     }
 }

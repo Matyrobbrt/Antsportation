@@ -1,12 +1,18 @@
 package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.block.BoxerBlock;
+import com.matyrobbrt.antsportation.block.entity.BoxerBE;
 import net.minecraft.core.Registry;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -17,6 +23,13 @@ import java.util.function.Supplier;
 public class AntsportationBlocks {
     public static final Map<Supplier<? extends Block>, MineData> MINE_DATA = new HashMap<>();
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registry.BLOCK_REGISTRY, Antsportation.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registry.BLOCK_ENTITY_TYPE_REGISTRY, Antsportation.MOD_ID);
+
+    public static final RegistryObject<BoxerBlock> BOXER = registerWithItem("boxer", Mineable.PICKAXE, ToolTier.IRON, () -> new BoxerBlock(BlockBehaviour.Properties.of(Material.METAL)
+            .color(MaterialColor.COLOR_BLACK)
+            .strength(5.0f)
+    ));
+    public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () -> BlockEntityType.Builder.of(BoxerBE::new, BOXER.get()).build(null));
 
     private static <T extends Block> RegistryObject<T> register(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {
         final var reg = BLOCKS.register(name, factory);
