@@ -2,6 +2,7 @@ package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
+import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -16,4 +17,9 @@ public class AntsportationEntities {
             () -> EntityType.Builder.of(AntQueenEntity::new, MobCategory.CREATURE)
                     .sized(0.3f, 0.1f)
                     .build(new ResourceLocation(Antsportation.MOD_ID, "ant_queen").toString()));
+
+    public static final RegistryObject<EntityType<AntWorkerEntity>> ANT_WORKER = ENTITIES.register("ant_worker",
+            () -> EntityType.Builder.of(AntWorkerEntity::new, MobCategory.CREATURE)
+                    .sized(0.2f, 0.1f)
+                    .build(new ResourceLocation(Antsportation.MOD_ID, "ant_worker").toString()));
 }

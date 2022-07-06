@@ -35,6 +35,10 @@ public class AntsportationItems {
             () -> new ForgeSpawnEggItem(AntsportationEntities.ANT_QUEEN, 0x290d03, 0x431c11,
                     new Item.Properties().tab(Antsportation.TAB)));
 
+    public static final RegistryObject<ForgeSpawnEggItem> ANT_WORKER_SPAWN_EGG = ITEMS.register("worker_ant_spawn_egg",
+            () -> new ForgeSpawnEggItem(AntsportationEntities.ANT_WORKER, 0x431c11, 0x290d03,
+                    new Item.Properties().tab(Antsportation.TAB)));
+
     static {
         for (final BoxItem.BoxTier tier : BoxItem.BoxTier.values()) {
             tier.registerItem(new Item.Properties().stacksTo(1).rarity(tier.rarity).tab(Antsportation.TAB));
