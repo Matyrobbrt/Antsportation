@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.data;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.data.loot.LootProvider;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
@@ -19,5 +20,7 @@ public class AntsportationData {
         final var blocks = new Tags.Blocks(gen, existingFileHelper);
         gen.addProvider(blocks);
         gen.addProvider(new Tags.Items(gen, blocks, existingFileHelper));
+
+        gen.addProvider(new LootProvider(gen));
     }
 }

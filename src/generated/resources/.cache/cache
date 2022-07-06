@@ -1,4 +1,6 @@
 b3c9820bb4f1ea8e68f0fc49b7c61690c6715200 assets/antsportation/lang/en_us.json
+52cc1930eff087be70ee8e93835c8d1764e5503b data/antsportation/loot_tables/blocks/ant_jar.json
+8188c172358fc9b558c25a2f54efee4286ada096 data/antsportation/loot_tables/blocks/boxer.json
 c1b9c4d38f9fe5fcd142770fa6ed73d8a0b355e0 data/antsportation/recipes/ant_jar.json
 213bbed7bc0deca6e6f107c2115bbcb126c01aa2 data/antsportation/recipes/basic_box.json
 5e2ab6938293a0ac40b437fb761a746bec33e59d data/antsportation/recipes/boxer.json

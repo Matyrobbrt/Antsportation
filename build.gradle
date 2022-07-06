@@ -18,7 +18,7 @@ println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty '
 minecraft {
     mappings channel: 'parchment', version: '2022.05.02-1.18.2'
 
-    // accessTransformers.from file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformers.from file('src/data/resources/accesstransformer.cfg')
 
     runs {
         all {

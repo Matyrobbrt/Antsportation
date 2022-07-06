@@ -31,10 +31,11 @@ public class AntsportationBlocks {
             .color(MaterialColor.COLOR_BLACK)
             .strength(5.0f)
     ));
-    public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () -> BlockEntityType.Builder.of(BoxerBE::new, BOXER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () ->
+            BlockEntityType.Builder.of(BoxerBE::new, BOXER.get()).build(null));
 
     public static final RegistryObject<Block> ANTJAR_BLOCK = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
-            () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS)));
+            () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));
 
     private static <T extends Block> RegistryObject<T> register(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {
         final var reg = BLOCKS.register(name, factory);
