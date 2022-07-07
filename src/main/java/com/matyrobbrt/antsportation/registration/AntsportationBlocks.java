@@ -4,6 +4,7 @@ import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.AntJarBlock;
 import com.matyrobbrt.antsportation.block.AntNestBlock;
 import com.matyrobbrt.antsportation.block.BoxerBlock;
+import com.matyrobbrt.antsportation.block.MarkerBlock;
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.block.entity.BoxerBE;
 import net.minecraft.core.Registry;
@@ -37,6 +38,8 @@ public class AntsportationBlocks {
             .color(MaterialColor.COLOR_BROWN)
             .strength(1.0f)
     ));
+
+    public static final RegistryObject<MarkerBlock> MARKER = register("marker", Mineable.SHOVEL, ToolTier.WOODEN, MarkerBlock::new);
     public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () ->
             BlockEntityType.Builder.of(BoxerBE::new, BOXER.get()).build(null));
 
