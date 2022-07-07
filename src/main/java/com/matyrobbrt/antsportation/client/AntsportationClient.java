@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -35,6 +36,13 @@ public class AntsportationClient {
 
     private static void addCustomItemProperties() {
         ItemProperties.register(AntsportationItems.ANT_JAR.get(), Antsportation.rl("filled"), (stack, level, entity, seed)-> (AntJarItem.hasAntInside(stack)) ? 1 : 0);
+    }
+
+    @SubscribeEvent
+    static void registerItemColours(final ColorHandlerEvent.Item event) {
+        for (final var tier : BoxItem.BoxTier.values()) {
+            event.getItemColors().register((pStack, pTintIndex) -> pTintIndex == 1 ? tier.colour : -1, tier);
+        }
     }
 
     public static void renderBg(BaseContainerScreen<?> containerScreen, ResourceLocation texture, PoseStack poseStack) {
