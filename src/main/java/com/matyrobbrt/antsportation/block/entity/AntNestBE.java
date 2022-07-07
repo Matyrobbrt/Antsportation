@@ -23,7 +23,6 @@ import org.jetbrains.annotations.Nullable;
 public class AntNestBE extends BlockEntity {
     public final AntNestBE.Inventory inventory = new Inventory();
     private static final int INPUTRATE = 5;
-    private long ticks = 0;
 
 
     private final LazyOptional<IItemHandler> inventoryInputLazy = LazyOptional.of(() -> new DelegatingItemHandler(inventory) {
@@ -34,7 +33,7 @@ public class AntNestBE extends BlockEntity {
 
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            if (ticks % INPUTRATE == 0) {
+            if (level != null && level.getGameTime() % INPUTRATE == 0) {
                 return super.insertItem(slot, stack, simulate);
             } else {
                 return ItemStack.EMPTY;
@@ -68,16 +67,15 @@ public class AntNestBE extends BlockEntity {
     }
 
     public void tick() {
-        ticks++;
         //TODO: change to ant mount (still dont know if thats how you spell it)
-        if(level != null && !level.isClientSide() && ticks % INPUTRATE == 0 && level != null && level.getBlockEntity(this.worldPosition.above()) instanceof BoxerBE blockEntity){
+        if (level != null && level.getGameTime() % INPUTRATE == 0){
             int number = 0;
-            for (ItemStack stack : blockEntity.inventory.getStacks()){
-                if(!stack.isEmpty() && number < blockEntity.inventory.getSlots()-1){
+            for (ItemStack stack : inventory.getStacks()){
+                if (!stack.isEmpty() && number < inventory.getSlots() - 1) {
                     number++;
                 }
             }
-            blockEntity.inventory.insertItem(number, inventory.getStackInSlot(0), false);
+            inventory.insertItem(number, inventory.getStackInSlot(0), false);
             this.inventory.extractItem(0, 1, false);
         }
     }
