@@ -7,6 +7,7 @@ import com.matyrobbrt.antsportation.block.BoxerBlock;
 import com.matyrobbrt.antsportation.block.MarkerBlock;
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.block.entity.BoxerBE;
+import com.matyrobbrt.antsportation.block.entity.MarkerBE;
 import net.minecraft.core.Registry;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -49,6 +50,7 @@ public class AntsportationBlocks {
     public static final RegistryObject<Block> ANT_JAR = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
             () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));
 
+    public static final RegistryObject<BlockEntityType<MarkerBE>> MARKER_BE = BLOCK_ENTITIES.register("marker", () -> BlockEntityType.Builder.of(MarkerBE::new, MARKER.get()).build(null));
     private static <T extends Block> RegistryObject<T> register(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {
         final var reg = BLOCKS.register(name, factory);
         MINE_DATA.put(reg, new MineData(mineable, tier));
