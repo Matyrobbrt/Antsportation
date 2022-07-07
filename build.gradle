@@ -1,8 +1,11 @@
+import com.matyrobbrt.gradle.pngoptimiser.task.OptimisePNGTask
+
 plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'com.matyrobbrt.pngoptimiser' version '0.2.0'
 }
 
 version = '1.0'
@@ -72,7 +75,14 @@ dependencies {
     dataImplementation sourceSets.main.output
 }
 
-void configureJarTask(Jar jar) {
+tasks.register('optimiseAssets', OptimisePNGTask) {
+    file(fileTree(dir: sourceSets.main.resources.srcDirs[0], includes: ['**/*.png']))
+    option 'i', 0
+    option 'strip', 'safe'
+    backupOldFiles()
+}
+
+static void configureJarTask(Jar jar) {
     jar.configure {
         jar.manifest {
             attributes([
