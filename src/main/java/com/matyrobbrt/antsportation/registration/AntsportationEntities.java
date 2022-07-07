@@ -16,10 +16,10 @@ public class AntsportationEntities {
     public static final RegistryObject<EntityType<AntQueenEntity>> ANT_QUEEN = ENTITIES.register("ant_queen",
             () -> EntityType.Builder.of(AntQueenEntity::new, MobCategory.CREATURE)
                     .sized(0.3f, 0.1f)
-                    .build(new ResourceLocation(Antsportation.MOD_ID, "ant_queen").toString()));
+                    .build(Antsportation.rlStr("ant_queen")));
 
     public static final RegistryObject<EntityType<AntWorkerEntity>> ANT_WORKER = ENTITIES.register("ant_worker",
             () -> EntityType.Builder.of(AntWorkerEntity::new, MobCategory.CREATURE)
                     .sized(0.2f, 0.1f)
-                    .build(new ResourceLocation(Antsportation.MOD_ID, "ant_worker").toString()));
+                    .build(Antsportation.rlStr("ant_worker")));
 }

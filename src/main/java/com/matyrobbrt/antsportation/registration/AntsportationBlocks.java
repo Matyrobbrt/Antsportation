@@ -43,7 +43,7 @@ public class AntsportationBlocks {
     public static final RegistryObject<BlockEntityType<AntNestBE>> ANT_NEST_BE = BLOCK_ENTITIES.register("ant_nest", () ->
             BlockEntityType.Builder.of(AntNestBE::new, ANT_NEST.get()).build(null));
 
-    public static final RegistryObject<Block> ANTJAR_BLOCK = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
+    public static final RegistryObject<Block> ANT_JAR = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
             () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));
 
     private static <T extends Block> RegistryObject<T> register(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {

@@ -1,7 +1,6 @@
 package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
-import com.matyrobbrt.antsportation.block.entity.BoxerBE;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.item.BaseItem;
 import com.matyrobbrt.antsportation.item.AntJarItem;
@@ -30,8 +29,8 @@ import net.minecraftforge.common.ForgeSpawnEggItem;
 public class AntsportationItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registry.ITEM_REGISTRY, Antsportation.MOD_ID);
 
-    public static final RegistryObject<Item> ANTJAR_ITEM = ITEMS.register("ant_jar",
-            () -> new AntJarItem(AntsportationBlocks.ANTJAR_BLOCK.get(),
+    public static final RegistryObject<Item> ANT_JAR = ITEMS.register("ant_jar",
+            () -> new AntJarItem(AntsportationBlocks.ANT_JAR.get(),
                     new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<ForgeSpawnEggItem> ANT_QUEEN_SPAWN_EGG = ITEMS.register("ant_queen_spawn_egg",

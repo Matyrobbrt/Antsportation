@@ -60,4 +60,7 @@ public class Antsportation {
         return new ResourceLocation(MOD_ID, path);
     }
 
+    public static String rlStr(String path) {
+        return MOD_ID + ":" + path;
+    }
 }

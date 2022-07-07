@@ -68,14 +68,14 @@ public class AntNestBE extends BlockEntity {
 
     public void tick() {
         //TODO: change to ant mount (still dont know if thats how you spell it)
-        if (level != null && level.getGameTime() % INPUTRATE == 0){
+        if (level != null && level.getGameTime() % INPUTRATE == 0 && level.getBlockEntity(this.worldPosition.above()) instanceof BoxerBE blockEntity) {
             int number = 0;
-            for (ItemStack stack : inventory.getStacks()){
-                if (!stack.isEmpty() && number < inventory.getSlots() - 1) {
+            for (ItemStack stack : blockEntity.inventory.getStacks()){
+                if (!stack.isEmpty() && number < blockEntity.inventory.getSlots() - 1) {
                     number++;
                 }
             }
-            inventory.insertItem(number, inventory.getStackInSlot(0), false);
+            blockEntity.inventory.insertItem(number, inventory.getStackInSlot(0), false);
             this.inventory.extractItem(0, 1, false);
         }
     }
