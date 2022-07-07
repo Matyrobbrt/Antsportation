@@ -6,6 +6,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationMenus;
 import com.matyrobbrt.antsportation.registration.AntsportationRecipes;
+import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
@@ -39,6 +40,7 @@ public class Antsportation {
         AntsportationEntities.ENTITIES.register(bus);
         AntsportationRecipes.TYPES.register(bus);
         AntsportationRecipes.SERIALIZERS.register(bus);
+        AntsportationSounds.SOUNDS.register(bus);
 
         bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
 

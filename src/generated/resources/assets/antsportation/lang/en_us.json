@@ -20,6 +20,7 @@
   "redstone.antsportation.high": "High",
   "redstone.antsportation.low": "Low",
   "redstone.antsportation.pulse": "Pulse",
+  "subtitle.antsportation.packing": "Packing",
   "tooltip.antsportation.and_more": "... and %s more",
   "tooltip.antsportation.configuration": "Open configuration",
   "tooltip.antsportation.contents": "Contents:",

@@ -31,6 +31,8 @@ public enum Translations {
 
     BOXER("gui", "boxer", "Boxer"),
     CONFIGURATION_GUI("gui", "configuration", "Configuration: %s"),
+
+    SUBTITLE_PACKING("subtitle", "packing", "Packing")
     ;
 
     public final String key;
