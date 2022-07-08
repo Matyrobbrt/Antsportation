@@ -2,9 +2,8 @@ package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
-import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;
@@ -18,8 +17,8 @@ public class AntsportationEntities {
                     .sized(0.3f, 0.1f)
                     .build(Antsportation.rlStr("ant_queen")));
 
-    public static final RegistryObject<EntityType<AntWorkerEntity>> ANT_WORKER = ENTITIES.register("ant_worker",
-            () -> EntityType.Builder.of(AntWorkerEntity::new, MobCategory.CREATURE)
+    public static final RegistryObject<EntityType<AntSoldierEntity>> ANT_SOLDIER = ENTITIES.register("ant_soldier",
+            () -> EntityType.Builder.of(AntSoldierEntity::new, MobCategory.CREATURE)
                     .sized(0.2f, 0.1f)
-                    .build(Antsportation.rlStr("ant_worker")));
+                    .build(Antsportation.rlStr("ant_soldier")));
 }

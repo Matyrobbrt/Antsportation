@@ -1,8 +1,7 @@
 package com.matyrobbrt.antsportation.client.entity;
 
 import com.matyrobbrt.antsportation.Antsportation;
-import com.matyrobbrt.antsportation.entity.AntQueenEntity;
-import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -14,12 +13,12 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("SpellCheckingInspection")
-public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
+public class AntSoldierModel<T extends AntSoldierEntity> extends EntityModel<T> {
     //this is intended to use the queen texture becuase its only temporary anyways and im too lazy to make another one.
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Antsportation.MOD_ID, "tempantqueen.png"), "main");
     private final ModelPart bone;
 
-    public AntWorkerModel(ModelPart bone) {
+    public AntSoldierModel(ModelPart bone) {
         this.bone = bone.getChild("bone");
     }
 
