@@ -19,9 +19,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class AntWorkerEntity extends PathfinderMob {
+public class AntSoldierEntity extends PathfinderMob {
 
-    public AntWorkerEntity(EntityType<? extends PathfinderMob> p_21683_, Level p_21684_) {
+    public AntSoldierEntity(EntityType<? extends PathfinderMob> p_21683_, Level p_21684_) {
         super(p_21683_, p_21684_);
     }
 

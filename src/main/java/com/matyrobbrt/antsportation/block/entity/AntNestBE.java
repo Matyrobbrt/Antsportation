@@ -8,9 +8,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -22,18 +20,14 @@ import org.jetbrains.annotations.Nullable;
 
 public class AntNestBE extends BlockEntity {
     public final AntNestBE.Inventory inventory = new Inventory();
-    private static final int INPUTRATE = 5;
+    private static final int IORATE = 5;
+    public boolean hasQueen = false;
 
 
     private final LazyOptional<IItemHandler> inventoryInputLazy = LazyOptional.of(() -> new DelegatingItemHandler(inventory) {
         @Override
-        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return ItemStack.EMPTY;
-        }
-
-        @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            if (level != null && level.getGameTime() % INPUTRATE == 0) {
+            if (level != null && level.getGameTime() % IORATE == 0 && this.getStackInSlot(0).getCount() + stack.getCount() < this.getStackInSlot(0).getMaxStackSize()) {
                 return super.insertItem(slot, stack, simulate);
             } else {
                 return ItemStack.EMPTY;
@@ -42,11 +36,14 @@ public class AntNestBE extends BlockEntity {
     });
     private final LazyOptional<IItemHandler> inventoryOutputLazy = LazyOptional.of(() -> new DelegatingItemHandler(inventory) {
         @Override
-        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return ItemStack.EMPTY;
+        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+            if (level != null && level.getGameTime() % IORATE == 0 && this.getStackInSlot(0).getCount() != 0){
+                return super.extractItem(slot, amount, simulate);
+            }else{
+                return ItemStack.EMPTY;
+            }
         }
     });
-    public boolean validStructure = false;
 
     public AntNestBE(BlockPos pWorldPosition, BlockState pBlockState) {
         super(AntsportationBlocks.ANT_NEST_BE.get(), pWorldPosition, pBlockState);
@@ -56,21 +53,47 @@ public class AntNestBE extends BlockEntity {
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
         inventory.deserializeNBT(nbt.getCompound("inventory"));
-        validStructure = nbt.getBoolean("validStructure");
+        nbt.getBoolean("hasQueen");
     }
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag pTag) {
         super.saveAdditional(pTag);
         pTag.put("inventory", inventory.serializeNBT());
-        pTag.putBoolean("validStructure", validStructure);
+        pTag.putBoolean("hasQueen", hasQueen);
     }
 
     public void tick() {
-        //TODO: change to ant mount (still dont know if thats how you spell it)
-        if (level != null && level.getGameTime() % INPUTRATE == 0 && level.getBlockEntity(this.worldPosition.above()) instanceof BoxerBE blockEntity) {
+        //TODO: change to ant mount (still don't know if that's how you spell it)
+        if(level != null && level.getGameTime() % IORATE == 0 && level.getBlockEntity(this.worldPosition.above()) instanceof BoxerBE blockEntity) {
+            if (hasQueen) {
+                pushToBlockAbove(blockEntity);
+            }else{
+                pullFromBlockAbove(blockEntity);
+            }
+        }
+    }
+
+    private void pullFromBlockAbove(BoxerBE blockEntity) {
+        final ItemStack slot = inventory.getStackInSlot(0);
+        if(slot.getCount() != 0 && slot.getCount() < slot.getMaxStackSize()) {
             int number = 0;
-            for (ItemStack stack : blockEntity.inventory.getStacks()){
+            for (ItemStack stack : blockEntity.inventory.getStacks()) {
+                if (!stack.isEmpty()) {
+                    ItemStack itemStack = stack.copy();
+                    itemStack.setCount(1);
+                    this.inventory.insertItem(0, itemStack, false);
+                    blockEntity.inventory.extractItem(number, 1, false);
+                }
+                number++;
+            }
+        }
+    }
+
+    private void pushToBlockAbove(BoxerBE blockEntity){
+        if(this.inventory.getStackInSlot(0).getCount() + 1 < inventory.getStackInSlot(0).getMaxStackSize()) {
+            int number = 0;
+            for (ItemStack stack : blockEntity.inventory.getStacks()) {
                 if (!stack.isEmpty() && number < blockEntity.inventory.getSlots() - 1) {
                     number++;
                 }
@@ -96,14 +119,20 @@ public class AntNestBE extends BlockEntity {
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (side == Direction.UP)
-                return inventoryOutputLazy.cast();
-            return inventoryInputLazy.cast();
+            if (hasQueen) {
+                if(side != Direction.UP) {
+                    return inventoryInputLazy.cast();
+                }
+            }else{
+                if(side != Direction.UP) {
+                    return inventoryOutputLazy.cast();
+                }
+            }
         }
         return super.getCapability(cap, side);
     }
 
-    protected class Inventory extends ItemStackHandler {
+    class Inventory extends ItemStackHandler {
         public Inventory() {
             super(1);
         }

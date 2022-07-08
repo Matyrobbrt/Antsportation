@@ -3,9 +3,7 @@ package com.matyrobbrt.antsportation.block;
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -37,16 +35,5 @@ public class AntNestBlock extends BaseEntityBlock {
             antNest.dropContents();
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
-    }
-
-    @Override
-    public void onNeighborChange(BlockState state, LevelReader level, BlockPos pos, BlockPos neighbor) {
-        if(!level.isClientSide()){
-            final BlockEntity blockEntity = level.getBlockEntity(pos);
-            if(blockEntity instanceof AntNestBE){
-                //TODO: change this to ant mount (mound? mount? idk how to spell it).
-                ((AntNestBE) blockEntity).validStructure = level.getBlockState(pos.above()).is(Blocks.CHEST);
-            }
-        }
     }
 }

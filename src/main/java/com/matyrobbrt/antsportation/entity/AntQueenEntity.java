@@ -50,7 +50,7 @@ public class AntQueenEntity extends PathfinderMob implements NeutralMob {
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.3f));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1D, false));
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers().setAlertOthers(AntWorkerEntity.class));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers().setAlertOthers(AntSoldierEntity.class));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Silverfish.class, 5, false, false, (p_28879_) -> p_28879_ instanceof Silverfish));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Endermite.class, 5, false, false, (p_28879_) -> p_28879_ instanceof Endermite));
     }
