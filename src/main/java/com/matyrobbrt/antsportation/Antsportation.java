@@ -1,5 +1,7 @@
 package com.matyrobbrt.antsportation;
 
+import com.matyrobbrt.antsportation.entity.AntQueenEntity;
+import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
@@ -14,11 +16,13 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,15 +47,21 @@ public class Antsportation {
         AntsportationSounds.SOUNDS.register(bus);
 
         bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
+        bus.addListener(Antsportation::entityAttributeEvent);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, MOD_ID + "-server.toml");
 
         LOGGER.debug("Antsportation initialized");
     }
 
+    private static void entityAttributeEvent(EntityAttributeCreationEvent event) {
+        event.put(AntsportationEntities.ANT_QUEEN.get(), AntQueenEntity.setAttributes());
+        event.put(AntsportationEntities.ANT_WORKER.get(), AntWorkerEntity.setAttributes());
+    }
+
     public static final CreativeModeTab TAB = new CreativeModeTab(CreativeModeTab.getGroupCountSafe(), MOD_ID) {
         @Override
-        public ItemStack makeIcon() {
+        public @NotNull ItemStack makeIcon() {
             return Items.ACACIA_FENCE.getDefaultInstance(); // TODO tab icon
         }
     };

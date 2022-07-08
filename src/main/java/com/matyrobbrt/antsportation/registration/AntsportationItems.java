@@ -2,6 +2,7 @@ package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
+import com.matyrobbrt.antsportation.item.BaseBlockItem;
 import com.matyrobbrt.antsportation.item.BaseItem;
 import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BoxItem;
@@ -13,6 +14,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
@@ -40,6 +42,8 @@ public class AntsportationItems {
     public static final RegistryObject<ForgeSpawnEggItem> ANT_SOLDIER_SPAWN_EGG = ITEMS.register("soldier_ant_spawn_egg",
             () -> new ForgeSpawnEggItem(AntsportationEntities.ANT_SOLDIER, 0x431c11, 0x290d03,
                     new Item.Properties().tab(Antsportation.TAB)));
+
+    public static final RegistryObject<Item> MARKER = ITEMS.register("marker", () -> new BaseBlockItem(AntsportationBlocks.MARKER.get(), new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     static {
         for (final BoxItem.BoxTier tier : BoxItem.BoxTier.values()) {

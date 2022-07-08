@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "antsportation:item/box",
+    "layer1": "antsportation:item/box_overlay"
+  }
+}

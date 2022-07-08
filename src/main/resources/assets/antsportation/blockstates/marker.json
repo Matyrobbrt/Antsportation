@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "antsportation:block/marker",
+      "x": 180
+    },
+    "facing=up": {
+      "model": "antsportation:block/marker"
+    },
+    "facing=east": {
+      "model": "antsportation:block/marker",
+      "y": 90,
+      "x": 90,
+      "uvlock": true
+    },
+    "facing=north": {
+      "model": "antsportation:block/marker",
+      "x": 90,
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "antsportation:block/marker",
+      "y": 180,
+      "x": 90,
+      "uvlock": true
+    },
+    "facing=west": {
+      "model": "antsportation:block/marker",
+      "y": 270,
+      "x": 90,
+      "uvlock": true
+    }
+  }
+}
