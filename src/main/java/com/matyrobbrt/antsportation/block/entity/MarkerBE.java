@@ -31,7 +31,7 @@ public class MarkerBE extends BlockEntity {
         }
         sugarAmount += 1;
         setChanged();
-        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
+        level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
         return true;
     }
 
@@ -42,7 +42,11 @@ public class MarkerBE extends BlockEntity {
     public void setColor(DyeColor color) {
         this.color = color;
         setChanged();
-        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 2);
+        level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
+    }
+
+    public boolean isColored() {
+        return color!=DyeColor.WHITE;
     }
 
     @Override
