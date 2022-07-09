@@ -31,16 +31,17 @@ public class MarkerRenderer implements BlockEntityRenderer<MarkerBE> {
         var sugarAmount = pBlockEntity.getSugarAmount();
         var color = pBlockEntity.getColor();
         var textureDiffuseColors = color.getTextureDiffuseColors();
+        float smallSugar = 0.25f;
         if (sugarAmount > 0) {
-            pPoseStack.pushPose();
-            float smallSugar = sugarAmount / 10f;
-            TextureAtlasSprite sugarTexture = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation("item/sugar"));
-            pPoseStack.translate( 0.5f , 0.3f,  0.5f );
-            pPoseStack.translate( -0.5f * smallSugar, 0,  -0.5f * smallSugar);
-            pPoseStack.scale(smallSugar, 0, smallSugar);
-            renderTexture(sugarTexture, textureDiffuseColors[0], textureDiffuseColors[1], textureDiffuseColors[2], 1, pPackedLight, RenderType.cutout(), pPoseStack, pBufferSource);
-            pPoseStack.popPose();
+            smallSugar = sugarAmount / 10f;
         }
+        pPoseStack.pushPose();
+        TextureAtlasSprite sugarTexture = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation("item/sugar"));
+        pPoseStack.translate(0.5f, 0.3f, 0.5f);
+        pPoseStack.translate(-0.5f * smallSugar, 0, -0.5f * smallSugar);
+        pPoseStack.scale(smallSugar, 0, smallSugar);
+        renderTexture(sugarTexture, textureDiffuseColors[0], textureDiffuseColors[1], textureDiffuseColors[2], 1, pPackedLight, RenderType.cutout(), pPoseStack, pBufferSource);
+        pPoseStack.popPose();
     }
 
     private void renderTexture(TextureAtlasSprite texture, float r, float g, float b, float a, int packedLight, RenderType renderType, PoseStack poseStack, MultiBufferSource buffer) {
