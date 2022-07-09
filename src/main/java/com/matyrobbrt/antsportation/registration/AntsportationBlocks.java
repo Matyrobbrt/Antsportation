@@ -1,10 +1,8 @@
 package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
-import com.matyrobbrt.antsportation.block.AntJarBlock;
-import com.matyrobbrt.antsportation.block.AntNestBlock;
-import com.matyrobbrt.antsportation.block.BoxerBlock;
-import com.matyrobbrt.antsportation.block.MarkerBlock;
+import com.matyrobbrt.antsportation.block.*;
+import com.matyrobbrt.antsportation.block.entity.AntHillBE;
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.block.entity.BoxerBE;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
@@ -39,6 +37,10 @@ public class AntsportationBlocks {
             .color(MaterialColor.COLOR_BROWN)
             .strength(1.0f)
     ));
+    public static final RegistryObject<AntHillBlock> ANT_HILL = registerWithItem("ant_hill",Mineable.SHOVEL,ToolTier.WOODEN, ()-> new AntHillBlock(BlockBehaviour.Properties.of(Material.DIRT)
+            .color(MaterialColor.COLOR_BROWN)
+            .strength(1.0f)
+    ));
 
     public static final RegistryObject<MarkerBlock> MARKER = register("marker", Mineable.SHOVEL, ToolTier.WOODEN, MarkerBlock::new);
     public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () ->
@@ -46,6 +48,9 @@ public class AntsportationBlocks {
 
     public static final RegistryObject<BlockEntityType<AntNestBE>> ANT_NEST_BE = BLOCK_ENTITIES.register("ant_nest", () ->
             BlockEntityType.Builder.of(AntNestBE::new, ANT_NEST.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<AntHillBE>> ANT_HILL_BE = BLOCK_ENTITIES.register("ant_hill", () ->
+            BlockEntityType.Builder.of(AntHillBE::new, ANT_HILL.get()).build(null));
 
     public static final RegistryObject<Block> ANT_JAR = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
             () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));

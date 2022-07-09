@@ -17,6 +17,10 @@ public class AntNestBlock extends BaseEntityBlock {
         super(p_49224_);
     }
 
+    private static <T extends BlockEntity> void tick(Level pLevel1, BlockPos pPos, BlockState pState1, T pBlockEntity) {
+        ((AntNestBE) pBlockEntity).tick();
+    }
+
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
@@ -26,7 +30,7 @@ public class AntNestBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide() ? null : (pLevel1, pPos, pState1, pBlockEntity) -> ((AntNestBE) pBlockEntity).tick();
+        return pLevel.isClientSide() ? null : AntNestBlock::tick;
     }
 
     @Override

@@ -1,5 +1,7 @@
-60469252d080ae55d08814efc9f41512ef4ff631 assets/antsportation/lang/en_us.json
+06bd899f0ad3de6789b42eda9fceca36ddc5d695 assets/antsportation/lang/en_us.json
 0060ba50012b08c466c624db53592687682164d0 assets/antsportation/models/item/advanced_box.json
+a2b7d872d2b61ddf32072a5964b3ac02af1afdfb assets/antsportation/models/item/ant_jar.json
+2cc144b5101176dde5f343d0699ff5743d5e1ca1 assets/antsportation/models/item/ant_jarfilled.json
 0060ba50012b08c466c624db53592687682164d0 assets/antsportation/models/item/basic_box.json
 0060ba50012b08c466c624db53592687682164d0 assets/antsportation/models/item/epic_box.json
 30775221ca0c9f52dc57ea51da957c0cb575d192 assets/antsportation/sounds.json
@@ -13,7 +15,7 @@ d90aadf4ca0f6200334154738047dd4649b54d25 data/antsportation/recipes/boxer.json
 4262ca05e9d599190ff64b85789cd913671af748 data/antsportation/recipes/epic_box.json
 08778332e50983b24a1b179dc3b690760b7a3647 data/antsportation/recipes/speed_upgrade.json
 556f2e37ad6ec94348f81a1f35782227e7bf9cfd data/antsportation/tags/items/boxes.json
-c1d0727a4fd3b3a4a76fc0f034d6a96032e2e811 data/forge/tags/blocks/needs_wood_tool.json
+e2b0be07b0787680ef6e61f41820df7b4d497884 data/forge/tags/blocks/needs_wood_tool.json
 bf618b7841385ff5a193b0444ba06cf0bcdd0d5e data/minecraft/tags/blocks/mineable/pickaxe.json
-b2e8cc98ef474202f2085ac2701adabe95c23eab data/minecraft/tags/blocks/mineable/shovel.json
+63c0cb818c1e5e6cc30eddac7d2e4651671cfd23 data/minecraft/tags/blocks/mineable/shovel.json
 df36f6cae5781569bd2e12f6a7825be398982c3a data/minecraft/tags/blocks/needs_iron_tool.json

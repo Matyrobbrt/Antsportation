@@ -3,6 +3,7 @@ package com.matyrobbrt.antsportation.item;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
@@ -29,7 +30,11 @@ public class AntJarItem extends BaseBlockItem {
     }
 
     public static boolean hasAntInside(ItemStack itemStack) {
-        return itemStack.getTag() != null && itemStack.getTag().getCompound("BlockStateTag").getString("antinside").matches("true");
+        if (itemStack.is(AntsportationItems.ANT_JAR.get())) {
+            return itemStack.getTag() != null && itemStack.getTag().getCompound("BlockStateTag").getString("antinside").matches("true");
+        } else{
+            return false;
+        }
     }
 
     @Override

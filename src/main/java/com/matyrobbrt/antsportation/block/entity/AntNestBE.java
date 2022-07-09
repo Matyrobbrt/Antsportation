@@ -27,21 +27,23 @@ public class AntNestBE extends BlockEntity {
     private final LazyOptional<IItemHandler> inventoryInputLazy = LazyOptional.of(() -> new DelegatingItemHandler(inventory) {
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            if (level != null && level.getGameTime() % IORATE == 0 && this.getStackInSlot(0).getCount() + stack.getCount() < this.getStackInSlot(0).getMaxStackSize()) {
-                return super.insertItem(slot, stack, simulate);
-            } else {
-                return ItemStack.EMPTY;
-            }
+            return super.insertItem(slot, stack, simulate);
+        }
+
+        @Override
+        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+            return ItemStack.EMPTY;
         }
     });
     private final LazyOptional<IItemHandler> inventoryOutputLazy = LazyOptional.of(() -> new DelegatingItemHandler(inventory) {
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (level != null && level.getGameTime() % IORATE == 0 && this.getStackInSlot(0).getCount() != 0){
-                return super.extractItem(slot, amount, simulate);
-            }else{
-                return ItemStack.EMPTY;
-            }
+            return super.extractItem(slot, amount, simulate);
+        }
+
+        @Override
+        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            return stack;
         }
     });
 
@@ -64,19 +66,22 @@ public class AntNestBE extends BlockEntity {
     }
 
     public void tick() {
-        //TODO: change to ant mount (still don't know if that's how you spell it)
-        if(level != null && level.getGameTime() % IORATE == 0 && level.getBlockEntity(this.worldPosition.above()) instanceof BoxerBE blockEntity) {
+        if(level != null && level.getGameTime() % IORATE == 0 && level.getBlockEntity(this.worldPosition.above()) instanceof AntHillBE blockEntity) {
             if (hasQueen) {
                 pushToBlockAbove(blockEntity);
             }else{
                 pullFromBlockAbove(blockEntity);
             }
+        } else if(level != null && level.getBlockEntity(this.worldPosition.above()) instanceof AntHillBE blockEntity){
+            this.hasQueen = blockEntity.hasQueen;
+        } else{
+            this.hasQueen = false;
         }
     }
 
-    private void pullFromBlockAbove(BoxerBE blockEntity) {
+    private void pullFromBlockAbove(AntHillBE blockEntity) {
         final ItemStack slot = inventory.getStackInSlot(0);
-        if(slot.getCount() != 0 && slot.getCount() < slot.getMaxStackSize()) {
+        if(slot.getCount() + 1 <= slot.getMaxStackSize()) {
             int number = 0;
             for (ItemStack stack : blockEntity.inventory.getStacks()) {
                 if (!stack.isEmpty()) {
@@ -90,16 +95,18 @@ public class AntNestBE extends BlockEntity {
         }
     }
 
-    private void pushToBlockAbove(BoxerBE blockEntity){
-        if(this.inventory.getStackInSlot(0).getCount() + 1 < inventory.getStackInSlot(0).getMaxStackSize()) {
+    private void pushToBlockAbove(AntHillBE blockEntity){
+        if(this.inventory.getStackInSlot(0).getCount() - 1 >= 0) {
             int number = 0;
             for (ItemStack stack : blockEntity.inventory.getStacks()) {
-                if (!stack.isEmpty() && number < blockEntity.inventory.getSlots() - 1) {
-                    number++;
+                if (stack.getCount() + 1 <= stack.getMaxStackSize()) {
+                    ItemStack itemStack = inventory.getStackInSlot(0);
+                    itemStack.setCount(1);
+                    blockEntity.inventory.insertItem(number, itemStack, false);
+                    this.inventory.extractItem(0, 1, false);
                 }
+                number++;
             }
-            blockEntity.inventory.insertItem(number, inventory.getStackInSlot(0), false);
-            this.inventory.extractItem(0, 1, false);
         }
     }
 

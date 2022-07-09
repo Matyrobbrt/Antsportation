@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "antsportation:item/glass_jar"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "antsportation:filled": 1.0
+      },
+      "model": "antsportation:item/ant_jarfilled"
+    }
+  ]
+}

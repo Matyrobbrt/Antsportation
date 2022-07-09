@@ -4,8 +4,8 @@ import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.client.blockentity.MarkerRenderer;
 import com.matyrobbrt.antsportation.client.entity.AntQueenModel;
 import com.matyrobbrt.antsportation.client.entity.AntQueenRenderer;
-import com.matyrobbrt.antsportation.client.entity.AntWorkerModel;
-import com.matyrobbrt.antsportation.client.entity.AntWorkerRenderer;
+import com.matyrobbrt.antsportation.client.entity.AntSoldierModel;
+import com.matyrobbrt.antsportation.client.entity.AntSoldierRenderer;
 import com.matyrobbrt.antsportation.client.screen.BaseContainerScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxerScreen;
@@ -60,13 +60,13 @@ public class AntsportationClient {
     @SubscribeEvent
     static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(AntQueenModel.LAYER_LOCATION, AntQueenModel::createBodyLayer);
-        event.registerLayerDefinition(AntWorkerModel.LAYER_LOCATION, AntWorkerModel::createBodyLayer);
+        event.registerLayerDefinition(AntSoldierModel.LAYER_LOCATION, AntSoldierModel::createBodyLayer);
     }
 
     @SubscribeEvent
     static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(AntsportationEntities.ANT_QUEEN.get(), AntQueenRenderer::new);
-        event.registerEntityRenderer(AntsportationEntities.ANT_WORKER.get(), AntWorkerRenderer::new);
+        event.registerEntityRenderer(AntsportationEntities.ANT_SOLDIER.get(), AntSoldierRenderer::new);
     }
 
     public static void renderBg(BaseContainerScreen<?> containerScreen, ResourceLocation texture, PoseStack poseStack) {
