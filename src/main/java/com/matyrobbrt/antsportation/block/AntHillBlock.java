@@ -1,7 +1,10 @@
 package com.matyrobbrt.antsportation.block;
 
 import com.matyrobbrt.antsportation.block.entity.AntHillBE;
+import com.matyrobbrt.antsportation.entity.AntQueenEntity;
+import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.item.AntJarItem;
+import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -9,20 +12,35 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class AntHillBlock extends BaseEntityBlock {
+    public static final BooleanProperty PLACEDBYPLAYER = BooleanProperty.create("placedbyplayer");
     public AntHillBlock(Properties p_49224_) {
         super(p_49224_);
+        this.registerDefaultState(this.stateDefinition.any().setValue(PLACEDBYPLAYER, false));
+    }
+
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext pContext) {
+        return this.defaultBlockState().setValue(PLACEDBYPLAYER, true);
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(PLACEDBYPLAYER);
     }
 
     private static <T extends BlockEntity> void tick(Level pLevel1, BlockPos pPos, BlockState pState1, T pBlockEntity) {
@@ -73,6 +91,20 @@ public class AntHillBlock extends BaseEntityBlock {
     public void onRemove(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pNewState, boolean pIsMoving) {
         if (pLevel.getBlockEntity(pPos) instanceof AntHillBE antHill) {
             antHill.dropContents();
+            if (!pLevel.isClientSide() && antHill.hasQueen) {
+                for (int i = 0; i < 3; i++) {
+                    if (RANDOM.nextBoolean()) {
+                        AntSoldierEntity entity = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), pLevel);
+                        entity.setPos(pPos.getX(), pPos.getY(), pPos.getZ());
+                        pLevel.addFreshEntity(entity);
+                    }
+                }
+                if (!pState.getValue(PLACEDBYPLAYER)) {
+                    AntQueenEntity entity = new AntQueenEntity(AntsportationEntities.ANT_QUEEN.get(), pLevel);
+                    entity.setPos(pPos.getX()+0.5, pPos.getY(), pPos.getZ()+0.5);
+                    pLevel.addFreshEntity(entity);
+                }
+            }
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }

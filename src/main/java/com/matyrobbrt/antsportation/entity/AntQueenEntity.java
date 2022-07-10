@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation.entity;
 
+import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -11,15 +12,13 @@ import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Endermite;
 import net.minecraft.world.entity.monster.Silverfish;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,7 +48,13 @@ public class AntQueenEntity extends PathfinderMob implements NeutralMob {
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.3f));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1D, false));
-        this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new MoveToBlockGoal(this, 1, 16) {
+            @Override
+            protected boolean isValidTarget(@NotNull LevelReader pLevel, @NotNull BlockPos pPos) {
+                return pLevel.getBlockState(pPos).is(AntsportationBlocks.ANT_HILL.get());
+            }
+        });
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.8D, 1F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers().setAlertOthers(AntSoldierEntity.class));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Silverfish.class, 5, false, false, (p_28879_) -> p_28879_ instanceof Silverfish));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Endermite.class, 5, false, false, (p_28879_) -> p_28879_ instanceof Endermite));

@@ -25,6 +25,7 @@ public class AntHillBE extends BlockEntity {
     private static final int SPAWNRATE = 100;
     public boolean hasQueen = false;
 
+
     public AntHillBE(BlockPos pWorldPosition, BlockState pBlockState) {
         super(AntsportationBlocks.ANT_HILL_BE.get(), pWorldPosition, pBlockState);
     }
