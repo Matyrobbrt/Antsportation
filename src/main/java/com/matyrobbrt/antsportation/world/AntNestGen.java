@@ -22,7 +22,7 @@ public class AntNestGen {
             List<Holder<PlacedFeature>> base =
                     event.getGeneration().getFeatures(GenerationStep.Decoration.TOP_LAYER_MODIFICATION);
 
-            base.add(AntsportationPlacedFeatures.ANT_NEST_PLACED);
+            base.add(AntsportationPlacedFeatures.ANT_NEST_PLACED.getHolder().get());
         }
     }
 }

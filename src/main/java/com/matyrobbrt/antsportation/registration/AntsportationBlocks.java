@@ -12,6 +12,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
@@ -40,6 +41,7 @@ public class AntsportationBlocks {
     public static final RegistryObject<AntHillBlock> ANT_HILL = registerWithItem("ant_hill",Mineable.SHOVEL,ToolTier.WOODEN, ()-> new AntHillBlock(BlockBehaviour.Properties.of(Material.DIRT)
             .color(MaterialColor.COLOR_BROWN)
             .strength(1.0f)
+            .sound(SoundType.ROOTED_DIRT)
     ));
 
     public static final RegistryObject<MarkerBlock> MARKER = register("marker", Mineable.SHOVEL, ToolTier.WOODEN, MarkerBlock::new);

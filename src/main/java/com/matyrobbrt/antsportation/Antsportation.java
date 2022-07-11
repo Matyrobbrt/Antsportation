@@ -40,6 +40,8 @@ public class Antsportation {
         AntsportationRecipes.TYPES.register(bus);
         AntsportationRecipes.SERIALIZERS.register(bus);
         AntsportationSounds.SOUNDS.register(bus);
+        AntsportationConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
+        AntsportationPlacedFeatures.PLACED_FEATURES.register(bus);
 
         bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
         bus.addListener(Antsportation::entityAttributeEvent);
