@@ -11,6 +11,8 @@
   "boxer_tooltip.antsportation.redstone_control": "Decides when box extraction should be allowed, based on redstone signal. Use 'DISABLED' in order to keep the box locked until the ejection percent is hit.",
   "button.antsportation.eject_when": "Eject when:",
   "button.antsportation.redstone_control": "Redstone control:",
+  "entity.antsportation.ant_queen": "Ant Queen",
+  "entity.antsportation.ant_soldier": "Ant Soldier",
   "gui.antsportation.boxer": "Boxer",
   "gui.antsportation.configuration": "Configuration: %s",
   "item.antsportation.advanced_box": "Advanced Box",

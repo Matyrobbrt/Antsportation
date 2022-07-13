@@ -91,15 +91,15 @@ public class AntHillBlock extends BaseEntityBlock {
     public void onRemove(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pNewState, boolean pIsMoving) {
         if (pLevel.getBlockEntity(pPos) instanceof AntHillBE antHill) {
             antHill.dropContents();
-            if (!pLevel.isClientSide() && antHill.hasQueen) {
+            if (!pLevel.isClientSide()) {
                 for (int i = 0; i < 3; i++) {
-                    if (RANDOM.nextBoolean()) {
+                    if (RANDOM.nextBoolean() && (antHill.hasQueen || !pState.getValue(PLACEDBYPLAYER))) {
                         AntSoldierEntity entity = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), pLevel);
                         entity.setPos(pPos.getX(), pPos.getY(), pPos.getZ());
                         pLevel.addFreshEntity(entity);
                     }
                 }
-                if (!pState.getValue(PLACEDBYPLAYER)) {
+                if (!pState.getValue(PLACEDBYPLAYER) || antHill.hasQueen) {
                     AntQueenEntity entity = new AntQueenEntity(AntsportationEntities.ANT_QUEEN.get(), pLevel);
                     entity.setPos(pPos.getX()+0.5, pPos.getY(), pPos.getZ()+0.5);
                     pLevel.addFreshEntity(entity);

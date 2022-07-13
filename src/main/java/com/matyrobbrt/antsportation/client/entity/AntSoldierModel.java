@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("SpellCheckingInspection")
 public class AntSoldierModel<T extends AntSoldierEntity> extends EntityModel<T> {
     //this is intended to use the queen texture becuase its only temporary anyways and im too lazy to make another one.
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Antsportation.MOD_ID, "tempantqueen.png"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Antsportation.MOD_ID, "ant_queen.png"), "main");
     private final ModelPart bone;
 
     public AntSoldierModel(ModelPart bone) {

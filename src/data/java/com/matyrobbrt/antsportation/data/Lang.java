@@ -3,6 +3,7 @@ package com.matyrobbrt.antsportation.data;
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.data.DataGenerator;
@@ -28,6 +29,11 @@ public class Lang extends LanguageProvider {
         for (final var tier : BoxItem.BoxTier.values()) {
             add(tier.getTranslationKey(), capitalize(tier.name().toLowerCase(Locale.ROOT)));
         }
+
+        AntsportationEntities.ENTITIES.getEntries().forEach(entity -> {
+            final var name = String.join(" ", Stream.of(entity.getId().getPath().split("_")).map(Lang::capitalize).toList());
+            add(entity.get(), name);
+        });
     }
 
     private static String capitalize(String str) {

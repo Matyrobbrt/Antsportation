@@ -10,5 +10,6 @@ public class AntsportationWorldEvents {
     @SubscribeEvent
     public static void biomeLoadingEvent(final BiomeLoadingEvent event) {
         AntNestGen.generateNest(event);
+        AntEntityGen.onEntitySpawn(event);
     }
 }
