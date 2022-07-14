@@ -1,8 +1,9 @@
-package com.matyrobbrt.antsportation.data;
+package com.matyrobbrt.antsportation.data.server;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -35,7 +36,7 @@ public class Tags {
 
         @Override
         protected void addTags() {
-            final var boxes = tag(TagKey.create(Registry.ITEM_REGISTRY, Antsportation.rl("boxes")));
+            final var boxes = tag(AntsportationTags.Items.BOXES);
             for (BoxItem.BoxTier value : BoxItem.BoxTier.values()) {
                 boxes.add(value.asItem());
             }

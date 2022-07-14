@@ -1,8 +1,7 @@
-package com.matyrobbrt.antsportation.data;
+package com.matyrobbrt.antsportation.data.client;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.item.BoxItem;
-import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
@@ -47,9 +46,11 @@ public class Lang extends LanguageProvider {
             final var name = String.join(" ", Stream.of(item.getId().getPath().split("_")).map(Lang::capitalize).toList());
             addItem(item, name);
         });
-        for (final Translations value : Translations.values()) {
+
+        for (final var value : Translations.values()) {
             add(value.key, value.englishTranslation);
         }
+
         for (final var tier : BoxItem.BoxTier.values()) {
             add(tier.getTranslationKey(), capitalize(tier.name().toLowerCase(Locale.ROOT)));
         }

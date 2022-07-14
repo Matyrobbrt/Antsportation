@@ -1,0 +1,20 @@
+{
+  "name": "item.antsportation.guide_book",
+  "landing_text": "patchouli.antsportation.landing_text",
+  "model": "patchouli:book_red",
+  "creative_tab": "antsportation",
+  "book_texture": "patchouli:textures/gui/book_red.png",
+  "index_icon": "minecraft:writable_book",
+  "show_progress": false,
+  "version": 1,
+  "header_color": "FF0000",
+  "use_resource_pack": true,
+  "macros": {
+    "<b>": "$(l)",
+    "<i>": "$(o)",
+    "</>": "$()",
+    "<br2>": "$(br2)",
+    "<item>": "$(item)",
+    "<player>": "$(playername)"
+  }
+}

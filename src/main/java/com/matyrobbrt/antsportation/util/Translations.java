@@ -14,6 +14,9 @@ public enum Translations {
     TOOLTIP_TYPES("tooltip", "types", "%s / %s types"),
     TOOLTIP_ITEMS("tooltip", "items", "%s / %s items"),
 
+    GUIDE_BOOK("item", "guide_book", "Antsportation Guide Book"),
+    GUIDE_BOOK_LANDING_TEXT("patchouli", "landing_text", "$(#800080)Welcome to Antsportation, $(playername)! $(br2)This book will guide you through the mod and show you how to use ants to make cool item transportation systems!"),
+
     SPEED_UPGRADE_TOOLTIP("tooltip.item", "speed_upgrade", "Insert in a Boxer in order to make it faster."),
     SPEED_UPGRADE_TOOLTIP2("tooltip.item", "speed_upgrade_2", "Decreases process duration by %s ticks."),
     SPEED_UPGRADE_TOOLTIP3("tooltip.item", "speed_upgrade_3", "Increases energy usage: %s more FE / tick"),

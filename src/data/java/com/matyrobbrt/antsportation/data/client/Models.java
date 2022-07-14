@@ -1,4 +1,4 @@
-package com.matyrobbrt.antsportation.data;
+package com.matyrobbrt.antsportation.data.client;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.item.BoxItem;

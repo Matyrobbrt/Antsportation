@@ -1,7 +1,13 @@
 package com.matyrobbrt.antsportation.data;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.data.client.Lang;
+import com.matyrobbrt.antsportation.data.client.Models;
+import com.matyrobbrt.antsportation.data.client.Sounds;
 import com.matyrobbrt.antsportation.data.loot.LootProvider;
+import com.matyrobbrt.antsportation.data.patchouli.PatchouliProvider;
+import com.matyrobbrt.antsportation.data.server.Recipes;
+import com.matyrobbrt.antsportation.data.server.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
@@ -21,6 +27,8 @@ public class AntsportationData {
 
             gen.addProvider(new Models(gen, existingFileHelper));
             gen.addProvider(new Sounds(gen, existingFileHelper));
+
+            gen.addProvider(new PatchouliProvider(gen));
         }
         if (event.includeServer()) {
             gen.addProvider(new Recipes(gen));

@@ -1,13 +1,11 @@
 package com.matyrobbrt.antsportation.block;
 
-import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.boxing.BoxerBE;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.HasRecipe;
+import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -74,6 +72,6 @@ public class BoxerBlock extends BaseEntityBlock implements HasRecipe {
                 .setEmptyNBTSlots(3, 4, 5)
                 .pattern("C", "B", "C")
                 .define('C', Tags.Items.CHESTS)
-                .define('B', TagKey.create(Registry.ITEM_REGISTRY, Antsportation.rl("boxes")));
+                .define('B', AntsportationTags.Items.BOXES);
     }
 }

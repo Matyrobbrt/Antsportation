@@ -1,5 +1,11 @@
 import com.matyrobbrt.gradle.pngoptimiser.task.OptimisePNGTask
 
+buildscript {
+    dependencies {
+        classpath 'org.spongepowered:mixingradle:0.7.+'
+    }
+}
+
 plugins {
     id 'eclipse'
     id 'maven-publish'
@@ -7,6 +13,9 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'com.matyrobbrt.pngoptimiser' version '0.2.0'
 }
+
+// Patchouli has mixins...
+apply plugin: 'org.spongepowered.mixin'
 
 version = '1.0'
 group = 'com.matyrobbrt.antsportation' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -62,6 +71,12 @@ repositories {
         }
     }
     maven { url 'https://modmaven.dev/' }
+    maven {
+        url "https://dl.cloudsmith.io/public/matyrobbrt/matylib/maven/"
+    }
+    maven {
+        url "https://maven.blamejared.com"
+    }
 }
 
 dependencies {
@@ -72,6 +87,12 @@ dependencies {
 
     runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")
 
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}") {
+        transitive = false
+    }
+
+    // ONLY used for patchouli datagen
+    dataImplementation fg.deobf('com.matyrobbrt:matylib-1.18.2:2.1.1')
     dataImplementation sourceSets.main.output
 }
 

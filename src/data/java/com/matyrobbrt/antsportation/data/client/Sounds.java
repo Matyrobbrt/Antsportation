@@ -1,4 +1,4 @@
-package com.matyrobbrt.antsportation.data;
+package com.matyrobbrt.antsportation.data.client;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.registration.AntsportationSounds;
@@ -13,7 +13,7 @@ import static com.matyrobbrt.antsportation.Antsportation.rl;
 import java.util.function.Supplier;
 
 public class Sounds extends SoundDefinitionsProvider {
-    protected Sounds(DataGenerator generator, ExistingFileHelper helper) {
+    public Sounds(DataGenerator generator, ExistingFileHelper helper) {
         super(generator, Antsportation.MOD_ID, helper);
     }
 
