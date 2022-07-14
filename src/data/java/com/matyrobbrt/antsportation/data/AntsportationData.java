@@ -15,7 +15,10 @@ public class AntsportationData {
         final var existingFileHelper = event.getExistingFileHelper();
 
         if (event.includeClient()) {
-            gen.addProvider(new Lang(gen));
+            final var lang = new Lang(gen);
+            gen.addProvider(lang);
+            gen.addProvider(lang.enUd);
+
             gen.addProvider(new Models(gen, existingFileHelper));
             gen.addProvider(new Sounds(gen, existingFileHelper));
         }
