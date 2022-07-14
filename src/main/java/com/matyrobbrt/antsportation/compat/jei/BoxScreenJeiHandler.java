@@ -1,4 +1,4 @@
-package com.matyrobbrt.antsportation.jei;
+package com.matyrobbrt.antsportation.compat.jei;
 
 import com.matyrobbrt.antsportation.client.screen.BoxScreen;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;

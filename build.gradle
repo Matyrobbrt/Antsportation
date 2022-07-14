@@ -87,7 +87,7 @@ dependencies {
 
     runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")
 
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}") {
+    implementation fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}") {
         transitive = false
     }
 

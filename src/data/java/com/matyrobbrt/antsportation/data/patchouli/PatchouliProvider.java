@@ -9,6 +9,7 @@ import com.matyrobbrt.lib.datagen.patchouli.page.SpotlightPage;
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliBook;
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliCategory;
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliEntry;
+import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliMacro;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +34,7 @@ public class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.Patc
             .setIndexIcon(Items.WRITABLE_BOOK).showProgress(false)
             .setVersion(1)
             .addDefaultMacros()
+            .addMacro(new PatchouliMacro("$(scfg/", "$(antsportationconfig.server:"))
             .setHeaderColor("FF0000");
 
     @PatchouliCategoryGen

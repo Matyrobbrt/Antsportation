@@ -15,6 +15,7 @@
     "</>": "$()",
     "<br2>": "$(br2)",
     "<item>": "$(item)",
-    "<player>": "$(playername)"
+    "<player>": "$(playername)",
+    "$(scfg/": "$(antsportationconfig.server:"
   }
 }

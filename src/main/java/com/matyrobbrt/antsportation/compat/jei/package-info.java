@@ -1,6 +1,6 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package com.matyrobbrt.antsportation.jei;
+package com.matyrobbrt.antsportation.compat.jei;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

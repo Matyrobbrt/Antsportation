@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation;
 
+import com.matyrobbrt.antsportation.compat.patchouli.PatchouliCompat;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
@@ -11,12 +12,15 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +53,11 @@ public class Antsportation {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, MOD_ID + "-server.toml");
 
         LOGGER.debug("Antsportation initialized");
+
+        if (ModList.get().isLoaded("patchouli") && FMLEnvironment.dist == Dist.CLIENT) {
+            bus.register(PatchouliCompat.class);
+            LOGGER.debug("Initialised Patchouli compat");
+        }
     }
 
     private static void entityAttributeEvent(EntityAttributeCreationEvent event) {
