@@ -5,7 +5,7 @@ plugins {
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    id 'com.matyrobbrt.pngoptimiser' version '0.2.0'
+    id 'com.matyrwobbrt.pngoptimiser' version '0.2.0'
 }
 
 version = '1.0'
@@ -19,7 +19,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'parchment', version: '2022.05.02-1.18.2'
+    mappings channel: 'parchment', version: '2022.07.10-1.18.2'
 
     accessTransformers.from file('src/data/resources/accesstransformer.cfg')
     accessTransformers.from file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -65,7 +65,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.19'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.60'
 
     compileOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}")
@@ -91,7 +91,7 @@ static void configureJarTask(Jar jar) {
                     "Specification-Version"   : "1", // We are version 1 of ourselves
                     "Implementation-Title"    : project.name,
                     "Implementation-Version"  : project.version,
-                    "Implementation-Vendor"   : "Matyrobbrt",
+                    "Implementation-Vendor"   : 'Matyrobbrt, Learwin, Itskillerluc',
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
             ])
         }
