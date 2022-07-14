@@ -54,7 +54,7 @@ public class AntsportationBlocks {
     public static final RegistryObject<BlockEntityType<AntHillBE>> ANT_HILL_BE = BLOCK_ENTITIES.register("ant_hill", () ->
             BlockEntityType.Builder.of(AntHillBE::new, ANT_HILL.get()).build(null));
 
-    public static final RegistryObject<Block> ANT_JAR = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
+    public static final RegistryObject<AntJarBlock> ANT_JAR = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
             () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));
 
     public static final RegistryObject<BlockEntityType<MarkerBE>> MARKER_BE = BLOCK_ENTITIES.register("marker", () -> BlockEntityType.Builder.of(MarkerBE::new, MARKER.get()).build(null));

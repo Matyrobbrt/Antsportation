@@ -18,6 +18,8 @@ public enum Translations {
     SPEED_UPGRADE_TOOLTIP2("tooltip.item", "speed_upgrade_2", "Decreases process duration by %s ticks."),
     SPEED_UPGRADE_TOOLTIP3("tooltip.item", "speed_upgrade_3", "Increases energy usage: %s more FE / tick"),
 
+    HAS_ANT_TOOLTIP("tooltip.item", "has_ant", "This jar contains an ant"),
+
     EJECT_WHEN("button", "eject_when", "Eject when:"),
     REDSTONE_CONTROL("button", "redstone_control", "Redstone control:"),
 

@@ -57,9 +57,14 @@ public class Antsportation {
     }
 
     public static final CreativeModeTab TAB = new CreativeModeTab(CreativeModeTab.getGroupCountSafe(), MOD_ID) {
+        private ItemStack icon;
         @Override
         public @NotNull ItemStack makeIcon() {
-            return Items.ACACIA_FENCE.getDefaultInstance(); // TODO tab icon
+            if (icon == null) {
+                icon = new ItemStack(AntsportationItems.ANT_JAR.get());
+                icon.getOrCreateTagElement("BlockStateTag").putString("antinside", String.valueOf(true));
+            }
+            return icon;
         }
     };
 

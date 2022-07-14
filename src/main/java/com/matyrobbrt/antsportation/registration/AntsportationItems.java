@@ -31,7 +31,7 @@ import net.minecraftforge.common.ForgeSpawnEggItem;
 public class AntsportationItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registry.ITEM_REGISTRY, Antsportation.MOD_ID);
 
-    public static final RegistryObject<Item> ANT_JAR = ITEMS.register("ant_jar",
+    public static final RegistryObject<AntJarItem> ANT_JAR = ITEMS.register("ant_jar",
             () -> new AntJarItem(AntsportationBlocks.ANT_JAR.get(),
                     new Item.Properties().stacksTo(1)));
 

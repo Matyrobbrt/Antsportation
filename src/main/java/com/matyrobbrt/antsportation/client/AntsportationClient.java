@@ -47,7 +47,7 @@ public class AntsportationClient {
     }
 
     private static void addCustomItemProperties() {
-        ItemProperties.register(AntsportationItems.ANT_JAR.get(), Antsportation.rl("filled"), (stack, level, entity, seed) -> (AntJarItem.hasAntInside(stack)) ? 1 : 0);
+        ItemProperties.register(AntsportationItems.ANT_JAR.get(), Antsportation.rl("filled"), (stack, level, entity, seed) -> AntJarItem.hasAntInside(stack) ? 1 : 0);
     }
 
     @SubscribeEvent
