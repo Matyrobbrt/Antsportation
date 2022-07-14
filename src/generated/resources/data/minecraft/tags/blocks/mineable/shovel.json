@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "antsportation:ant_nest",
-    "antsportation:marker"
+    "antsportation:marker",
+    "antsportation:ant_hill"
   ]
 }

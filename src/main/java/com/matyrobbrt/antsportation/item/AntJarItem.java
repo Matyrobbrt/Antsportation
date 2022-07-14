@@ -3,12 +3,15 @@ package com.matyrobbrt.antsportation.item;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -27,7 +30,11 @@ public class AntJarItem extends BaseBlockItem {
     }
 
     public static boolean hasAntInside(ItemStack itemStack) {
-        return itemStack.getTag() != null && itemStack.getTag().getCompound("BlockStateTag").getString("antinside").matches("true");
+        if (itemStack.is(AntsportationItems.ANT_JAR.get())) {
+            return itemStack.getTag() != null && itemStack.getTag().getCompound("BlockStateTag").getString("antinside").matches("true");
+        } else{
+            return false;
+        }
     }
 
     @Override
@@ -38,7 +45,7 @@ public class AntJarItem extends BaseBlockItem {
             if (itemStack.getTag() != null && !itemStack.getTag().contains("BlockStateTag")) {
                 itemStack.getTag().put("BlockStateTag", new CompoundTag());
             }
-            if (itemStack.getTag().getCompound("BlockStateTag").getString("antinside").matches("false")) {
+            if (!itemStack.getTag().getCompound("BlockStateTag").getString("antinside").matches("true")) {
                 itemStack.getTag().getCompound("BlockStateTag").putString("antinside", "true");
                 pPlayer.setItemInHand(pUsedHand, itemStack);
                 pInteractionTarget.remove(Entity.RemovalReason.DISCARDED);
@@ -48,6 +55,16 @@ public class AntJarItem extends BaseBlockItem {
             }
         } else {
             return InteractionResult.FAIL;
+        }
+    }
+
+    @Override
+    public void onDestroyed(ItemEntity itemEntity, DamageSource damageSource) {
+        Level level = itemEntity.getLevel();
+        if (!level.isClientSide() && hasAntInside(itemEntity.getItem())){
+            AntQueenEntity entity = new AntQueenEntity(AntsportationEntities.ANT_QUEEN.get(), level);
+            entity.setPos(itemEntity.position());
+            level.addFreshEntity(entity);
         }
     }
 

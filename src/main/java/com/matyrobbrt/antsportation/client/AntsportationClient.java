@@ -1,15 +1,17 @@
 package com.matyrobbrt.antsportation.client;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.client.blockentity.MarkerRenderer;
 import com.matyrobbrt.antsportation.client.entity.AntQueenModel;
 import com.matyrobbrt.antsportation.client.entity.AntQueenRenderer;
-import com.matyrobbrt.antsportation.client.entity.AntWorkerModel;
-import com.matyrobbrt.antsportation.client.entity.AntWorkerRenderer;
+import com.matyrobbrt.antsportation.client.entity.AntSoldierModel;
+import com.matyrobbrt.antsportation.client.entity.AntSoldierRenderer;
 import com.matyrobbrt.antsportation.client.screen.BaseContainerScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxerScreen;
 import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BoxItem;
+import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationMenus;
@@ -17,6 +19,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,6 +42,8 @@ public class AntsportationClient {
         MenuScreens.register(AntsportationMenus.BOXER_CONFIGURATION.get(), BoxerScreen.ConfigurationScreen::new);
 
         addCustomItemProperties();
+        setRenderLayer();
+        registerBlockEntityRenderer();
     }
 
     private static void addCustomItemProperties() {
@@ -54,13 +60,13 @@ public class AntsportationClient {
     @SubscribeEvent
     static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(AntQueenModel.LAYER_LOCATION, AntQueenModel::createBodyLayer);
-        event.registerLayerDefinition(AntWorkerModel.LAYER_LOCATION, AntWorkerModel::createBodyLayer);
+        event.registerLayerDefinition(AntSoldierModel.LAYER_LOCATION, AntSoldierModel::createBodyLayer);
     }
 
     @SubscribeEvent
     static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(AntsportationEntities.ANT_QUEEN.get(), AntQueenRenderer::new);
-        event.registerEntityRenderer(AntsportationEntities.ANT_WORKER.get(), AntWorkerRenderer::new);
+        event.registerEntityRenderer(AntsportationEntities.ANT_SOLDIER.get(), AntSoldierRenderer::new);
     }
 
     public static void renderBg(BaseContainerScreen<?> containerScreen, ResourceLocation texture, PoseStack poseStack) {
@@ -72,4 +78,11 @@ public class AntsportationClient {
         containerScreen.blit(poseStack, i, j, 0, 0, containerScreen.getImageWidth(), containerScreen.getImageHeight());
     }
 
+    private static void setRenderLayer() {
+        ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.MARKER.get(), RenderType.cutout());
+    }
+
+    private static void registerBlockEntityRenderer() {
+        MarkerRenderer.register();
+    }
 }

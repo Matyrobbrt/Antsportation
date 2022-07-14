@@ -1,22 +1,47 @@
 package com.matyrobbrt.antsportation.block;
 
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
+import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
+import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class AntNestBlock extends BaseEntityBlock {
+    public static final BooleanProperty PLACEDBYPLAYER = BooleanProperty.create("placedbyplayer");
     public AntNestBlock(Properties p_49224_) {
         super(p_49224_);
+        this.registerDefaultState(this.stateDefinition.any().setValue(PLACEDBYPLAYER, false));
+    }
+
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext pContext) {
+        return this.defaultBlockState().setValue(PLACEDBYPLAYER, true);
+    }
+
+    private static <T extends BlockEntity> void tick(Level pLevel1, BlockPos pPos, BlockState pState1, T pBlockEntity) {
+        ((AntNestBE) pBlockEntity).tick();
+    }
+
+    @Override
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
+        return RenderShape.MODEL;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(PLACEDBYPLAYER);
     }
 
     @Nullable
@@ -28,25 +53,23 @@ public class AntNestBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide() ? null : (pLevel1, pPos, pState1, pBlockEntity) -> ((AntNestBE) pBlockEntity).tick();
+        return pLevel.isClientSide() ? null : AntNestBlock::tick;
     }
 
     @Override
     public void onRemove(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pNewState, boolean pIsMoving) {
         if (pLevel.getBlockEntity(pPos) instanceof AntNestBE antNest) {
             antNest.dropContents();
-        }
-        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
-    }
-
-    @Override
-    public void onNeighborChange(BlockState state, LevelReader level, BlockPos pos, BlockPos neighbor) {
-        if(!level.isClientSide()){
-            final BlockEntity blockEntity = level.getBlockEntity(pos);
-            if(blockEntity instanceof AntNestBE){
-                //TODO: change this to ant mount (mound? mount? idk how to spell it).
-                ((AntNestBE) blockEntity).validStructure = level.getBlockState(pos.above()).is(Blocks.CHEST);
+            if(!pLevel.isClientSide() && (antNest.hasQueen || pState.getValue(PLACEDBYPLAYER))) {
+                for (int i = 0; i < 5; i++) {
+                    if (RANDOM.nextBoolean()) {
+                        AntSoldierEntity entity = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), pLevel);
+                        entity.setPos(pPos.getX()+0.5, pPos.getY(), pPos.getZ()+0.5);
+                        pLevel.addFreshEntity(entity);
+                    }
+                }
             }
         }
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 }

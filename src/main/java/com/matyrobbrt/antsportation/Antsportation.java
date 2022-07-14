@@ -1,14 +1,9 @@
 package com.matyrobbrt.antsportation;
 
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
-import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
-import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
-import com.matyrobbrt.antsportation.registration.AntsportationEntities;
-import com.matyrobbrt.antsportation.registration.AntsportationItems;
-import com.matyrobbrt.antsportation.registration.AntsportationMenus;
-import com.matyrobbrt.antsportation.registration.AntsportationRecipes;
-import com.matyrobbrt.antsportation.registration.AntsportationSounds;
+import com.matyrobbrt.antsportation.registration.*;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
@@ -45,6 +40,8 @@ public class Antsportation {
         AntsportationRecipes.TYPES.register(bus);
         AntsportationRecipes.SERIALIZERS.register(bus);
         AntsportationSounds.SOUNDS.register(bus);
+        AntsportationConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
+        AntsportationPlacedFeatures.PLACED_FEATURES.register(bus);
 
         bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
         bus.addListener(Antsportation::entityAttributeEvent);
@@ -56,7 +53,7 @@ public class Antsportation {
 
     private static void entityAttributeEvent(EntityAttributeCreationEvent event) {
         event.put(AntsportationEntities.ANT_QUEEN.get(), AntQueenEntity.setAttributes());
-        event.put(AntsportationEntities.ANT_WORKER.get(), AntWorkerEntity.setAttributes());
+        event.put(AntsportationEntities.ANT_SOLDIER.get(), AntSoldierEntity.setAttributes());
     }
 
     public static final CreativeModeTab TAB = new CreativeModeTab(CreativeModeTab.getGroupCountSafe(), MOD_ID) {
