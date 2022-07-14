@@ -1,8 +1,13 @@
 package com.matyrobbrt.antsportation.menu.boxing;
 
+import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.boxing.BaseBoxingBE;
+import com.matyrobbrt.antsportation.item.BoxItem;
+import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Utils;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.Registry;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -11,6 +16,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -18,6 +24,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class BaseBoxingMenu<T extends BaseBoxingBE> extends AbstractContainerMenu {
+
     public final T tile;
     protected boolean canInsert = true;
 
@@ -159,6 +166,47 @@ public class BaseBoxingMenu<T extends BaseBoxingBE> extends AbstractContainerMen
         // boxes go in slot 0
         // speed upgrades in slot 1
         // rest goes in slots 2 -> 16
-        return ItemStack.EMPTY;
+
+        var itemstack = ItemStack.EMPTY;
+        var slot = slots.get(index);
+        if (slot.hasItem()) {
+            var itemstack1 = slot.getItem();
+            itemstack = itemstack1.copy();
+
+            final var INVENTORYSIZE = 17;
+            final var PLAYERINVENTORYEND = INVENTORYSIZE + 27;
+            final var PLAYERHOTBAREND = PLAYERINVENTORYEND + 9;
+
+            if (index < INVENTORYSIZE) {
+                if (!moveItemStackTo(itemstack1, INVENTORYSIZE, PLAYERHOTBAREND, true)) {
+                    return ItemStack.EMPTY;
+                }
+                slot.onQuickCraft(itemstack1, itemstack);
+            } else {
+                if (itemstack1.getItem() instanceof BoxItem) {
+                    if (!moveItemStackTo(itemstack1, 0, 1, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (itemstack1.is(AntsportationItems.SPEED_UPGRADE.get())) {
+                    if (!moveItemStackTo(itemstack1, 1, 2, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else {
+                    if (!moveItemStackTo(itemstack1, 2, 17, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+            }
+            if (itemstack1.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+            if (itemstack1.getCount() == itemstack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+            slot.onTake(player, itemstack1);
+        }
+        return itemstack;
     }
 }
