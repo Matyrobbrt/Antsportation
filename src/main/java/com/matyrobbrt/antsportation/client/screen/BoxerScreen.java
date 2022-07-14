@@ -1,6 +1,8 @@
 package com.matyrobbrt.antsportation.client.screen;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.client.screen.widget.EnergyUsageWidget;
+import com.matyrobbrt.antsportation.client.screen.widget.ProgressWidget;
 import com.matyrobbrt.antsportation.menu.BoxerMenu;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
 import com.matyrobbrt.antsportation.network.OpenTileContainerPacket;
@@ -27,7 +29,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
-    private static final ResourceLocation CONTAINER_BACKGROUND = Antsportation.rl("textures/gui/boxer.png");
+    private static final ResourceLocation CONTAINER_BACKGROUND = Antsportation.rl("textures/gui/boxing_machine_base.png");
     public BoxerScreen(BoxerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         titleLabelY += 4;
@@ -35,6 +37,8 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
         imageHeight += 13;
         backgroundTexture = CONTAINER_BACKGROUND;
     }
+
+    private EnergyUsageWidget energyUsageWidget;
 
     @Override
     protected void init() {
@@ -44,29 +48,21 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
             onClose();
             AntsportationNetwork.CHANNEL.sendToServer(new OpenTileContainerPacket(menu.tile.getBlockPos(), (byte) 1));
         }, (pButton, pPoseStack, pMouseX, pMouseY) -> renderTooltip(pPoseStack, Translations.CONFIGURATION.translate(), pMouseX, pMouseY)));
+        addRenderableOnly(new ProgressWidget(this.leftPos + 101, this.topPos + 40, this.menu::getProgressionScaled, false));
+        energyUsageWidget = new EnergyUsageWidget(this.leftPos + 7, this.topPos + 75, ServerConfig.CONFIG.boxing().useEnergy()::get, () -> menu.tile.energy.getEnergyStored(), () -> menu.tile.energy.getMaxEnergyStored(), this);
     }
 
     @Override
     protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
         super.renderBg(pPoseStack, pPartialTick, pMouseX, pMouseY);
-        this.blit(pPoseStack, this.leftPos + 101, this.topPos + 40, 176, 0, this.menu.getProgressionScaled(), 17);
-        if (ServerConfig.CONFIG.boxing().useEnergy().get()) {
-            this.blit(pPoseStack, this.leftPos + 8, this.topPos + 76, 0, 249, this.menu.getEnergyScaled(), 7);
-        } else {
-            blit(pPoseStack, this.leftPos + 7, this.topPos + 75, 166, 247, 90, 9);
-        }
+        energyUsageWidget.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
     }
 
     @Override
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
         renderTooltip(pPoseStack, pMouseX, pMouseY);
-        if (ServerConfig.CONFIG.boxing().useEnergy().get() && pMouseX <= leftPos + 97 && pMouseX >= leftPos + 7 && pMouseY <= topPos + 84 && pMouseY >= topPos + 75) {
-            renderTooltip(pPoseStack, Translations.STORED_ENERGY.translate(
-                    Utils.textComponent(Utils.getCompressedCount(menu.tile.energy.getEnergyStored()), s -> s.withColor(ChatFormatting.GOLD)),
-                    Utils.textComponent(Utils.getCompressedCount(menu.tile.energy.getMaxEnergyStored()), s -> s.withColor(ChatFormatting.AQUA))
-            ), pMouseX, pMouseY);
-        }
+        energyUsageWidget.attemptTooltipRender(pPoseStack, pMouseX, pMouseY);
 
         final var tooltipChild = getChildAt(pMouseX, pMouseY);
         if (tooltipChild.isPresent() && tooltipChild.get() instanceof AbstractWidget wid) {
@@ -87,7 +83,6 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
         @Override
         protected void init() {
             super.init();
-            // TODO the back button needs to be adjusted
             addRenderableWidget(new Button(
                     leftPos + imageWidth - 7 - 36, topPos + 83 - 15, 36, 15,
                     CommonComponents.GUI_BACK, e -> back()
