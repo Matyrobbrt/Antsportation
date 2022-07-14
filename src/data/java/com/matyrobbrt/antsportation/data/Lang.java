@@ -8,6 +8,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.data.LanguageProvider;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,6 +58,8 @@ public class Lang extends LanguageProvider {
             final var name = String.join(" ", Stream.of(entity.getId().getPath().split("_")).map(Lang::capitalize).toList());
             add(entity.get(), name);
         });
+
+        add(((TranslatableComponent) Antsportation.TAB.getDisplayName()).getKey(), "Antsportation");
     }
 
     @Override

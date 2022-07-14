@@ -21,6 +21,7 @@
   "item.antsportation.epic_box": "Epic Box",
   "item.antsportation.soldier_ant_spawn_egg": "Soldier Ant Spawn Egg",
   "item.antsportation.speed_upgrade": "Speed Upgrade",
+  "itemGroup.antsportation": "Antsportation",
   "redstone.antsportation.disabled": "Disabled",
   "redstone.antsportation.high": "High",
   "redstone.antsportation.low": "Low",
