@@ -1,4 +1,4 @@
-package com.matyrobbrt.antsportation.util;
+package com.matyrobbrt.antsportation.util.cap;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;

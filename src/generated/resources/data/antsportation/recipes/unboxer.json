@@ -1,0 +1,22 @@
+{
+  "type": "antsportation:empty_nbt_required",
+  "pattern": [
+    "CBC"
+  ],
+  "key": {
+    "C": {
+      "tag": "forge:chests"
+    },
+    "B": {
+      "tag": "antsportation:boxes"
+    }
+  },
+  "result": {
+    "item": "antsportation:unboxer"
+  },
+  "emptyNbtSlots": [
+    1,
+    4,
+    7
+  ]
+}

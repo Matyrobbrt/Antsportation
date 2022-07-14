@@ -5,7 +5,9 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,5 +48,15 @@ public class Utils {
     }
     public static MutableComponent textComponent(Object text, @Nonnull UnaryOperator<Style> style) {
         return new TextComponent(text.toString()).withStyle(style);
+    }
+
+    public static boolean checkTileStillValid(Player pPlayer, @Nullable BlockEntity tile) {
+        if (tile == null)
+            return false;
+        if (pPlayer.level.getBlockEntity(tile.getBlockPos()) != tile) {
+            return false;
+        } else {
+            return !(pPlayer.distanceToSqr((double) tile.getBlockPos().getX() + 0.5D, (double) tile.getBlockPos().getY() + 0.5D, (double) tile.getBlockPos().getZ() + 0.5D) > 64.0D);
+        }
     }
 }

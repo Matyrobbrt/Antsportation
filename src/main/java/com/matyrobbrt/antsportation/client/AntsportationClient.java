@@ -9,6 +9,7 @@ import com.matyrobbrt.antsportation.client.entity.AntSoldierRenderer;
 import com.matyrobbrt.antsportation.client.screen.BaseContainerScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxerScreen;
+import com.matyrobbrt.antsportation.client.screen.UnboxerScreen;
 import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
@@ -40,6 +41,7 @@ public class AntsportationClient {
         MenuScreens.register(AntsportationMenus.BOX.get(), BoxScreen::new);
         MenuScreens.register(AntsportationMenus.BOXER.get(), BoxerScreen::new);
         MenuScreens.register(AntsportationMenus.BOXER_CONFIGURATION.get(), BoxerScreen.ConfigurationScreen::new);
+        MenuScreens.register(AntsportationMenus.UNBOXER.get(), UnboxerScreen::new);
 
         addCustomItemProperties();
         setRenderLayer();

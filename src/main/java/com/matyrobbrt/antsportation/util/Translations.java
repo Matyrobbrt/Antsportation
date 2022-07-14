@@ -32,6 +32,7 @@ public enum Translations {
     REDSTONE_LOW("redstone", "low", "Low"),
 
     BOXER("gui", "boxer", "Boxer"),
+    UNBOXER("gui", "unboxer", "Unboxer"),
     CONFIGURATION_GUI("gui", "configuration", "Configuration: %s"),
 
     SUBTITLE_PACKING("subtitle", "packing", "Packing")

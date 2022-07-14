@@ -17,6 +17,7 @@ public class BlockLoot extends net.minecraft.data.loot.BlockLoot {
     @Override
     protected void addTables() {
         dropSelf(BOXER);
+        dropSelf(UNBOXER);
         dropSelf(ANT_NEST);
 
         dropWhenSilkTouch(ANT_JAR.get());

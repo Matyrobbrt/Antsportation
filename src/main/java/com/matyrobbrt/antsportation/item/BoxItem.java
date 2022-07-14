@@ -67,6 +67,13 @@ public class BoxItem extends BaseItem {
         return IntStream.range(0, list.size()).mapToObj(index -> new ItemStackInstance(list.getCompound(index), list::remove));
     }
 
+    public static boolean isFull(ItemStack box) {
+        if (box.getItem() instanceof BoxItem boxItem) {
+            return getStoredCount(box) >= boxItem.tier().space;
+        }
+        return false;
+    }
+
     public static ItemStackInstance bookNewSlot(ItemStack box) {
         final var list = box.getOrCreateTag().getList(TAG_ITEMS, Tag.TAG_COMPOUND);
         final var compound = new CompoundTag();

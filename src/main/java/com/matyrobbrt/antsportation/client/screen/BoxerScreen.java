@@ -3,7 +3,7 @@ package com.matyrobbrt.antsportation.client.screen;
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.client.screen.widget.EnergyUsageWidget;
 import com.matyrobbrt.antsportation.client.screen.widget.ProgressWidget;
-import com.matyrobbrt.antsportation.menu.BoxerMenu;
+import com.matyrobbrt.antsportation.menu.boxing.BoxerMenu;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
 import com.matyrobbrt.antsportation.network.OpenTileContainerPacket;
 import com.matyrobbrt.antsportation.network.RequestUpdatePacket;
@@ -29,7 +29,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
-    private static final ResourceLocation CONTAINER_BACKGROUND = Antsportation.rl("textures/gui/boxing_machine_base.png");
+    public static final ResourceLocation CONTAINER_BACKGROUND = Antsportation.rl("textures/gui/boxing_machine_base.png");
     public BoxerScreen(BoxerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         titleLabelY += 4;
@@ -49,7 +49,7 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
             AntsportationNetwork.CHANNEL.sendToServer(new OpenTileContainerPacket(menu.tile.getBlockPos(), (byte) 1));
         }, (pButton, pPoseStack, pMouseX, pMouseY) -> renderTooltip(pPoseStack, Translations.CONFIGURATION.translate(), pMouseX, pMouseY)));
         addRenderableOnly(new ProgressWidget(this.leftPos + 101, this.topPos + 40, this.menu::getProgressionScaled, false));
-        energyUsageWidget = new EnergyUsageWidget(this.leftPos + 7, this.topPos + 75, ServerConfig.CONFIG.boxing().useEnergy()::get, () -> menu.tile.energy.getEnergyStored(), () -> menu.tile.energy.getMaxEnergyStored(), this);
+        energyUsageWidget = new EnergyUsageWidget(this.leftPos + 7, this.topPos + 75, ServerConfig.CONFIG.boxing().useEnergy()::get, menu.tile.energy::getEnergyStored, menu.tile.energy::getMaxEnergyStored, this);
     }
 
     @Override

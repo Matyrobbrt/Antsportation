@@ -1,28 +1,28 @@
-package com.matyrobbrt.antsportation.menu;
+package com.matyrobbrt.antsportation.menu.boxing;
 
-import com.matyrobbrt.antsportation.block.entity.BoxerBE;
-import com.matyrobbrt.antsportation.registration.AntsportationMenus;
-import com.matyrobbrt.antsportation.util.RedstoneControl;
+import com.matyrobbrt.antsportation.block.entity.boxing.BaseBoxingBE;
+import com.matyrobbrt.antsportation.util.Utils;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.DataSlot;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class BoxerMenu extends AbstractContainerMenu {
-    public final BoxerBE tile;
+@MethodsReturnNonnullByDefault
+public class BaseBoxingMenu<T extends BaseBoxingBE> extends AbstractContainerMenu {
+    public final T tile;
+    protected boolean canInsert = true;
 
-    public BoxerMenu(int pContainerId, BoxerBE tile, Inventory inventory) {
-        super(AntsportationMenus.BOXER.get(), pContainerId);
+    public BaseBoxingMenu(MenuType<?> menuType, int pContainerId, T tile, Inventory inventory) {
+        super(menuType, pContainerId);
         this.tile = tile;
 
         {
@@ -39,7 +39,14 @@ public class BoxerMenu extends AbstractContainerMenu {
             for (int i = 0; i < 3; i++) {
                 // Go sideways
                 for (int j = 0; j < 5; j++) {
-                    addSlot(new SlotItemHandler(tile.inventory, j + i * 5, xStart + j * 18, yStart + i * 18));
+                    addSlot(new SlotItemHandler(tile.getInventory(), j + i * 5, xStart + j * 18, yStart + i * 18) {
+                        @Override
+                        public boolean mayPlace(@NotNull ItemStack stack) {
+                            if (!canInsert)
+                                return false;
+                            return super.mayPlace(stack);
+                        }
+                    });
                 }
             }
         }
@@ -141,92 +148,17 @@ public class BoxerMenu extends AbstractContainerMenu {
                 : 0;
     }
 
-    public int getEnergyScaled() {
-        return tile.energy.getEnergyStored() != 0 && tile.energy.getMaxEnergyStored() != 0
-                ? tile.energy.getEnergyStored() * 88 / tile.energy.getMaxEnergyStored()
-                : 0;
-    }
-
     @Override
     public boolean stillValid(Player pPlayer) {
-        return checkTileStillValid(pPlayer, tile);
+        return Utils.checkTileStillValid(pPlayer, tile);
     }
 
     @Override
-    @SuppressWarnings("Duplicates")
-    public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(pIndex);
-        final var slotAmount = 27 + 15 + 2;
-        if (slot != null && slot.hasItem()) {
-            final var newStack = slot.getItem();
-            itemstack = newStack.copy();
-            if (pIndex >= 0 && pIndex < slotAmount) {
-                if (!this.moveItemStackTo(newStack, slotAmount, slotAmount + 9, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (pIndex >= slotAmount && pIndex < slotAmount + 9 && !this.moveItemStackTo(newStack, 0, slotAmount, false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (newStack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            }
-            slot.setChanged();
-            if (newStack.getCount() == itemstack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-            slot.onTake(pPlayer, newStack);
-            this.broadcastChanges();
-        }
-
-        return itemstack;
-    }
-
-    public static final class Configuration extends BaseMenu {
-        public final BoxerBE tile;
-
-        public Configuration(int pContainerId, BoxerBE tile, Inventory inventory) {
-            super(AntsportationMenus.BOXER_CONFIGURATION.get(), inventory, pContainerId, 84);
-            this.tile = tile;
-            addDataSlot(new DataSlot() {
-                @Override
-                public int get() {
-                    return tile.releasePercent;
-                }
-
-                @Override
-                public void set(int value) {
-                    tile.releasePercent = value;
-                }
-            });
-            addDataSlot(new DataSlot() {
-                @Override
-                public int get() {
-                    return tile.redstoneControl.ordinal();
-                }
-
-                @Override
-                public void set(int pValue) {
-                    tile.redstoneControl = RedstoneControl.values()[pValue];
-                }
-            });
-            broadcastChanges();
-        }
-
-        @Override
-        public boolean stillValid(Player pPlayer) {
-            return checkTileStillValid(pPlayer, tile);
-        }
-    }
-
-    private static boolean checkTileStillValid(Player pPlayer, @Nullable BlockEntity tile) {
-        if (tile == null)
-            return false;
-        if (pPlayer.level.getBlockEntity(tile.getBlockPos()) != tile) {
-            return false;
-        } else {
-            return !(pPlayer.distanceToSqr((double) tile.getBlockPos().getX() + 0.5D, (double) tile.getBlockPos().getY() + 0.5D, (double) tile.getBlockPos().getZ() + 0.5D) > 64.0D);
-        }
+    public ItemStack quickMoveStack(Player player, int index) {
+        // TODO: learwin, pls fix
+        // boxes go in slot 0
+        // speed upgrades in slot 1
+        // rest goes in slots 2 -> 16
+        return ItemStack.EMPTY;
     }
 }

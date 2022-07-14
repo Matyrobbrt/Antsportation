@@ -10,12 +10,12 @@ public record ServerConfig(Boxing boxing) {
     public static final ForgeConfigSpec SPEC;
     static {
         final var builder = new ForgeConfigSpec.Builder();
-        builder.comment("Configuration for boxing / unboxing")
+        builder.comment("Configuration for boxing / unboxing", "Note: boxing machines refers to boxers / unboxers")
                 .push("boxing");
         final Boxing boxing;
         {
             boxing = new Boxing(
-                    builder.comment("If boxing / unboxing machine should use energy (Forge Energy)")
+                    builder.comment("If boxing machines should use energy (Forge Energy)")
                             .define("useEnergy", true),
                     builder.comment("The amount of energy boxing machines can store.")
                             .defineInRange("energyCapacity", 100_000, 1, Integer.MAX_VALUE),

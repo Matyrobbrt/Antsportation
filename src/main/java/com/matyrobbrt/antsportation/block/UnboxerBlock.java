@@ -1,7 +1,7 @@
 package com.matyrobbrt.antsportation.block;
 
 import com.matyrobbrt.antsportation.Antsportation;
-import com.matyrobbrt.antsportation.block.entity.boxing.BoxerBE;
+import com.matyrobbrt.antsportation.block.entity.boxing.UnboxerBE;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.HasRecipe;
 import net.minecraft.core.BlockPos;
@@ -27,28 +27,28 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public class BoxerBlock extends BaseEntityBlock implements HasRecipe {
-    public BoxerBlock(Properties props) {
+public class UnboxerBlock extends BaseEntityBlock implements HasRecipe {
+    public UnboxerBlock(Properties props) {
         super(props);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new BoxerBE(pPos, pState);
+        return new UnboxerBE(pPos, pState);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide() ? null : (pLevel1, pPos, pState1, pBlockEntity) -> ((BoxerBE) pBlockEntity).tick();
+        return pLevel.isClientSide() ? null : (pLevel1, pPos, pState1, pBlockEntity) -> ((UnboxerBE) pBlockEntity).tick();
     }
 
     @Override
     @NotNull
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
-            if (pLevel.getBlockEntity(pPos) instanceof BoxerBE boxer && pPlayer instanceof ServerPlayer serverPlayer) {
+            if (pLevel.getBlockEntity(pPos) instanceof UnboxerBE boxer && pPlayer instanceof ServerPlayer serverPlayer) {
                 NetworkHooks.openGui(serverPlayer, boxer, pPos);
             }
         }
@@ -57,7 +57,7 @@ public class BoxerBlock extends BaseEntityBlock implements HasRecipe {
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        if (pLevel.getBlockEntity(pPos) instanceof BoxerBE boxer) {
+        if (pLevel.getBlockEntity(pPos) instanceof UnboxerBE boxer) {
             boxer.dropContents();
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
@@ -71,8 +71,8 @@ public class BoxerBlock extends BaseEntityBlock implements HasRecipe {
     @Override
     public void generateRecipes(DatagenHelper helper) {
         helper.emptyNBT(this)
-                .setEmptyNBTSlots(3, 4, 5)
-                .pattern("C", "B", "C")
+                .setEmptyNBTSlots(1, 4, 7)
+                .pattern("CBC")
                 .define('C', Tags.Items.CHESTS)
                 .define('B', TagKey.create(Registry.ITEM_REGISTRY, Antsportation.rl("boxes")));
     }

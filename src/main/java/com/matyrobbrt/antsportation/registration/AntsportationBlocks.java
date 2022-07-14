@@ -1,11 +1,17 @@
 package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
-import com.matyrobbrt.antsportation.block.*;
+import com.matyrobbrt.antsportation.block.AntHillBlock;
+import com.matyrobbrt.antsportation.block.AntJarBlock;
+import com.matyrobbrt.antsportation.block.AntNestBlock;
+import com.matyrobbrt.antsportation.block.BoxerBlock;
+import com.matyrobbrt.antsportation.block.MarkerBlock;
+import com.matyrobbrt.antsportation.block.UnboxerBlock;
 import com.matyrobbrt.antsportation.block.entity.AntHillBE;
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
-import com.matyrobbrt.antsportation.block.entity.BoxerBE;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
+import com.matyrobbrt.antsportation.block.entity.boxing.BoxerBE;
+import com.matyrobbrt.antsportation.block.entity.boxing.UnboxerBE;
 import net.minecraft.core.Registry;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -34,6 +40,10 @@ public class AntsportationBlocks {
             .color(MaterialColor.COLOR_BLACK)
             .strength(5.0f)
     ));
+    public static final RegistryObject<UnboxerBlock> UNBOXER = registerWithItem("unboxer", Mineable.PICKAXE, ToolTier.IRON, () -> new UnboxerBlock(BlockBehaviour.Properties.of(Material.METAL)
+            .color(MaterialColor.COLOR_BLACK)
+            .strength(5.0f)
+    ));
     public static final RegistryObject<AntNestBlock> ANT_NEST = registerWithItem("ant_nest",Mineable.SHOVEL,ToolTier.WOODEN, ()-> new AntNestBlock(BlockBehaviour.Properties.of(Material.DIRT)
             .color(MaterialColor.COLOR_BROWN)
             .strength(1.0f)
@@ -47,6 +57,8 @@ public class AntsportationBlocks {
     public static final RegistryObject<MarkerBlock> MARKER = register("marker", Mineable.SHOVEL, ToolTier.WOODEN, MarkerBlock::new);
     public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () ->
             BlockEntityType.Builder.of(BoxerBE::new, BOXER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<UnboxerBE>> UNBOXER_BE = BLOCK_ENTITIES.register("unboxer", () ->
+            BlockEntityType.Builder.of(UnboxerBE::new, UNBOXER.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<AntNestBE>> ANT_NEST_BE = BLOCK_ENTITIES.register("ant_nest", () ->
             BlockEntityType.Builder.of(AntNestBE::new, ANT_NEST.get()).build(null));

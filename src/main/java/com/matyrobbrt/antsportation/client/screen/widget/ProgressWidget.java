@@ -19,13 +19,14 @@ public record ProgressWidget(int x, int y, IntSupplier progress, boolean flipped
 
     private void renderFlipped(PoseStack pPoseStack) {
         final int progress = progress().getAsInt();
+//        final int remaining = MAX_PROGRESS - progress;
+//        for (int i = 0; i < remaining; i++) {
+//            Screen.blit(pPoseStack, x + i, y, 0, 47 - MAX_PROGRESS + i, 1, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
+//        }
+        Screen.blit(pPoseStack, x, y, 24, 31, MAX_PROGRESS, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
         for (int i = 0; i < progress; i++) {
             final int relative = (MAX_PROGRESS - i);
-            Screen.blit(pPoseStack, x + relative, y, 0, 47 - i, 1, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
-        }
-        final int remaining = MAX_PROGRESS - progress;
-        for (int i = 0; i < remaining; i++) {
-            Screen.blit(pPoseStack, x + i, y, 0, 47 - MAX_PROGRESS + i, 1, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
+            Screen.blit(pPoseStack, x + relative, y, 47 - i, 0, 1, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
         }
     }
     private void renderNormal(PoseStack pPoseStack) {
