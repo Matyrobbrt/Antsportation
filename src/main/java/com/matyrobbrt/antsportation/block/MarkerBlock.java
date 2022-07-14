@@ -3,6 +3,7 @@ package com.matyrobbrt.antsportation.block;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -90,7 +91,7 @@ public class MarkerBlock extends BaseEntityBlock {
                     var currentBlockColored = coloredCheck(pContext.getLevel(), pContext.getClickedPos());
                     var otherBlockColored = coloredCheck(pContext.getLevel(), relative);
                     if (currentBlockColored != otherBlockColored) {
-                        if (connectsTo(relative, pContext.getLevel())) {
+                        if (connectsTo(relative, pContext.getLevel(), direction)) {
                             var relativeDir = getRelativeDir(direction, dir);
                             var pProperty = PROPERTY_BY_DIRECTION.get(relativeDir);
                             toggleDirs.add(pProperty);
@@ -126,8 +127,8 @@ public class MarkerBlock extends BaseEntityBlock {
         if (pDirection != pState.getValue(FACING) && pDirection != pState.getValue(FACING).getOpposite()) {
             var relativeDir = getRelativeDir(pState.getValue(FACING), pDirection);
             var pValue = false;
-            if (currentBlockColored != otherBlockColored) {
-                pValue = coloredCheck(pLevel, pNeighborPos);
+            if (pLevel.getBlockState(pNeighborPos).hasProperty(FACING)) {
+                pValue = currentBlockColored != otherBlockColored && pState.getValue(FACING) == pLevel.getBlockState(pNeighborPos).getValue(FACING);
             }
             return !canSurvive(pState, pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState() : pState.setValue(PROPERTY_BY_DIRECTION.get(relativeDir), pValue);
         }
@@ -135,17 +136,17 @@ public class MarkerBlock extends BaseEntityBlock {
     }
 
     private boolean coloredCheck(LevelAccessor pLevel, BlockPos blockPos) {
-        BlockEntity blockEntityCurrent = pLevel.getBlockEntity(blockPos);
-        boolean colored = false;
+        var blockEntityCurrent = pLevel.getBlockEntity(blockPos);
+        var colored = false;
         if (blockEntityCurrent instanceof MarkerBE markerBECurrent) {
             colored = markerBECurrent.isColored();
         }
         return colored;
     }
 
-    public boolean connectsTo(BlockPos pos, BlockGetter level) {
+    public boolean connectsTo(BlockPos pos, BlockGetter level, Direction direction) {
         var tile = level.getBlockEntity(pos);
-        return tile instanceof MarkerBE;
+        return tile instanceof MarkerBE && level.getBlockState(pos).getValue(FACING) == direction;
     }
 
     @Override

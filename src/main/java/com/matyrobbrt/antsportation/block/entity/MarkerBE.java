@@ -17,6 +17,7 @@ public class MarkerBE extends BlockEntity {
     private DyeColor color = DyeColor.WHITE;
     private static final String SUGAR_NBT_KEY = "sugar_amount";
     private static final String COLOR_NBT_KEY = "dye_color";
+
     public MarkerBE(BlockPos pWorldPosition, BlockState pBlockState) {
         super(AntsportationBlocks.MARKER_BE.get(), pWorldPosition, pBlockState);
     }
@@ -31,6 +32,8 @@ public class MarkerBE extends BlockEntity {
         }
         sugarAmount += 1;
         setChanged();
+        level.blockUpdated(getBlockPos(), getBlockState().getBlock());
+        level.setBlockAndUpdate(getBlockPos(), getBlockState());
         level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
         return true;
     }
@@ -42,11 +45,13 @@ public class MarkerBE extends BlockEntity {
     public void setColor(DyeColor color) {
         this.color = color;
         setChanged();
+        level.blockUpdated(getBlockPos(), getBlockState().getBlock());
+        level.setBlockAndUpdate(getBlockPos(), getBlockState());
         level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
     }
 
     public boolean isColored() {
-        return color!=DyeColor.WHITE;
+        return color != DyeColor.WHITE;
     }
 
     @Override
