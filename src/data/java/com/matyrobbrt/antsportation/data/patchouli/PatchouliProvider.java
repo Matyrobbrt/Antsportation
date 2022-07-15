@@ -22,8 +22,11 @@ import java.util.function.Supplier;
 @ParametersAreNonnullByDefault
 @SuppressWarnings("SameParameterValue")
 public class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliProvider {
+    public final EnUdProvider enUd;
+
     public PatchouliProvider(DataGenerator generator) {
         super(generator, Antsportation.MOD_ID, "en_us", Antsportation.MOD_ID);
+        this.enUd = new EnUdProvider(this, generator);
     }
 
     @PatchouliBookGen
@@ -70,5 +73,4 @@ public class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.Patc
         }
         return builder.toString();
     }
-
 }

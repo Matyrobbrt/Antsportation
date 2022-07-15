@@ -11,6 +11,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.data.LanguageProvider;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 import java.util.Locale;
@@ -93,7 +94,9 @@ public class Lang extends LanguageProvider {
             /*  numbers  */ "0\u0196\u1105\u0190\u3123\u03DB9\u312586" +
             /*  special  */ "\u203E'\u061B\u02D9\u00BF\u00A1/\\,";
 
-    private String toUpsideDown(String normal) {
+    public static String toUpsideDown(@Nullable String normal) {
+        if (normal == null)
+            return null;
         char[] ud = new char[normal.length()];
         for (int i = 0; i < normal.length(); i++) {
             char c = normal.charAt(i);

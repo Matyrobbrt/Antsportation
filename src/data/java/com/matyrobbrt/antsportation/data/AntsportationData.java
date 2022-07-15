@@ -28,7 +28,9 @@ public class AntsportationData {
             gen.addProvider(new Models(gen, existingFileHelper));
             gen.addProvider(new Sounds(gen, existingFileHelper));
 
-            gen.addProvider(new PatchouliProvider(gen));
+            final var patchouli = new PatchouliProvider(gen);
+            gen.addProvider(patchouli);
+            gen.addProvider(patchouli.enUd);
         }
         if (event.includeServer()) {
             gen.addProvider(new Recipes(gen));

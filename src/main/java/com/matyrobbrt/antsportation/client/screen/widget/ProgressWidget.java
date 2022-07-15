@@ -25,7 +25,7 @@ public record ProgressWidget(int x, int y, IntSupplier progress, boolean flipped
         Screen.blit(pPoseStack, x, y, 24, 31, MAX_PROGRESS, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
         for (int i = 0; i < progress; i++) {
             final int relative = (MAX_PROGRESS - i);
-            Screen.blit(pPoseStack, x + relative, y, 48 - i, 0, 1, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
+            Screen.blit(pPoseStack, x + relative, y, 47 - i, 0, 1, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
         }
     }
     public static void renderNormal(int progress, int x, int y, PoseStack pPoseStack) {
