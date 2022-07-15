@@ -1,7 +1,7 @@
 package com.matyrobbrt.antsportation.data.server;
 
 import com.matyrobbrt.antsportation.data.DatagenHelper;
-import com.matyrobbrt.antsportation.data.DatagenHelperImpl;
+import com.matyrobbrt.antsportation.data.util.DatagenHelperImpl;
 import com.matyrobbrt.antsportation.data.HasRecipe;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;

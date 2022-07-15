@@ -6,6 +6,7 @@ import com.matyrobbrt.antsportation.data.client.Models;
 import com.matyrobbrt.antsportation.data.client.Sounds;
 import com.matyrobbrt.antsportation.data.loot.LootProvider;
 import com.matyrobbrt.antsportation.data.patchouli.PatchouliProvider;
+import com.matyrobbrt.antsportation.data.server.OneTimeJoins;
 import com.matyrobbrt.antsportation.data.server.Recipes;
 import com.matyrobbrt.antsportation.data.server.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -39,6 +40,8 @@ public class AntsportationData {
             final var blocks = new Tags.Blocks(gen, existingFileHelper);
             gen.addProvider(new Tags.Items(gen, blocks, existingFileHelper));
             gen.addProvider(blocks);
+
+            gen.addProvider(new OneTimeJoins(gen, existingFileHelper));
         }
     }
 }

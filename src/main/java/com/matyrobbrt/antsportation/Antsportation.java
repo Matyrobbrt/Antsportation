@@ -4,6 +4,9 @@ import com.matyrobbrt.antsportation.compat.AntsportationCompat;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
+import com.matyrobbrt.antsportation.onetimejoin.OneTimeRewardCap;
+import com.matyrobbrt.antsportation.onetimejoin.OneTimeReward;
+import com.matyrobbrt.antsportation.onetimejoin.OneTimeRewardListener;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationConfiguredFeatures;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
@@ -18,6 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -49,15 +54,18 @@ public class Antsportation {
         AntsportationSounds.SOUNDS.register(bus);
         AntsportationConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
         AntsportationPlacedFeatures.PLACED_FEATURES.register(bus);
+        OneTimeReward.ONE_TIME_REWARDS.register(bus);
 
         bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
         bus.addListener(Antsportation::entityAttributeEvent);
+        bus.addListener((final RegisterCapabilitiesEvent event) -> event.register(OneTimeRewardCap.class));
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, MOD_ID + "-server.toml");
 
         LOGGER.debug("Antsportation initialized");
 
         AntsportationCompat.init(bus);
+        MinecraftForge.EVENT_BUS.register(OneTimeRewardListener.class);
     }
 
     private static void entityAttributeEvent(EntityAttributeCreationEvent event) {

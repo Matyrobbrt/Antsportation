@@ -1,5 +1,8 @@
-package com.matyrobbrt.antsportation.data;
+package com.matyrobbrt.antsportation.data.util;
 
+import com.matyrobbrt.antsportation.data.DatagenHelper;
+import com.matyrobbrt.antsportation.data.EmptyNBTRequiredRecipe;
+import com.matyrobbrt.antsportation.data.ShapedRecipe;
 import com.matyrobbrt.antsportation.data.builder.AntsportationRecipeBuilder;
 import com.matyrobbrt.antsportation.data.builder.EmptyNBTRequiredRecipeBuilder;
 import com.matyrobbrt.antsportation.data.builder.ExtendedShapedRecipeBuilder;
