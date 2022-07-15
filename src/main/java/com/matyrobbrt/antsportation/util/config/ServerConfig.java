@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation.util.config;
 
+import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
@@ -46,7 +47,11 @@ public record ServerConfig(Boxing boxing) {
         BY_PATH = builder.getByPath();
     }
     public record Boxing(ForgeConfigSpec.BooleanValue useEnergy, IntValue energyCapacity, IntValue upgradeReduction, IntValue upgradeEnergyUsage,
-                         IntValue baseNeededTicks, IntValue baseUsedEnergy) {}
+                         IntValue baseNeededTicks, IntValue baseUsedEnergy) {
+        public int getIORate() {
+            return (int) ((AntsportationItems.SPEED_UPGRADE.get().getDefaultInstance().getMaxStackSize() * upgradeEnergyUsage.get()) * 1.50);
+        }
+    }
 
     public static int getBoxing(Function<Boxing, IntValue> getter) {
         return getter.apply(CONFIG.boxing()).get();

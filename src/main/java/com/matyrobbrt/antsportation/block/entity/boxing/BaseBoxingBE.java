@@ -34,7 +34,7 @@ public abstract class BaseBoxingBE extends BlockEntity implements TOPInfoDriver 
     }
 
     public final EnergyStorage energy = new EnergyStorage(ServerConfig.CONFIG.boxing().energyCapacity().get(), 10 * (ServerConfig.CONFIG.boxing().baseUsedEnergy().get() +
-            AntsportationItems.SPEED_UPGRADE.get().getDefaultInstance().getMaxStackSize() * ServerConfig.CONFIG.boxing().upgradeEnergyUsage().get()), 0) {
+           ServerConfig.CONFIG.boxing().getIORate()), 0) {
         @Override
         public void onChanged() {
             BaseBoxingBE.this.setChanged();

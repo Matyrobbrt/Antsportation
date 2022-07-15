@@ -25,6 +25,7 @@ public class PatchouliCompat {
             }
             return val.toString();
         });
+        PatchouliAPI.get().registerCommand("antsportation_boxing_io", (style) -> Utils.getCompressedCount(ServerConfig.CONFIG.boxing().getIORate()));
     }
 
     public static ItemStack getBook() {

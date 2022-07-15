@@ -6,6 +6,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.lib.datagen.patchouli.page.CraftingRecipePage;
 import com.matyrobbrt.lib.datagen.patchouli.page.SpotlightPage;
+import com.matyrobbrt.lib.datagen.patchouli.page.TextPage;
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliBook;
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliCategory;
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliEntry;
@@ -39,6 +40,7 @@ public class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.Patc
             .addDefaultMacros()
             .addMacro(new PatchouliMacro("$(scfg/", "$(antsportationconfig.server:"))
             .addMacro(new PatchouliMacro("<gold>", "$(#FFAA00)"))
+            .addMacro(new PatchouliMacro("<aqua>", "$(#55FFFF)"))
             .setHeaderColor("FF0000");
 
     @PatchouliCategoryGen
@@ -54,6 +56,29 @@ public class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.Patc
                         "\u2022 <gold>Process duration decrease per upgrade</>: $(scfg/boxing.upgradeReduction) ticks"
                 )))
                 .addPage(getCraftingRecipe(AntsportationItems.SPEED_UPGRADE)));
+        entries.add(entry(MACHINES_CATEGORY, "Boxer", AntsportationBlocks.BOXER)
+                .addPage(new SpotlightPage(AntsportationBlocks.BOXER.get(), multiline(
+                        "<item>Boxers</> are special machines which pack item into boxes.",
+                        "Items are inserted into <item>Boxes</> from the top, and boxes can be extracted from the bottom. By default, the box will be locked into its slot, preventing extraction. That behaviour can be customized in the Configuration menu, accessible via the C button in the top right corner of the Boxer."
+                )))
+                .addPage(new TextPage("Stats", multiline(
+                        statsEntry("Uses energy", "boxing.useEnergy"),
+                        statsEntry("Energy Capacity", "boxing.energyCapacity"),
+                        "\u2022 <gold>Energy I/O rate</>: $(antsportation_boxing_io)",
+                        statsEntry("Ticks per operation", "boxing.baseNeededTicks"),
+                        "\u2022 <gold>Base energy usage</>: $(scfg/boxing.baseUsedEnergy) FE"
+                )))
+                .addPage(new TextPage("Configuration", multiline(
+                        "\u2022 <aqua>Content-based ejection</>:",
+                        "The percentage a box needs to be filled in order to allow extraction. <gold>0</> disables this functionality.<br>",
+                        "\u2022 <aqua>Redstone-based ejection</>:",
+                        "Decides when box extraction should be allowed, based on redstone signal."
+                )))
+                .addPage(getCraftingRecipe(AntsportationBlocks.BOXER)));
+    }
+
+    private static String statsEntry(String name, String config) {
+        return "\u2022 <gold>%s</>: $(scfg/%s)".formatted(name, config);
     }
 
     private static PatchouliEntry entry(PatchouliCategory category, String displayName, Supplier<? extends ItemLike> item) {

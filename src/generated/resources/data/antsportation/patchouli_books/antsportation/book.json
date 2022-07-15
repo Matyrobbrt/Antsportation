@@ -17,6 +17,7 @@
     "<item>": "$(item)",
     "<player>": "$(playername)",
     "$(scfg/": "$(antsportationconfig.server:",
-    "<gold>": "$(#FFAA00)"
+    "<gold>": "$(#FFAA00)",
+    "<aqua>": "$(#55FFFF)"
   }
 }

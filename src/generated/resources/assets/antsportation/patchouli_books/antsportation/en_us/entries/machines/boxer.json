@@ -1,0 +1,26 @@
+{
+  "name": "Boxer",
+  "category": "antsportation:machines",
+  "icon": "antsportation:boxer",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:boxer",
+      "text": "<item>Boxers</> are special machines which pack item into boxes.<br>Items are inserted into <item>Boxes</> from the top, and boxes can be extracted from the bottom. By default, the box will be locked into its slot, preventing extraction. That behaviour can be customized in the Configuration menu, accessible via the C button in the top right corner of the Boxer."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "• <gold>Uses energy</>: $(scfg/boxing.useEnergy)<br>• <gold>Energy Capacity</>: $(scfg/boxing.energyCapacity)<br>• <gold>Energy I/O rate</>: $(antsportation_boxing_io)<br>• <gold>Ticks per operation</>: $(scfg/boxing.baseNeededTicks)<br>• <gold>Base energy usage</>: $(scfg/boxing.baseUsedEnergy) FE",
+      "title": "Stats"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "• <aqua>Content-based ejection</>:<br>The percentage a box needs to be filled in order to allow extraction. <gold>0</> disables this functionality.<br><br>• <aqua>Redstone-based ejection</>:<br>Decides when box extraction should be allowed, based on redstone signal.",
+      "title": "Configuration"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "antsportation:boxer"
+    }
+  ]
+}
