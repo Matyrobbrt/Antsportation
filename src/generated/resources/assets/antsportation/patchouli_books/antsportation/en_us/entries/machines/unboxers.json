@@ -1,0 +1,21 @@
+{
+  "name": "Unboxers",
+  "category": "antsportation:machines",
+  "icon": "antsportation:unboxer",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:unboxer",
+      "text": "<item>Unboxers</> are special machines which unpack item from boxes.<br>Boxes can be inserted from any side, and the extracted items can be extracted from any side as well.<br>A box will be locked in the Unboxer until it is fully emptied, at which point, extraction will be allowed."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "• <gold>Uses energy</>: $(scfg/boxing.useEnergy)<br>• <gold>Energy Capacity</>: $(scfg/boxing.energyCapacity)<br>• <gold>Energy I/O rate</>: $(antsportation_boxing_io) FE / t<br>• <gold>Ticks per operation</>: $(scfg/boxing.baseNeededTicks)<br>• <gold>Base energy usage</>: $(scfg/boxing.baseUsedEnergy) FE / t",
+      "title": "Stats"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "antsportation:unboxer"
+    }
+  ]
+}

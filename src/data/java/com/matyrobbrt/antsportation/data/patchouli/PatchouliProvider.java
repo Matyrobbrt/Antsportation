@@ -16,6 +16,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Supplier;
@@ -41,6 +42,7 @@ public class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.Patc
             .addMacro(new PatchouliMacro("$(scfg/", "$(antsportationconfig.server:"))
             .addMacro(new PatchouliMacro("<gold>", "$(#FFAA00)"))
             .addMacro(new PatchouliMacro("<aqua>", "$(#55FFFF)"))
+            .addMacro(new PatchouliMacro("<blue>", "$(#5555FF)"))
             .setHeaderColor("FF0000");
 
     @PatchouliCategoryGen
@@ -56,29 +58,47 @@ public class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.Patc
                         "\u2022 <gold>Process duration decrease per upgrade</>: $(scfg/boxing.upgradeReduction) ticks"
                 )))
                 .addPage(getCraftingRecipe(AntsportationItems.SPEED_UPGRADE)));
+
+        final var boxingStatsPage = new TextPage("Stats", multiline(
+                statsEntry("Uses energy", "boxing.useEnergy"),
+                statsEntry("Energy Capacity", "boxing.energyCapacity"),
+                "\u2022 <gold>Energy I/O rate</>: $(antsportation_boxing_io) FE / t",
+                statsEntry("Ticks per operation", "boxing.baseNeededTicks"),
+                statsEntry("Base energy usage", "boxing.baseUsedEnergy", "FE / t")
+        ));
         entries.add(entry(MACHINES_CATEGORY, "Boxer", AntsportationBlocks.BOXER)
                 .addPage(new SpotlightPage(AntsportationBlocks.BOXER.get(), multiline(
                         "<item>Boxers</> are special machines which pack item into boxes.",
                         "Items are inserted into <item>Boxes</> from the top, and boxes can be extracted from the bottom. By default, the box will be locked into its slot, preventing extraction. That behaviour can be customized in the Configuration menu, accessible via the C button in the top right corner of the Boxer."
                 )))
-                .addPage(new TextPage("Stats", multiline(
-                        statsEntry("Uses energy", "boxing.useEnergy"),
-                        statsEntry("Energy Capacity", "boxing.energyCapacity"),
-                        "\u2022 <gold>Energy I/O rate</>: $(antsportation_boxing_io)",
-                        statsEntry("Ticks per operation", "boxing.baseNeededTicks"),
-                        "\u2022 <gold>Base energy usage</>: $(scfg/boxing.baseUsedEnergy) FE"
-                )))
+                .addPage(boxingStatsPage)
                 .addPage(new TextPage("Configuration", multiline(
-                        "\u2022 <aqua>Content-based ejection</>:",
+                        "\u2022 <blue>Content-based ejection</>:",
                         "The percentage a box needs to be filled in order to allow extraction. <gold>0</> disables this functionality.<br>",
-                        "\u2022 <aqua>Redstone-based ejection</>:",
-                        "Decides when box extraction should be allowed, based on redstone signal."
+                        "\u2022 <blue>Redstone-based ejection</>:",
+                        "Decides when box extraction should be allowed, based on redstone signal.",
+                        "Use <gold>DISABLED</> in order to keep the box locked until the ejection percent is hit."
                 )))
                 .addPage(getCraftingRecipe(AntsportationBlocks.BOXER)));
+        entries.add(entry(MACHINES_CATEGORY, "Unboxers", AntsportationBlocks.UNBOXER)
+                .addPage(new SpotlightPage(AntsportationBlocks.UNBOXER.get(), multiline(
+                        "<item>Unboxers</> are special machines which unpack item from boxes.",
+                        "Boxes can be inserted from any side, and the extracted items can be extracted from any side as well.",
+                        "A box will be locked in the Unboxer until it is fully emptied, at which point, extraction will be allowed."
+                )))
+                .addPage(boxingStatsPage)
+                .addPage(getCraftingRecipe(AntsportationBlocks.UNBOXER)));
     }
 
     private static String statsEntry(String name, String config) {
-        return "\u2022 <gold>%s</>: $(scfg/%s)".formatted(name, config);
+        return statsEntry(name, config, null);
+    }
+
+    private static String statsEntry(String name, String config, @Nullable String extraInfo) {
+        final var str = "\u2022 <gold>%s</>: $(scfg/%s)".formatted(name, config);
+        if (extraInfo == null)
+            return str;
+        return str + " " + extraInfo;
     }
 
     private static PatchouliEntry entry(PatchouliCategory category, String displayName, Supplier<? extends ItemLike> item) {

@@ -10,12 +10,12 @@
     },
     {
       "type": "patchouli:text",
-      "text": "• <gold>Uses energy</>: $(scfg/boxing.useEnergy)<br>• <gold>Energy Capacity</>: $(scfg/boxing.energyCapacity)<br>• <gold>Energy I/O rate</>: $(antsportation_boxing_io)<br>• <gold>Ticks per operation</>: $(scfg/boxing.baseNeededTicks)<br>• <gold>Base energy usage</>: $(scfg/boxing.baseUsedEnergy) FE",
+      "text": "• <gold>Uses energy</>: $(scfg/boxing.useEnergy)<br>• <gold>Energy Capacity</>: $(scfg/boxing.energyCapacity)<br>• <gold>Energy I/O rate</>: $(antsportation_boxing_io) FE / t<br>• <gold>Ticks per operation</>: $(scfg/boxing.baseNeededTicks)<br>• <gold>Base energy usage</>: $(scfg/boxing.baseUsedEnergy) FE / t",
       "title": "Stats"
     },
     {
       "type": "patchouli:text",
-      "text": "• <aqua>Content-based ejection</>:<br>The percentage a box needs to be filled in order to allow extraction. <gold>0</> disables this functionality.<br><br>• <aqua>Redstone-based ejection</>:<br>Decides when box extraction should be allowed, based on redstone signal.",
+      "text": "• <blue>Content-based ejection</>:<br>The percentage a box needs to be filled in order to allow extraction. <gold>0</> disables this functionality.<br><br>• <blue>Redstone-based ejection</>:<br>Decides when box extraction should be allowed, based on redstone signal.<br>Use <gold>DISABLED</> in order to keep the box locked until the ejection percent is hit.",
       "title": "Configuration"
     },
     {
