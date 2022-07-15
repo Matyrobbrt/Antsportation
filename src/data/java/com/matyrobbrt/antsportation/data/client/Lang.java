@@ -6,14 +6,12 @@ import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.HashCache;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.data.LanguageProvider;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.io.IOException;
 import java.util.Locale;
 import java.util.stream.Stream;
 
@@ -62,12 +60,6 @@ public class Lang extends LanguageProvider {
         });
 
         add(((TranslatableComponent) Antsportation.TAB.getDisplayName()).getKey(), "Antsportation");
-    }
-
-    @Override
-    public void run(@NotNull HashCache cache) throws IOException {
-        super.run(cache);
-        enUd.run(cache);
     }
 
     private static String capitalize(String str) {

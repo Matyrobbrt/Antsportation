@@ -12,6 +12,14 @@ public interface DatagenHelper {
         return shaped(result, 1);
     }
 
+    ShapelessRecipe shapeless(ItemStack result);
+    default ShapelessRecipe shapeless(ItemLike result, int count) {
+        return shapeless(new ItemStack(result, count));
+    }
+    default ShapelessRecipe shapeless(ItemLike result) {
+        return shapeless(result, 1);
+    }
+
     EmptyNBTRequiredRecipe emptyNBT(ItemStack result);
     default EmptyNBTRequiredRecipe emptyNBT(ItemLike result, int count) {
         return emptyNBT(new ItemStack(result, count));

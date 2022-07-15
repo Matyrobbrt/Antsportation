@@ -3,6 +3,7 @@ package com.matyrobbrt.antsportation.data.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.compat.patchouli.PatchouliCompat;
 import com.matyrobbrt.antsportation.onetimejoin.OneTimeReward;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
@@ -14,7 +15,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.slf4j.Logger;
-import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.function.BiConsumer;
 
@@ -32,7 +32,7 @@ public class OneTimeJoins implements DataProvider {
 
     private void addEntries(BiConsumer<ResourceLocation, OneTimeReward> consumer) {
         consumer.accept(Antsportation.rl("guide_book"), new OneTimeReward("patchouli",
-                PatchouliAPI.get().getBookStack(Antsportation.rl(Antsportation.MOD_ID))));
+                PatchouliCompat.getBook()));
     }
 
     @Override

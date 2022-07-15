@@ -3,9 +3,11 @@ package com.matyrobbrt.antsportation.data.util;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.EmptyNBTRequiredRecipe;
 import com.matyrobbrt.antsportation.data.ShapedRecipe;
+import com.matyrobbrt.antsportation.data.ShapelessRecipe;
 import com.matyrobbrt.antsportation.data.builder.AntsportationRecipeBuilder;
 import com.matyrobbrt.antsportation.data.builder.EmptyNBTRequiredRecipeBuilder;
 import com.matyrobbrt.antsportation.data.builder.ExtendedShapedRecipeBuilder;
+import com.matyrobbrt.antsportation.data.builder.ExtendedShapelessRecipeBuilder;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 
@@ -30,5 +32,10 @@ public class DatagenHelperImpl implements DatagenHelper {
     @Override
     public EmptyNBTRequiredRecipe emptyNBT(ItemStack result) {
         return create(new EmptyNBTRequiredRecipeBuilder(result));
+    }
+
+    @Override
+    public ShapelessRecipe shapeless(ItemStack result) {
+        return create(new ExtendedShapelessRecipeBuilder(result));
     }
 }
