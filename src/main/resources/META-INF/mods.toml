@@ -9,3 +9,35 @@ displayName = "Antsportation"
 description = '''
     An item transportation mod
     '''
+[[dependencies.antsportation]]
+modId="forge"
+mandatory=true
+versionRange="[${forge_ver},)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.antsportation]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.18.2,1.19)"
+ordering="NONE"
+side="BOTH"
+
+# Mod deps
+[[dependencies.antsportation]]
+modId="jei"
+mandatory=false
+versionRange="[${jei_ver},)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.antsportation]]
+modId="theoneprobe"
+mandatory=false
+versionRange="[${top_ver},)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.antsportation]]
+modId="patchouli"
+mandatory=false
+versionRange="[${patchouli_ver},)"
+ordering="NONE"
+side="BOTH"

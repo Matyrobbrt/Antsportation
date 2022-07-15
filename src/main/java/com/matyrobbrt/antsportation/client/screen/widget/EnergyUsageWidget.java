@@ -15,7 +15,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.IntSupplier;
 
 @ParametersAreNonnullByDefault
-public record EnergyUsageWidget(int x, int y, BooleanSupplier enabled, IntSupplier storedAmount, IntSupplier maxAmount, Screen screen) implements Widget {
+public record EnergyUsageWidget(int x, int y, BooleanSupplier enabled, IntSupplier storedAmount, IntSupplier maxAmount) implements Widget {
     public static final ResourceLocation TEXTURE = Antsportation.rl("textures/widget/energy_bar.png");
 
     public static final int WIDTH = 90;
@@ -27,12 +27,16 @@ public record EnergyUsageWidget(int x, int y, BooleanSupplier enabled, IntSuppli
     public void render(PoseStack poseStack, int mouseX, int mouseY, float v) {
         if (!enabled.getAsBoolean())
             return;
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        Screen.blit(poseStack, x, y, 0, 0, WIDTH, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
-        Screen.blit(poseStack, x + 1, y + 1, 1, 10, getEnergyScaled(), 7, TEX_WIDTH, TEX_HEIGHT);
+        staticRender(poseStack, x, y, storedAmount.getAsInt(), maxAmount.getAsInt());
     }
 
-    public void attemptTooltipRender(PoseStack poseStack, int pMouseX, int pMouseY) {
+    public static void staticRender(PoseStack poseStack, int x, int y, int storedAmount, int maxAmount) {
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        Screen.blit(poseStack, x, y, 0, 0, WIDTH, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
+        Screen.blit(poseStack, x + 1, y + 1, 1, 10, getEnergyScaled(storedAmount, maxAmount), 7, TEX_WIDTH, TEX_HEIGHT);
+    }
+
+    public void attemptTooltipRender(PoseStack poseStack, int pMouseX, int pMouseY, Screen screen) {
         if (enabled.getAsBoolean() && pMouseX >= this.x && pMouseY >= this.y && pMouseX < (this.x + WIDTH) && pMouseY < (this.y + HEIGHT)) {
             screen.renderTooltip(poseStack, Translations.STORED_ENERGY.translate(
                     Utils.textComponent(Utils.getCompressedCount(storedAmount.getAsInt()), s -> s.withColor(ChatFormatting.GOLD)),
@@ -41,9 +45,9 @@ public record EnergyUsageWidget(int x, int y, BooleanSupplier enabled, IntSuppli
         }
     }
 
-    public int getEnergyScaled() {
-        return storedAmount.getAsInt() != 0 && maxAmount.getAsInt() != 0
-                ? storedAmount.getAsInt() * 88 / maxAmount.getAsInt()
+    public static int getEnergyScaled(int storedAmount, int maxAmount) {
+        return storedAmount != 0 && maxAmount != 0
+                ? storedAmount * 88 / maxAmount
                 : 0;
     }
 }

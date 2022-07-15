@@ -17,20 +17,18 @@ public record ProgressWidget(int x, int y, IntSupplier progress, boolean flipped
     public static final int TEX_HEIGHT = 48;
     public static final int TEX_WIDTH = 48;
 
-    private void renderFlipped(PoseStack pPoseStack) {
-        final int progress = progress().getAsInt();
-//        final int remaining = MAX_PROGRESS - progress;
-//        for (int i = 0; i < remaining; i++) {
-//            Screen.blit(pPoseStack, x + i, y, 0, 47 - MAX_PROGRESS + i, 1, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
-//        }
+    public static void bindTexture() {
+        RenderSystem.setShaderTexture(0, TEXTURE);
+    }
+
+    public static void renderFlipped(int progress, int x, int y, PoseStack pPoseStack) {
         Screen.blit(pPoseStack, x, y, 24, 31, MAX_PROGRESS, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
         for (int i = 0; i < progress; i++) {
             final int relative = (MAX_PROGRESS - i);
-            Screen.blit(pPoseStack, x + relative, y, 47 - i, 0, 1, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
+            Screen.blit(pPoseStack, x + relative, y, 48 - i, 0, 1, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
         }
     }
-    private void renderNormal(PoseStack pPoseStack) {
-        final int progress = progress().getAsInt();
+    public static void renderNormal(int progress, int x, int y, PoseStack pPoseStack) {
         final int remaining = MAX_PROGRESS - progress;
         if (remaining > 0)
             Screen.blit(pPoseStack, x + progress, y, progress, 31, remaining, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
@@ -40,11 +38,11 @@ public record ProgressWidget(int x, int y, IntSupplier progress, boolean flipped
 
     @Override
     public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        RenderSystem.setShaderTexture(0, TEXTURE);
+        bindTexture();
         if (flipped) {
-            renderFlipped(poseStack);
+            renderFlipped(progress.getAsInt(), x, y, poseStack);
         } else {
-            renderNormal(poseStack);
+            renderNormal(progress.getAsInt(), x, y, poseStack);
         }
     }
 }

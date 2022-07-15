@@ -150,9 +150,7 @@ public class BaseBoxingMenu<T extends BaseBoxingBE> extends AbstractContainerMen
     }
 
     public int getProgressionScaled() {
-        return tile.progress != 0 && tile.maxProgress != 0
-                ? tile.progress * 24 / tile.maxProgress
-                : 0;
+        return tile.getProgressionScaled();
     }
 
     @Override
@@ -162,11 +160,6 @@ public class BaseBoxingMenu<T extends BaseBoxingBE> extends AbstractContainerMen
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        // TODO: learwin, pls fix
-        // boxes go in slot 0
-        // speed upgrades in slot 1
-        // rest goes in slots 2 -> 16
-
         var itemstack = ItemStack.EMPTY;
         var slot = slots.get(index);
         if (slot.hasItem()) {

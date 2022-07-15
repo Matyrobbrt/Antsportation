@@ -127,4 +127,9 @@ public class UnboxerBE extends BaseBoxingBE implements MenuProvider {
     public AbstractContainerMenu createMenu(int pContainerId, net.minecraft.world.entity.player.Inventory pInventory, Player pPlayer) {
         return new UnboxerMenu(pContainerId, this, pInventory);
     }
+
+    @Override
+    protected boolean isReversed() {
+        return true;
+    }
 }

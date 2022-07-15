@@ -49,7 +49,7 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
             AntsportationNetwork.CHANNEL.sendToServer(new OpenTileContainerPacket(menu.tile.getBlockPos(), (byte) 1));
         }, (pButton, pPoseStack, pMouseX, pMouseY) -> renderTooltip(pPoseStack, Translations.CONFIGURATION.translate(), pMouseX, pMouseY)));
         addRenderableOnly(new ProgressWidget(this.leftPos + 101, this.topPos + 40, this.menu::getProgressionScaled, false));
-        energyUsageWidget = new EnergyUsageWidget(this.leftPos + 7, this.topPos + 75, ServerConfig.CONFIG.boxing().useEnergy()::get, menu.tile.energy::getEnergyStored, menu.tile.energy::getMaxEnergyStored, this);
+        energyUsageWidget = new EnergyUsageWidget(this.leftPos + 7, this.topPos + 75, ServerConfig.CONFIG.boxing().useEnergy()::get, menu.tile.energy::getEnergyStored, menu.tile.energy::getMaxEnergyStored);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
         renderTooltip(pPoseStack, pMouseX, pMouseY);
-        energyUsageWidget.attemptTooltipRender(pPoseStack, pMouseX, pMouseY);
+        energyUsageWidget.attemptTooltipRender(pPoseStack, pMouseX, pMouseY, this);
 
         final var tooltipChild = getChildAt(pMouseX, pMouseY);
         if (tooltipChild.isPresent() && tooltipChild.get() instanceof AbstractWidget wid) {

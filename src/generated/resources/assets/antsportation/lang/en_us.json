@@ -25,7 +25,7 @@
   "item.antsportation.soldier_ant_spawn_egg": "Soldier Ant Spawn Egg",
   "item.antsportation.speed_upgrade": "Speed Upgrade",
   "itemGroup.antsportation": "Antsportation",
-  "patchouli.antsportation.landing_text": "$(#800080)Welcome to Antsportation, $(playername)! $(br2)This book will guide you through the mod and show you how to use ants to make cool item transportation systems!",
+  "patchouli.antsportation.landing_text": "$(#800080)Welcome to Antsportation, <player>! <br2>This book will guide you through the mod and show you how to use ants to make cool item transportation systems!",
   "redstone.antsportation.disabled": "Disabled",
   "redstone.antsportation.high": "High",
   "redstone.antsportation.low": "Low",

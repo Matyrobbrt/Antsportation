@@ -26,7 +26,7 @@ public class UnboxerScreen extends BaseContainerScreen<UnboxerMenu> {
     protected void init() {
         super.init();
         addRenderableOnly(new ProgressWidget(this.leftPos + 101, this.topPos + 40, this.menu::getProgressionScaled, true));
-        energyUsageWidget = new EnergyUsageWidget(this.leftPos + 7, this.topPos + 75, ServerConfig.CONFIG.boxing().useEnergy()::get, menu.tile.energy::getEnergyStored, menu.tile.energy::getMaxEnergyStored, this);
+        energyUsageWidget = new EnergyUsageWidget(this.leftPos + 7, this.topPos + 75, ServerConfig.CONFIG.boxing().useEnergy()::get, menu.tile.energy::getEnergyStored, menu.tile.energy::getMaxEnergyStored);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UnboxerScreen extends BaseContainerScreen<UnboxerMenu> {
     public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
         renderTooltip(pPoseStack, pMouseX, pMouseY);
-        energyUsageWidget.attemptTooltipRender(pPoseStack, pMouseX, pMouseY);
+        energyUsageWidget.attemptTooltipRender(pPoseStack, pMouseX, pMouseY, this);
     }
 
 }

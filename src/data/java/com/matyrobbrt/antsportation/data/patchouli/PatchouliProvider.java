@@ -35,6 +35,7 @@ public class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.Patc
             .setVersion(1)
             .addDefaultMacros()
             .addMacro(new PatchouliMacro("$(scfg/", "$(antsportationconfig.server:"))
+            .addMacro(new PatchouliMacro("<gold>", "$(#FFAA00)"))
             .setHeaderColor("FF0000");
 
     @PatchouliCategoryGen
@@ -43,16 +44,31 @@ public class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.Patc
     @Override
     public void addEntries() {
         entries.add(entry(MACHINES_CATEGORY, "Speed Upgrade", AntsportationItems.SPEED_UPGRADE)
-                .addPage(new SpotlightPage(AntsportationItems.SPEED_UPGRADE.get(), "<item>Speed Upgrades</> can be put in boxing machines (<item>Boxers</> or <item>Unboxers</>) in order to make them faster at the cost of energy usage."))
+                .addPage(new SpotlightPage(AntsportationItems.SPEED_UPGRADE.get(), multiline(
+                        "<item>Speed Upgrades</> can be put in boxing machines (<item>Boxers</> or <item>Unboxers</>) in <br>order to make them faster at the cost of energy usage.",
+                        "<br>Stats:",
+                        "\u2022 <gold>Energy usage per upgrade</>: $(scfg/boxing.upgradeEnergyUsage) FE",
+                        "\u2022 <gold>Process duration decrease per upgrade</>: $(scfg/boxing.upgradeReduction) ticks"
+                )))
                 .addPage(getCraftingRecipe(AntsportationItems.SPEED_UPGRADE)));
     }
 
-    private PatchouliEntry entry(PatchouliCategory category, String displayName, Supplier<? extends ItemLike> item) {
+    private static PatchouliEntry entry(PatchouliCategory category, String displayName, Supplier<? extends ItemLike> item) {
         return new PatchouliEntry(Antsportation.rlStr(category.fileName), displayName, item.get());
     }
 
-    private CraftingRecipePage getCraftingRecipe(Supplier<? extends ItemLike> item) {
+    private static CraftingRecipePage getCraftingRecipe(Supplier<? extends ItemLike> item) {
         return new CraftingRecipePage(Registry.ITEM.getKey(item.get().asItem()).toString());
+    }
+
+    private static String multiline(String... strings) {
+        final var builder = new StringBuilder();
+        for (int i = 0; i < strings.length; i++) {
+            builder.append(strings[i].replace("\n", "<br>"));
+            if (i < (strings.length - 1))
+                builder.append("<br>");
+        }
+        return builder.toString();
     }
 
 }

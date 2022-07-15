@@ -16,6 +16,7 @@
     "<br2>": "$(br2)",
     "<item>": "$(item)",
     "<player>": "$(playername)",
-    "$(scfg/": "$(antsportationconfig.server:"
+    "$(scfg/": "$(antsportationconfig.server:",
+    "<gold>": "$(#FFAA00)"
   }
 }

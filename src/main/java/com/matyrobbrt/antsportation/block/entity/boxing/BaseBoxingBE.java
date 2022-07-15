@@ -1,5 +1,8 @@
 package com.matyrobbrt.antsportation.block.entity.boxing;
 
+import com.matyrobbrt.antsportation.compat.top.StackWithProgressElement;
+import com.matyrobbrt.antsportation.compat.top.TOPContext;
+import com.matyrobbrt.antsportation.compat.top.TOPInfoDriver;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationSounds;
@@ -25,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public abstract class BaseBoxingBE extends BlockEntity {
+public abstract class BaseBoxingBE extends BlockEntity implements TOPInfoDriver {
     public BaseBoxingBE(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
         super(pType, pWorldPosition, pBlockState);
     }
@@ -146,5 +149,24 @@ public abstract class BaseBoxingBE extends BlockEntity {
         for (int i = 0; i < handler.getSlots(); i++) {
             Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), handler.getStackInSlot(i));
         }
+    }
+
+    public int getProgressionScaled() {
+        return progress != 0 && maxProgress != 0
+                ? progress * 24 / maxProgress
+                : 0;
+    }
+
+    @Override
+    public void addInfo(TOPContext context) {
+        final var box = this.box.getStackInSlot(0);
+        if (!box.isEmpty()) {
+            final var direction = isReversed() ? StackWithProgressElement.Direction.RIGHT_TO_LEFT : StackWithProgressElement.Direction.LEFT_TO_RIGHT;
+            context.addStackWithProgressElement(box, getProgressionScaled(), direction);
+        }
+    }
+
+    protected boolean isReversed() {
+        return false;
     }
 }

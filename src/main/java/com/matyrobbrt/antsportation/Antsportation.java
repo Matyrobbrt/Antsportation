@@ -1,26 +1,29 @@
 package com.matyrobbrt.antsportation;
 
-import com.matyrobbrt.antsportation.compat.patchouli.PatchouliCompat;
+import com.matyrobbrt.antsportation.compat.AntsportationCompat;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
-import com.matyrobbrt.antsportation.registration.*;
+import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.registration.AntsportationConfiguredFeatures;
+import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.registration.AntsportationItems;
+import com.matyrobbrt.antsportation.registration.AntsportationMenus;
+import com.matyrobbrt.antsportation.registration.AntsportationPlacedFeatures;
+import com.matyrobbrt.antsportation.registration.AntsportationRecipes;
+import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,10 +57,7 @@ public class Antsportation {
 
         LOGGER.debug("Antsportation initialized");
 
-        if (ModList.get().isLoaded("patchouli") && FMLEnvironment.dist == Dist.CLIENT) {
-            bus.register(PatchouliCompat.class);
-            LOGGER.debug("Initialised Patchouli compat");
-        }
+        AntsportationCompat.init(bus);
     }
 
     private static void entityAttributeEvent(EntityAttributeCreationEvent event) {
