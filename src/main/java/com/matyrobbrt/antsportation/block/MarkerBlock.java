@@ -194,7 +194,13 @@ public class MarkerBlock extends BaseEntityBlock {
         if (pLevel.isClientSide || !(tile instanceof MarkerBE marker)) {
             return InteractionResult.PASS;
         }
-        if (inHand.is(Items.SUGAR)) {
+        if(pPlayer.isCrouching()){
+            if (!pPlayer.isCreative() && inHand.getCount() + 1 < inHand.getMaxStackSize()) {
+                inHand.grow(1);
+                marker.decreaseSugarAmount();
+            }
+        }
+        else if (inHand.is(Items.SUGAR)) {
             if (marker.increaseSugarAmount()) {
                 shrinkHandItem(pPlayer, inHand);
                 return InteractionResult.SUCCESS;

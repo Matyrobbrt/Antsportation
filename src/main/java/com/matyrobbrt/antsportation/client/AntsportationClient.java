@@ -105,6 +105,7 @@ public class AntsportationClient {
 
     private static void setRenderLayer() {
         ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.MARKER.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.ANT_JAR.get(), RenderType.translucent());
     }
 
     private static void registerBlockEntityRenderer() {
