@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "antinside=false": {
+      "model": "antsportation:block/ant_jar"
+    },
+    "antinside=true": {
+      "model": "antsportation:block/ant_jar"
+    }
+  }
+}

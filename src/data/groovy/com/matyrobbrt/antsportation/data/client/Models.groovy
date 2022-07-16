@@ -70,6 +70,17 @@ class Models extends BlockStateProvider {
                 new ConfiguredModel(model).selfArray()
             }
         }
+
+        block(AntsportationBlocks.ANT_JAR) {
+            final var model = models().getExistingFile(modLoc('block/ant_jar'))
+            final var confModels = new ConfiguredModel(model).selfArray()
+            forAllStates(s -> confModels)
+        }
+    }
+
+    private void blockItem(Supplier<? extends Block> block) {
+        final var loc = getLocation(block)
+        itemModels().withExistingParent(loc, modLoc("block/$loc"))
     }
 
     private ItemModelBuilder item(String location, @DelegatesTo(value = ItemModelBuilder, strategy = Closure.DELEGATE_FIRST) Closure clos) {
