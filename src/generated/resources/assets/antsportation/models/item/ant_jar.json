@@ -8,7 +8,7 @@
       "predicate": {
         "antsportation:filled": 1.0
       },
-      "model": "antsportation:item/ant_jarfilled"
+      "model": "antsportation:item/ant_jar_filled"
     }
   ]
 }

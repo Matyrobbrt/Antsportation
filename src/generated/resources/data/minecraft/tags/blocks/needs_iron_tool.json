@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "antsportation:boxer"
+    "antsportation:boxer",
+    "antsportation:unboxer"
   ]
 }

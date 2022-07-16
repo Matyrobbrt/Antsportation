@@ -2,7 +2,8 @@ package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.menu.BoxMenu;
-import com.matyrobbrt.antsportation.menu.BoxerMenu;
+import com.matyrobbrt.antsportation.menu.boxing.BoxerMenu;
+import com.matyrobbrt.antsportation.menu.boxing.UnboxerMenu;
 import com.mojang.datafixers.util.Function3;
 import net.minecraft.core.Registry;
 import net.minecraft.world.InteractionHand;
@@ -22,6 +23,7 @@ public class AntsportationMenus {
             new BoxMenu(windowId, inv, inv.player.getItemInHand(data.readEnum(InteractionHand.class)))));
 
     public static final RegistryObject<MenuType<BoxerMenu>> BOXER = MENUS.register("boxer", () -> IForgeMenuType.create(factory(BoxerMenu::new)));
+    public static final RegistryObject<MenuType<UnboxerMenu>> UNBOXER = MENUS.register("unboxer", () -> IForgeMenuType.create(factory(UnboxerMenu::new)));
     public static final RegistryObject<MenuType<BoxerMenu.Configuration>> BOXER_CONFIGURATION = MENUS.register("boxer_configuration", () ->
             IForgeMenuType.create(factory(BoxerMenu.Configuration::new)));
 

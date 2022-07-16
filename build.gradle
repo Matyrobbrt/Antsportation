@@ -1,5 +1,11 @@
 import com.matyrobbrt.gradle.pngoptimiser.task.OptimisePNGTask
 
+buildscript {
+    dependencies {
+        classpath 'org.spongepowered:mixingradle:0.7.+'
+    }
+}
+
 plugins {
     id 'eclipse'
     id 'maven-publish'
@@ -8,9 +14,11 @@ plugins {
     id 'com.matyrobbrt.pngoptimiser' version '0.2.0'
 }
 
-version = '1.0'
+// Patchouli has mixins...
+apply plugin: 'org.spongepowered.mixin'
+
 group = 'com.matyrobbrt.antsportation' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'antsportation'
+archivesBaseName = "antsportation-$mc_version"
 
 sourceSets.create 'data'
 configurations.dataImplementation.extendsFrom(configurations.minecraft)
@@ -19,7 +27,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'parchment', version: '2022.05.02-1.18.2'
+    mappings channel: 'parchment', version: '2022.07.10-1.18.2'
 
     accessTransformers.from file('src/data/resources/accesstransformer.cfg')
     accessTransformers.from file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -62,16 +70,31 @@ repositories {
         }
     }
     maven { url 'https://modmaven.dev/' }
+    maven { url 'https://dl.cloudsmith.io/public/matyrobbrt/matylib/maven/' }
+    maven { url 'https://maven.blamejared.com' }
+    maven { url 'https://maven.k-4u.nl' }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.19'
+    minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 
     compileOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}")
 
     runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")
 
+    def patchouli = fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}") {
+        transitive = false
+    }
+    implementation patchouli
+    dataImplementation patchouli
+
+    implementation fg.deobf("mcjty.theoneprobe:theoneprobe:${top_version}") {
+        transitive = false
+    }
+
+    // ONLY used for patchouli datagen
+    dataImplementation fg.deobf('com.matyrobbrt:matylib-1.18.2:2.1.1')
     dataImplementation sourceSets.main.output
 }
 
@@ -84,17 +107,29 @@ tasks.register('optimiseAssets', OptimisePNGTask) {
 
 static void configureJarTask(Jar jar) {
     jar.configure {
-        jar.manifest {
-            attributes([
-                    "Specification-Title"     : "Antsportation",
-                    "Specification-Vendor"    : "Matyrobbrt, Learwin, Itskillerluc",
-                    "Specification-Version"   : "1", // We are version 1 of ourselves
-                    "Implementation-Title"    : project.name,
-                    "Implementation-Version"  : project.version,
-                    "Implementation-Vendor"   : "Matyrobbrt",
-                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-            ])
-        }
+        jar.manifest.attributes([
+                "Specification-Title"     : "Antsportation",
+                "Specification-Vendor"    : "Matyrobbrt, Learwin, Itskillerluc",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.version,
+                "Implementation-Vendor"   : 'Matyrobbrt, Learwin, Itskillerluc',
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+final var props = [
+        'forge_ver'    : forge_version,
+        'patchouli_ver': patchouli_version,
+        'jei_ver'      : jei_version,
+        'top_ver'      : top_version
+]
+
+processResources {
+    inputs.properties props
+    from('META-INF/mods.toml') {
+        expand props
     }
 }
 

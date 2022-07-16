@@ -1,6 +1,6 @@
 package com.matyrobbrt.antsportation.network;
 
-import com.matyrobbrt.antsportation.block.entity.BoxerBE;
+import com.matyrobbrt.antsportation.block.entity.boxing.BoxerBE;
 import com.matyrobbrt.antsportation.util.RedstoneControl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

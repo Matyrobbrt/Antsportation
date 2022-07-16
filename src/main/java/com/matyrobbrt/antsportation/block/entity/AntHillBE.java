@@ -1,27 +1,28 @@
 package com.matyrobbrt.antsportation.block.entity;
 
-import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.util.DelegatingItemHandler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Optional;
-import java.util.function.Predicate;
+import org.jetbrains.annotations.Nullable;
 
 public class AntHillBE extends BlockEntity {
     public final AntHillBE.Inventory inventory = new Inventory();
-    private static final int SPAWNRATE = 300;
+    private static final int SPAWNRATE = 100;
     public boolean hasQueen = false;
     public BlockPos nextMarker;
 

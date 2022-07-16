@@ -1,0 +1,16 @@
+{
+  "name": "Speed Upgrade",
+  "category": "antsportation:machines",
+  "icon": "antsportation:speed_upgrade",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:speed_upgrade",
+      "text": "<item>Speed Upgrades</> can be put in boxing machines (<item>Boxers</> or <item>Unboxers</>) in <br>order to make them faster at the cost of energy usage.<br><br>Stats:<br>• <gold>Energy usage per upgrade</>: $(scfg/boxing.upgradeEnergyUsage) FE<br>• <gold>Process duration decrease per upgrade</>: $(scfg/boxing.upgradeReduction) ticks"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "antsportation:speed_upgrade"
+    }
+  ]
+}

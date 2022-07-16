@@ -31,4 +31,10 @@ public abstract class BaseContainerScreen<T extends AbstractContainerMenu> exten
     protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
         AntsportationClient.renderBg(this, backgroundTexture, pPoseStack);
     }
+
+    @Override
+    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+        this.renderBackground(pPoseStack);
+        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+    }
 }

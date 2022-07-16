@@ -36,9 +36,7 @@ public class LootProvider extends LootTableProvider {
 
     @Override
     @ParametersAreNonnullByDefault
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
-        map.forEach((p_218436_2_, p_218436_3_) -> {
-            LootTables.validate(validationtracker, p_218436_2_, p_218436_3_);
-        });
+    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext tracker) {
+        map.forEach((location, table) -> LootTables.validate(tracker, location, table));
     }
 }

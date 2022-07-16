@@ -1,7 +1,7 @@
 package com.matyrobbrt.antsportation.block.entity;
 
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
-import com.matyrobbrt.antsportation.util.DelegatingItemHandler;
+import com.matyrobbrt.antsportation.util.cap.DelegatingItemHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;

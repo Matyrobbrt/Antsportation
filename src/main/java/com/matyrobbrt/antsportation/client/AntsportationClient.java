@@ -2,11 +2,13 @@ package com.matyrobbrt.antsportation.client;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.client.blockentity.MarkerRenderer;
-import com.matyrobbrt.antsportation.client.entity.*;
+import com.matyrobbrt.antsportation.client.entity.AntQueenModel;
+import com.matyrobbrt.antsportation.client.entity.AntQueenRenderer;
+import com.matyrobbrt.antsportation.client.entity.AntSoldierModel;
+import com.matyrobbrt.antsportation.client.entity.AntSoldierRenderer;
 import com.matyrobbrt.antsportation.client.screen.BaseContainerScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxerScreen;
-import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;

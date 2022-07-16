@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "antsportation:ant_jar",
-    "antsportation:boxer"
+    "antsportation:boxer",
+    "antsportation:unboxer"
   ]
 }
