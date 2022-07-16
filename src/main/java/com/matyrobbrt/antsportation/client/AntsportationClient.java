@@ -1,14 +1,18 @@
 package com.matyrobbrt.antsportation.client;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.block.entity.MarkerBE;
 import com.matyrobbrt.antsportation.client.blockentity.MarkerRenderer;
 import com.matyrobbrt.antsportation.client.entity.AntQueenModel;
 import com.matyrobbrt.antsportation.client.entity.AntQueenRenderer;
 import com.matyrobbrt.antsportation.client.entity.AntSoldierModel;
 import com.matyrobbrt.antsportation.client.entity.AntSoldierRenderer;
+import com.matyrobbrt.antsportation.client.entity.AntWorkerModel;
+import com.matyrobbrt.antsportation.client.entity.AntWorkerRenderer;
 import com.matyrobbrt.antsportation.client.screen.BaseContainerScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxerScreen;
+import com.matyrobbrt.antsportation.client.screen.UnboxerScreen;
 import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
@@ -17,6 +21,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationMenus;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -37,17 +42,35 @@ public class AntsportationClient {
     static void clientSetup(final FMLClientSetupEvent event) {
         MinecraftForgeClient.registerTooltipComponentFactory(BoxItem.Tooltip.class, BoxTooltipClient::new);
 
-        MenuScreens.register(AntsportationMenus.BOX.get(), BoxScreen::new);
-        MenuScreens.register(AntsportationMenus.BOXER.get(), BoxerScreen::new);
-        MenuScreens.register(AntsportationMenus.BOXER_CONFIGURATION.get(), BoxerScreen.ConfigurationScreen::new);
-
+        registerMenus();
         addCustomItemProperties();
         setRenderLayer();
         registerBlockEntityRenderer();
     }
 
+    private static void registerMenus() {
+        MenuScreens.register(AntsportationMenus.BOX.get(), BoxScreen::new);
+        MenuScreens.register(AntsportationMenus.BOXER.get(), BoxerScreen::new);
+        MenuScreens.register(AntsportationMenus.BOXER_CONFIGURATION.get(), BoxerScreen.ConfigurationScreen::new);
+        MenuScreens.register(AntsportationMenus.UNBOXER.get(), UnboxerScreen::new);
+    }
+
     private static void addCustomItemProperties() {
-        ItemProperties.register(AntsportationItems.ANT_JAR.get(), Antsportation.rl("filled"), (stack, level, entity, seed) -> (AntJarItem.hasAntInside(stack)) ? 1 : 0);
+        ItemProperties.register(AntsportationItems.ANT_JAR.get(), Antsportation.rl("filled"), (stack, level, entity, seed) -> AntJarItem.hasAntInside(stack) ? 1 : 0);
+    }
+
+    @SubscribeEvent
+    static void registerBlockColours(ColorHandlerEvent.Block event) {
+        var blockColors = event.getBlockColors();
+        blockColors.register((blockState, tintGetter, blockPos, index) -> {
+            var level = Minecraft.getInstance().level;
+            var blockEntity = level.getBlockEntity(blockPos);
+            if (blockEntity instanceof MarkerBE marker) {
+                var color = marker.getColor().getMaterialColor().col;
+                return color;
+            }
+            return -1;
+        }, AntsportationBlocks.MARKER.get());
     }
 
     @SubscribeEvent

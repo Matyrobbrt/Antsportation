@@ -12,11 +12,14 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+@ParametersAreNonnullByDefault
 public class MarkerBE extends BlockEntity {
 
     private int sugarAmount = 0;
@@ -39,6 +42,8 @@ public class MarkerBE extends BlockEntity {
         }
         sugarAmount += 1;
         setChanged();
+        level.blockUpdated(getBlockPos(), getBlockState().getBlock());
+        level.setBlockAndUpdate(getBlockPos(), getBlockState());
         level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
         return true;
     }
@@ -50,11 +55,13 @@ public class MarkerBE extends BlockEntity {
     public void setColor(DyeColor color) {
         this.color = color;
         setChanged();
+        level.blockUpdated(getBlockPos(), getBlockState().getBlock());
+        level.setBlockAndUpdate(getBlockPos(), getBlockState());
         level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
     }
 
     public boolean isColored() {
-        return color!=DyeColor.WHITE;
+        return color != DyeColor.WHITE;
     }
 
     @Override
@@ -76,7 +83,7 @@ public class MarkerBE extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag() {
         var tag = new CompoundTag();
         saveAdditional(tag);
         return tag;
