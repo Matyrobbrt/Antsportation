@@ -29,8 +29,9 @@ public class AntJarBlock extends Block {
     }
 
     @Override
-    public void onRemove(BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pNewState, boolean pIsMoving) {
-        if(!pLevel.isClientSide() && pState.getValue(ANTINSIDE)){
+    @SuppressWarnings("deprecation")
+    public void onRemove(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pNewState, boolean pIsMoving) {
+        if (!pLevel.isClientSide() && pState.getValue(ANTINSIDE)) {
             AntQueenEntity entity = new AntQueenEntity(AntsportationEntities.ANT_QUEEN.get(), pLevel);
             entity.setPos(pPos.getX(), pPos.getY(), pPos.getZ());
             pLevel.addFreshEntity(entity);

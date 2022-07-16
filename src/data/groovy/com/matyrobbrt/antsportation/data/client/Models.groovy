@@ -1,15 +1,15 @@
 package com.matyrobbrt.antsportation.data.client
 
 import com.matyrobbrt.antsportation.Antsportation
+import com.matyrobbrt.antsportation.block.AntHillBlock
 import com.matyrobbrt.antsportation.item.BoxItem
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks
 import com.matyrobbrt.antsportation.registration.AntsportationItems
 import net.minecraft.core.Registry
 import net.minecraft.data.DataGenerator
 import net.minecraft.world.level.ItemLike
-import net.minecraftforge.client.model.generators.BlockStateProvider
-import net.minecraftforge.client.model.generators.ItemModelBuilder
-import net.minecraftforge.client.model.generators.ModelFile
+import net.minecraft.world.level.block.Block
+import net.minecraftforge.client.model.generators.*
 import net.minecraftforge.common.data.ExistingFileHelper
 import org.jetbrains.annotations.NotNull
 
@@ -52,8 +52,26 @@ class Models extends BlockStateProvider {
         spawnEgg(AntsportationItems.ANT_WORKER_SPAWN_EGG)
 
         simpleItem(AntsportationItems.SPEED_UPGRADE)
+
+        block(AntsportationBlocks.ANT_HILL) {
+            final var base = modLoc('block/ant_hill_base')
+            final var grassyModel = models()
+                    .withExistingParent("${getLocation(AntsportationBlocks.ANT_HILL)}_grassy", base)
+                    .texture('0', modLoc('block/ant_hill_grassy'))
+                    .texture('particle', modLoc('block/ant_hill_grassy'))
+            final var model = models()
+                    .withExistingParent(getLocation(AntsportationBlocks.ANT_HILL), base)
+                    .texture('0', modLoc('block/ant_hill'))
+                    .texture('particle', modLoc('block/ant_hill'))
+            itemModels().withExistingParent(getLocation(AntsportationBlocks.ANT_HILL), model.getLocation())
+            forAllStates {
+                if (it.getValue(AntHillBlock.IS_GRASSY) === true)
+                    return new ConfiguredModel(grassyModel).selfArray()
+                new ConfiguredModel(model).selfArray()
+            }
+        }
     }
-    
+
     private ItemModelBuilder item(String location, @DelegatesTo(value = ItemModelBuilder, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         final var prov = itemModels().withExistingParent(location, mcLoc('item/generated'))
         clos.resolveStrategy = Closure.DELEGATE_FIRST
@@ -63,6 +81,13 @@ class Models extends BlockStateProvider {
     }
     private ItemModelBuilder item(Supplier<? extends ItemLike> item, @DelegatesTo(value = ItemModelBuilder, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         this.item(getLocation(item), clos)
+    }
+
+    private VariantBlockStateBuilder block(Supplier<? extends Block> block, @DelegatesTo(value = VariantBlockStateBuilder, strategy = Closure.DELEGATE_FIRST) Closure clos) {
+        final var prov = getVariantBuilder(block.get())
+        clos.setDelegate(prov)
+        clos.call()
+        return prov
     }
 
     @SuppressWarnings('SameParameterValue')

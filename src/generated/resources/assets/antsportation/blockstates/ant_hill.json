@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "grassy=false,placedbyplayer=false": {
+      "model": "antsportation:block/ant_hill"
+    },
+    "grassy=true,placedbyplayer=false": {
+      "model": "antsportation:block/ant_hill_grassy"
+    },
+    "grassy=false,placedbyplayer=true": {
+      "model": "antsportation:block/ant_hill"
+    },
+    "grassy=true,placedbyplayer=true": {
+      "model": "antsportation:block/ant_hill_grassy"
+    }
+  }
+}

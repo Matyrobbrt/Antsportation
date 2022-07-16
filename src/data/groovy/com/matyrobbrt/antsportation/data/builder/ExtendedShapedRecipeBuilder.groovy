@@ -114,7 +114,7 @@ class ExtendedShapedRecipeBuilder implements AntsportationRecipeBuilder, ShapedR
             for (final s in this.rows) {
                 for(int i = 0; i < s.length(); ++i) {
                     char c0 = s.charAt(i)
-                    if (!(c0 in key) && c0 != ' ' as char) {
+                    if (c0 !in key && c0 != ' ' as char) {
                         throw new IllegalStateException("Pattern in recipe $pId uses undefined symbol '$c0'")
                     }
 

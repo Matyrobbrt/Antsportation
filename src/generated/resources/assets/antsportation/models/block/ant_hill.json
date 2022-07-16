@@ -1,0 +1,7 @@
+{
+  "parent": "antsportation:block/ant_hill_base",
+  "textures": {
+    "0": "antsportation:block/ant_hill",
+    "particle": "antsportation:block/ant_hill"
+  }
+}
