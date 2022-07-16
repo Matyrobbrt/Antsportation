@@ -169,7 +169,7 @@ class EnUdProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliProvide
     @SuppressWarnings("deprecation")
     private static void saveEscaped(HashCache cache, Path path, JsonElement value) throws IOException {
         var data = GSON.toJson(value);
-        //data = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(data); // Escape unicode after the fact so that it's not double escaped by GSON
+        data = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(data); // Escape unicode after the fact so that it's not double escaped by GSON
         String hash = DataProvider.SHA1.hashUnencodedChars(data).toString();
         if (!Objects.equals(cache.getHash(path), hash) || !Files.exists(path)) {
             Files.createDirectories(path.getParent());

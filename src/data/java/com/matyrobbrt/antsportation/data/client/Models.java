@@ -6,7 +6,6 @@ import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
@@ -32,23 +31,34 @@ public class Models extends BlockStateProvider {
                     .texture("layer1", modLoc("item/box_overlay"));
         }
 
-        ItemModelBuilder jarWithAnt = itemModels().withExistingParent(getLocation(AntsportationItems.ANT_JAR) + "filled", mcLoc("item/generated"))
+        ItemModelBuilder jarWithAnt = itemModels().withExistingParent(getLocation(AntsportationItems.ANT_JAR) + "_filled", mcLoc("item/generated"))
                         .texture("layer0", modLoc("item/queen_ant_jar"));
 
         itemModels().withExistingParent(getLocation(AntsportationItems.ANT_JAR), mcLoc("item/generated"))
-                .override().predicate(Antsportation.rl("filled"), 1).model(jarWithAnt).end().texture("layer0", modLoc("item/glass_jar"));
+                .override().predicate(Antsportation.rl("filled"), 1)
+                .model(jarWithAnt)
+                .end().texture("layer0", modLoc("item/glass_jar"));
 
         spawnEgg(AntsportationItems.ANT_QUEEN_SPAWN_EGG);
         spawnEgg(AntsportationItems.ANT_SOLDIER_SPAWN_EGG);
         spawnEgg(AntsportationItems.ANT_WORKER_SPAWN_EGG);
+
+        simpleItem(AntsportationItems.SPEED_UPGRADE);
     }
 
-    private void spawnEgg(Supplier<? extends Item> item) {
+    @SuppressWarnings("SameParameterValue")
+    private void simpleItem(Supplier<? extends ItemLike> item) {
+        final var loc = getLocation(item);
+        itemModels().withExistingParent(loc, mcLoc("item/generated"))
+                .texture("layer0", modLoc("item/" + loc));
+    }
+
+    private void spawnEgg(Supplier<? extends ItemLike> item) {
         itemModels().withExistingParent(getLocation(item), mcLoc("item/template_spawn_egg"));
     }
 
     @NotNull
-    private String getLocation(Supplier<? extends Item> item) {
+    private String getLocation(Supplier<? extends ItemLike> item) {
         return getLocation(item.get());
     }
 
