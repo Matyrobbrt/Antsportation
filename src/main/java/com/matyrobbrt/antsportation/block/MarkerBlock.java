@@ -1,10 +1,12 @@
 package com.matyrobbrt.antsportation.block;
 
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
+import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
@@ -68,6 +70,19 @@ public class MarkerBlock extends BaseEntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(FACING, NORTH, EAST, SOUTH, WEST);
+    }
+
+    @Override
+    public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
+        if(pEntity instanceof AntWorkerEntity ant){
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+            if(blockEntity instanceof MarkerBE BE){
+                BE.checkMarker(((AntWorkerEntity) pEntity));
+                if(BE.nextMarker != null&& !ant.nodeHistory.contains(BE.nextMarker)) {
+                    ant.setNextMarker(BE.nextMarker);
+                }
+            }
+        }
     }
 
     @Nullable

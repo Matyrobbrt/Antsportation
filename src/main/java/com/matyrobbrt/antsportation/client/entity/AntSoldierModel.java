@@ -31,6 +31,7 @@ public class AntSoldierModel<T extends AntSoldierEntity> extends EntityModel<T> 
 
     @Override
     public void setupAnim(@NotNull T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+        //all.y = 35;
         bone.setPos(0.0f, 24f, 1.0f);
     }
 

@@ -43,6 +43,10 @@ public class AntsportationItems {
             () -> new ForgeSpawnEggItem(AntsportationEntities.ANT_SOLDIER, 0x431c11, 0x290d03,
                     new Item.Properties().tab(Antsportation.TAB)));
 
+    public static final RegistryObject<ForgeSpawnEggItem> ANT_WORKER_SPAWN_EGG = ITEMS.register("ant_worker_spawn_egg",
+            () -> new ForgeSpawnEggItem(AntsportationEntities.ANT_WORKER, 0x431c04, 0x290d03,
+                    new Item.Properties().tab(Antsportation.TAB)));
+
     public static final RegistryObject<Item> MARKER = ITEMS.register("marker", () -> new BaseBlockItem(AntsportationBlocks.MARKER.get(), new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     static {

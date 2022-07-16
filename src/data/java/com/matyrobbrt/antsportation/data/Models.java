@@ -36,5 +36,7 @@ public class Models extends BlockStateProvider {
 
         itemModels().withExistingParent(Registry.ITEM.getKey(AntsportationItems.ANT_QUEEN_SPAWN_EGG.get()).getPath(), mcLoc("item/template_spawn_egg"));
         itemModels().withExistingParent(Registry.ITEM.getKey(AntsportationItems.ANT_SOLDIER_SPAWN_EGG.get()).getPath(), mcLoc("item/template_spawn_egg"));
+        itemModels().withExistingParent(Registry.ITEM.getKey(AntsportationItems.ANT_WORKER_SPAWN_EGG.get()).getPath(), mcLoc("item/template_spawn_egg"));
+
     }
 }

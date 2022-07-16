@@ -106,6 +106,7 @@ public class AntQueenModel<T extends AntQueenEntity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(@NotNull T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+        all.y = 35;
         this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
         this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);
         this.leg_left_front.yRot = ((float) Math.toRadians(pLimbSwingAmount * 360));
