@@ -9,6 +9,7 @@ buildscript {
 plugins {
     id 'eclipse'
     id 'maven-publish'
+    id 'groovy'
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'com.matyrobbrt.pngoptimiser' version '0.2.0'
@@ -20,10 +21,26 @@ apply plugin: 'org.spongepowered.mixin'
 group = 'com.matyrobbrt.antsportation' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "antsportation-$mc_version"
 
-sourceSets.create 'data'
-configurations.dataImplementation.extendsFrom(configurations.minecraft)
-
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+sourceSets {
+    data
+    def ext = create('extension')
+
+    data {
+        groovy {
+            compileClasspath += ext.output
+        }
+    }
+}
+
+configurations {
+    dataImplementation.extendsFrom minecraft
+
+    groovyDeps
+    dataImplementation.extendsFrom groovyDeps
+    extensionImplementation.extendsFrom dataImplementation
+}
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
@@ -56,6 +73,9 @@ minecraft {
                     source sourceSets.data as SourceSet
                 }
             }
+            lazyToken('minecraft_classpath') {
+                configurations.groovyDeps.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+            }
         }
     }
 }
@@ -76,6 +96,12 @@ repositories {
 }
 
 dependencies {
+    groovyDeps("org.apache.groovy:groovy-all:$groovy_version") {
+        exclude module: 'groovy-cli-picocli'
+        exclude module: 'groovy-groovysh'
+    }
+    groovyDeps("org.apache.groovy:groovy-contracts:$groovy_version")
+
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 
     compileOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}:api")
@@ -137,3 +163,28 @@ jar {
     configureJarTask(jar)
 }
 tasks.jar.finalizedBy('reobfJar')
+
+tasks.create('extensionNoPropsJar', org.gradle.jvm.tasks.Jar) {
+    it.from(sourceSets.extension.output)
+    it.group 'build'
+    classifier 'extension-no-props'
+    exclude 'META-INF/services/org.codehaus.groovy.runtime.ExtensionModule'
+    manifest.attributes([
+            'FMLModType': 'GAMELIBRARY'
+    ])
+}
+dependencies.dataRuntimeOnly files(tasks.extensionNoPropsJar.archiveFile.get().asFile)
+
+tasks.create('extensionJar', org.gradle.jvm.tasks.Jar) {
+    it.from(sourceSets.extension.output)
+    it.group 'build'
+    classifier 'extension'
+    finalizedBy(extensionNoPropsJar)
+}
+
+compileDataGroovy {
+    dependsOn(extensionJar)
+    configure(groovyOptions) {
+        configurationScript = file('groovy-compiler.groovy')
+    }
+}

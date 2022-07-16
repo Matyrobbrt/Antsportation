@@ -10,8 +10,8 @@ public class EntityLoot extends net.minecraft.data.loot.EntityLoot {
     protected void addTables() {
     }
 
-    @Override
     @Nonnull
+    @Override
     protected Iterable<EntityType<?>> getKnownEntities() {
         return map.keySet().stream().<EntityType<?>>map(Registry.ENTITY_TYPE::get).distinct().toList();
     }

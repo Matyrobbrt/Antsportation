@@ -1,0 +1,3 @@
+moduleName = antsportation
+moduleVersion = 1.0
+extensionClasses = com.matyrobbrt.antsportation.groovy.ext.GroovyInstanceExtensions
