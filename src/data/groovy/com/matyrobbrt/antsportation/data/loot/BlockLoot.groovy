@@ -19,6 +19,7 @@ class BlockLoot extends net.minecraft.data.loot.BlockLoot {
         dropSelf(UNBOXER)
         dropSelf(ANT_NEST)
 
+        dropWhenSilkTouch(ANT_HILL.get())
         dropWhenSilkTouch(ANT_JAR.get())
     }
 
