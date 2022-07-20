@@ -8,6 +8,7 @@ import com.matyrobbrt.antsportation.block.BoxerBlock;
 import com.matyrobbrt.antsportation.block.MarkerBlock;
 import com.matyrobbrt.antsportation.block.UnboxerBlock;
 import com.matyrobbrt.antsportation.block.entity.AntHillBE;
+import com.matyrobbrt.antsportation.block.entity.AntJarBE;
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
 import com.matyrobbrt.antsportation.block.entity.boxing.BoxerBE;
@@ -53,6 +54,8 @@ public class AntsportationBlocks {
             .strength(1.0f)
             .sound(SoundType.ROOTED_DIRT)
     ));
+    public static final RegistryObject<AntJarBlock> ANT_JAR = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
+            () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));
 
     public static final RegistryObject<MarkerBlock> MARKER = register("marker", Mineable.SHOVEL, ToolTier.WOODEN, MarkerBlock::new);
     public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () ->
@@ -65,9 +68,8 @@ public class AntsportationBlocks {
 
     public static final RegistryObject<BlockEntityType<AntHillBE>> ANT_HILL_BE = BLOCK_ENTITIES.register("ant_hill", () ->
             BlockEntityType.Builder.of(AntHillBE::new, ANT_HILL.get()).build(null));
-
-    public static final RegistryObject<AntJarBlock> ANT_JAR = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
-            () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));
+    public static final RegistryObject<BlockEntityType<AntJarBE>> ANT_JAR_BE = BLOCK_ENTITIES.register("ant_jar", ()->
+            BlockEntityType.Builder.of(AntJarBE::new, ANT_JAR.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<MarkerBE>> MARKER_BE = BLOCK_ENTITIES.register("marker", () -> BlockEntityType.Builder.of(MarkerBE::new, MARKER.get()).build(null));
     private static <T extends Block> RegistryObject<T> register(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {

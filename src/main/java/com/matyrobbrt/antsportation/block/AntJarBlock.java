@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation.block;
 
+import com.matyrobbrt.antsportation.block.entity.AntJarBE;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -8,6 +9,8 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -16,14 +19,16 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Properties;
 import java.util.stream.Stream;
 
 @SuppressWarnings("deprecation")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class AntJarBlock extends Block {
+public class AntJarBlock extends Block implements EntityBlock {
     public static final BooleanProperty ANTINSIDE = BooleanProperty.create("antinside");
 
     public AntJarBlock(Properties p_49795_) {
@@ -61,5 +66,11 @@ public class AntJarBlock extends Block {
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new AntJarBE(blockPos, blockState);
     }
 }

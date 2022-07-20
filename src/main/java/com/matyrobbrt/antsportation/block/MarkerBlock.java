@@ -75,15 +75,22 @@ public class MarkerBlock extends BaseEntityBlock {
 
     @Override
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
-        if(pEntity instanceof AntWorkerEntity ant){
-            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if(blockEntity instanceof MarkerBE BE){
-                BE.checkMarker(((AntWorkerEntity) pEntity));
-                if(BE.nextMarker != null&& !ant.nodeHistory.contains(BE.nextMarker)) {
-                    ant.setNextMarker(BE.nextMarker);
-                }
-            }
+        if (!(pEntity instanceof AntWorkerEntity ant)) {
+            return;
         }
+        BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+        if (!(blockEntity instanceof MarkerBE BE)) {
+            return;
+        }
+        if (BE.ants.contains(pEntity.getUUID())) {
+            return;
+        }
+        BE.checkMarker(((AntWorkerEntity) pEntity));
+        if (BE.nextMarker == null || ant.nodeHistory.contains(BE.nextMarker)) {
+            return;
+        }
+        ant.setNextMarker(BE.nextMarker);
+        BE.ants.add(ant.getUUID());
     }
 
     @Nullable
@@ -195,9 +202,10 @@ public class MarkerBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         }
         if(pPlayer.isCrouching()){
-            if (!pPlayer.isCreative() && inHand.getCount() + 1 < inHand.getMaxStackSize()) {
-                inHand.grow(1);
-                marker.decreaseSugarAmount();
+            if(marker.decreaseSugarAmount()) {
+                if (!pPlayer.isCreative()) {
+                    pPlayer.addItem(Items.SUGAR.getDefaultInstance());
+                }
             }
         }
         else if (inHand.is(Items.SUGAR)) {

@@ -68,9 +68,13 @@ public class AntWorkerEntity extends PathfinderMob {
             this.setClimbing(this.horizontalCollision);
             if(level.getGameTime() % 5 == 0){
                 if(this.getNextMarker() != null && !nodeHistory.contains(getNextMarker())) {
+
                     this.navigation.moveTo(getNextMarker().getX(), getNextMarker().getY(), getNextMarker().getZ(), 1);
-                    nodeHistory.add(getNextMarker());
                 }
+
+            }
+            if(level.getGameTime() % 10 == 0){
+                nodeHistory.add(getNextMarker());
             }
         }
 

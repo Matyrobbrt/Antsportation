@@ -2,6 +2,7 @@ package com.matyrobbrt.antsportation.client;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
+import com.matyrobbrt.antsportation.client.blockentity.AntJarRenderer;
 import com.matyrobbrt.antsportation.client.blockentity.MarkerRenderer;
 import com.matyrobbrt.antsportation.client.entity.AntQueenModel;
 import com.matyrobbrt.antsportation.client.entity.AntQueenRenderer;
@@ -110,5 +111,6 @@ public class AntsportationClient {
 
     private static void registerBlockEntityRenderer() {
         MarkerRenderer.register();
+        AntJarRenderer.register();
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.Containers;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -56,8 +57,20 @@ public class AntHillBE extends BlockEntity {
             }
             if (nextMarker != null) {
                 AntWorkerEntity antWorker = new AntWorkerEntity(AntsportationEntities.ANT_WORKER.get(), level);
+                    int number = 0;
+                    for (ItemStack stack : this.inventory.getStacks()) {
+                        if (!stack.isEmpty()) {
+                            ItemStack itemStack = stack.copy();
+                            itemStack.setCount(1);
+                            antWorker.setItemSlot(EquipmentSlot.OFFHAND, stack);
+                            this.inventory.extractItem(number, 1, false);
+                            break;
+                        }
+                        number++;
+                    }
                 antWorker.setPos(getBlockPos().getX() + 0.5, getBlockPos().getY() + 1, getBlockPos().getZ() + 0.5);
                 antWorker.setNextMarker(nextMarker);
+                antWorker.nodeHistory.add(this.getBlockPos());
                 level.addFreshEntity(antWorker);
             }
         }

@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.block.entity;
 
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import com.matyrobbrt.antsportation.util.cap.DelegatingItemHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +28,7 @@ public class AntNestBE extends BlockEntity {
     private final LazyOptional<IItemHandler> inventoryInputLazy = LazyOptional.of(() -> new DelegatingItemHandler(inventory) {
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return super.insertItem(slot, stack, simulate);
+            return stack.is(AntsportationTags.Items.BOXES) ? super.insertItem(slot, stack, simulate) : stack;
         }
 
         @Override

@@ -88,7 +88,7 @@ public class AntQueenModel<T extends AntQueenEntity> extends EntityModel<T> {
 
         PartDefinition leg_left_front_r1 = leg_left_front.addOrReplaceChild("leg_left_front_r1", CubeListBuilder.create().texOffs(0, 16).addBox(0.0175F, -0.7255F, -0.4273F, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6F, -2.25F, -1.4F, -0.6109F, 0.0F, 0.0F));
 
-        PartDefinition leg_left_middle = legs_west.addOrReplaceChild("leg_left_middle", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 1.0F));
+        PartDefinition leg_left_middle = legs_west.addOrReplaceChild("leg_left_middle", CubeListBuilder.create(), PartPose.offset(0F, 0F, 1.0F));
 
         PartDefinition leg_left_middle_r1 = leg_left_middle.addOrReplaceChild("leg_left_middle_r1", CubeListBuilder.create().texOffs(2, 16).addBox(0.0175F, -0.6968F, -0.5317F, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6F, -2.25F, 0.35F, 0.6109F, 0.0F, 0.0F));
 
@@ -107,10 +107,13 @@ public class AntQueenModel<T extends AntQueenEntity> extends EntityModel<T> {
     @Override
     public void setupAnim(@NotNull T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         all.y = 35;
-        this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-        this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);
-        this.leg_left_front.yRot = ((float) Math.toRadians(pLimbSwingAmount * 360));
+        this.leg_left_front.setPos(-2.4f, -14.6f, 0f);
+        this.leg_left_front.setRotation((float) (pEntity.getLevel().getGameTime() * 5 * Math.PI / 180f), leg_left_front.yRot, leg_left_front.zRot);
+        //this.leg_left_front.xRot = ;
 
+
+        this.leg_left_middle.xRot = ((float) (pEntity.getLevel().getGameTime() * 5 * Math.PI / 180f));
+        this.leg_left_back.xRot = ((float) (pEntity.getLevel().getGameTime() * 5 * Math.PI / 180f));
     }
 
     @Override

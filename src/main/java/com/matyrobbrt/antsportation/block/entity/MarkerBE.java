@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 
 @ParametersAreNonnullByDefault
@@ -29,6 +29,8 @@ public class MarkerBE extends BlockEntity {
     private static final String COLOR_NBT_KEY = "dye_color";
     public BlockPos nextMarker;
     private int antCount = 0;
+    public List<UUID> ants = new ArrayList<>();
+    private int adjacentCount = 0;
 
     public int getAntCount() {
         return antCount;
@@ -50,10 +52,16 @@ public class MarkerBE extends BlockEntity {
 
     public void setAntCount(int count) {
         antCount = count;
-    }
+    }   
 
-    public boolean shouldReceiveAnt() {
-        return antCount % sugarAmount*5/100 == 0;
+    public boolean shouldReceiveAnt(int offset) {
+        try{
+
+            return (antCount+offset) % (1/(sugarAmount*5f/100f)) == 0;
+
+        }catch (ArithmeticException error) {
+            return false;
+        }
     }
 
     public MarkerBE(BlockPos pWorldPosition, BlockState pBlockState) {
@@ -138,32 +146,59 @@ public class MarkerBE extends BlockEntity {
     }
 
     public void checkMarker(AntWorkerEntity pEntity){
-        if (level != null && level.getGameTime() % 5 == 0 && !level.isClientSide()) {
-            if (nextMarker == null) {
-                nextMarker = findAdjacentBlock(pEntity, level, this.getBlockPos(),
-                        (entity) -> entity != null &&
-                                entity.getBlockPos() != this.getBlockPos() &&
-                                entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
-                                !((MarkerBE) entity).getColor().equals(this.getColor()) &&
-                                ((MarkerBE) entity).isColored() &&
-                                ((MarkerBE) entity).shouldReceiveAnt())
-                        .orElse(null);
-                increaseNeighbourAntCount();
-            }
-
-            if (nextMarker == null) {
-                nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.ANT_NEST.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
-            }
-            if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get())) {
-                nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.ANT_NEST.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
-            }
-            if (nextMarker == null) {
-                nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.MARKER.get()), 10).orElse(null);
-            }
-            if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
-                nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockPos() != this.getBlockPos() &&  entity.getBlockState().is(AntsportationBlocks.MARKER.get()), 10).orElse(null);
-            }
+        if (level == null || level.isClientSide()) {
+            return;
         }
+        this.ants.add(pEntity.getUUID());
+        if (this.ants.size() > 10) {
+            ants.clear();
+        }
+        nextMarker = findAdjacentBlock(pEntity, level, this.getBlockPos(),
+                (entity) -> entity != null &&
+                        entity.getBlockPos() != this.getBlockPos() &&
+                        entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
+                        !((MarkerBE) entity).getColor().equals(this.getColor()) &&
+                        ((MarkerBE) entity).isColored() &&
+                        ((MarkerBE) entity).shouldReceiveAnt(
+                                adjacentBlocks(this.getAdjacent(pEntity, level, entity.getBlockPos()), pEntity, level, this.getBlockPos())
+                        ))
+                .orElse(null);
+        increaseNeighbourAntCount();
+
+
+        if (nextMarker == null && findAdjacentBlock(pEntity, level, this.getBlockPos(),
+                (entity) -> entity != null &&
+                        entity.getBlockPos() != this.getBlockPos() &&
+                        entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
+                        !((MarkerBE) entity).getColor().equals(this.getColor()) &&
+                        ((MarkerBE) entity).isColored()
+        ).orElse(null) == null) {
+            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
+        }
+        if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get()) && !level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
+            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
+        }
+        if (nextMarker == null && findAdjacentBlock(pEntity, level, this.getBlockPos(),
+                (entity) -> entity != null &&
+                        entity.getBlockPos() != this.getBlockPos() &&
+                        entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
+                        !((MarkerBE) entity).getColor().equals(this.getColor()) &&
+                        ((MarkerBE) entity).isColored()
+        ).orElse(null) == null) {
+            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
+                    entity != null && !pEntity.nodeHistory.contains(entity.getBlockPos())  &&
+                            entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
+                            (((MarkerBE) entity).getColor().equals(this.getColor()))
+                    , 10).orElse(null);
+        }
+        if (nextMarker == null || level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get()) || level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
+            return;
+        }
+        nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
+                entity != null && !pEntity.nodeHistory.contains(entity.getBlockPos())  &&
+                        entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
+                        (((MarkerBE) entity).getColor() == this.getColor())
+                , 10).orElse(null);
     }
 
     public Optional<BlockPos> findNearestBlock(AntWorkerEntity pEntity, Level level, BlockPos searchPos, Predicate<BlockEntity> p_28076_, double pDistance) {
@@ -194,6 +229,30 @@ public class MarkerBE extends BlockEntity {
             }
         }
         return Optional.empty();
+    }
+
+    public Direction getAdjacent(AntWorkerEntity pEntity, Level level, BlockPos searchPos){
+        for(Direction dir : Direction.values()){
+            if(searchPos != null && searchPos.relative(dir).compareTo(this.getBlockPos()) == 0){
+                return dir;
+            }
+        }
+        return null;
+    }
+
+    public int adjacentBlocks(Direction direction, AntWorkerEntity pEntity, Level level, BlockPos searchPos) {
+        List<Direction> blocks = new ArrayList<>();
+        BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
+        for (Direction dir : Direction.values()) {
+            blockPos.setWithOffset(searchPos, dir);
+            if (level.getBlockEntity(blockPos) != null && level.getBlockEntity(blockPos).getBlockState().is(AntsportationBlocks.MARKER.get())) {
+                blocks.add(dir);
+            }
+        }
+        if(direction == null){
+            return 0;
+        }
+        return blocks.indexOf(direction.getOpposite());
     }
 
 }
