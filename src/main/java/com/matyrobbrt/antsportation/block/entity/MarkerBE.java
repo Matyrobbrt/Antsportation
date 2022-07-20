@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -78,8 +79,6 @@ public class MarkerBE extends BlockEntity {
         }
         sugarAmount += 1;
         setChanged();
-        level.blockUpdated(getBlockPos(), getBlockState().getBlock());
-        level.setBlockAndUpdate(getBlockPos(), getBlockState());
         level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
         return true;
     }
@@ -90,8 +89,6 @@ public class MarkerBE extends BlockEntity {
         }
         sugarAmount -= 1;
         setChanged();
-        level.blockUpdated(getBlockPos(), getBlockState().getBlock());
-        level.setBlockAndUpdate(getBlockPos(), getBlockState());
         level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
         return true;
     }
@@ -103,8 +100,6 @@ public class MarkerBE extends BlockEntity {
     public void setColor(DyeColor color) {
         this.color = color;
         setChanged();
-        level.blockUpdated(getBlockPos(), getBlockState().getBlock());
-        level.setBlockAndUpdate(getBlockPos(), getBlockState());
         level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
     }
 
@@ -137,6 +132,12 @@ public class MarkerBE extends BlockEntity {
         var tag = new CompoundTag();
         saveAdditional(tag);
         return tag;
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        super.onDataPacket(net, pkt);
     }
 
     @Nullable
