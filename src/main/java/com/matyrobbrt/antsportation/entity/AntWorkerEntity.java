@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation.entity;
 
+import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -9,6 +10,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -40,14 +42,16 @@ public class AntWorkerEntity extends PathfinderMob {
                 .add(Attributes.MOVEMENT_SPEED, 0.2f).build();
     }
 
+    @Override
     protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState blockIn) {
-        //TODO: ant walk sound
-        this.playSound(SoundEvents.SWEET_BERRY_BUSH_PLACE, 0.15F, 1.0F);
+        this.playSound(AntsportationSounds.ANT_WALK.get(), 0.08f, 1);
     }
 
+    @Override
     protected @NotNull PathNavigation createNavigation(@NotNull Level pLevel) {
         return new WallClimberNavigation(this, pLevel);
     }
+    @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_FLAGS_ID, (byte) 0);
@@ -62,6 +66,7 @@ public class AntWorkerEntity extends PathfinderMob {
         return this.entityData.get(NEXT_MARKER);
     }
 
+    @Override
     public void tick() {
         super.tick();
         if (!this.level.isClientSide) {
@@ -80,6 +85,7 @@ public class AntWorkerEntity extends PathfinderMob {
         return (this.entityData.get(DATA_FLAGS_ID) & 1) != 0;
     }
 
+    @Override
     public boolean onClimbable() {
         return this.isClimbing();
     }
@@ -95,19 +101,19 @@ public class AntWorkerEntity extends PathfinderMob {
         this.entityData.set(DATA_FLAGS_ID, b0);
     }
 
-
+    @Override
     protected SoundEvent getHurtSound(@NotNull DamageSource damageSourceIn) {
-        //TODO: ant hurt sound
-        return SoundEvents.DRIPSTONE_BLOCK_FALL;
+        return AntsportationSounds.ANT_HURT.get();
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
-        //TODO: ant death sound
-        return SoundEvents.SILVERFISH_DEATH;
+        return AntsportationSounds.ANT_DEATH.get();
     }
 
+    @Override
     protected float getSoundVolume() {
-        return 0.1F;
+        return 0.25f;
     }
 
     @Override

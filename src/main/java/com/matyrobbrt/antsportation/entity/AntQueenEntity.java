@@ -1,12 +1,14 @@
 package com.matyrobbrt.antsportation.entity;
 
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.PathfinderMob;
@@ -86,23 +88,32 @@ public class AntQueenEntity extends PathfinderMob implements NeutralMob {
         this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
     }
 
+    @Override
     protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState blockIn) {
-        //TODO: ant walk sound
-        this.playSound(SoundEvents.SWEET_BERRY_BUSH_PLACE, 0.15F, 1.0F);
+        this.playSound(AntsportationSounds.ANT_WALK.get(), 0.15f, 1);
     }
 
+    @Override
+    public boolean doHurtTarget(@NotNull Entity pEntity) {
+        if (super.doHurtTarget(pEntity)) {
+            playSound(AntsportationSounds.ANT_ATTACK.get(), 0.12f, 1);
+            return true;
+        }
+        return false;
+    }
 
+    @Override
     protected SoundEvent getHurtSound(@NotNull DamageSource damageSourceIn) {
-        //TODO: ant hurt sound
-        return SoundEvents.DRIPSTONE_BLOCK_FALL;
+        return AntsportationSounds.ANT_HURT.get();
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
-        //TODO: ant death sound
-        return SoundEvents.SILVERFISH_DEATH;
+        return AntsportationSounds.ANT_DEATH.get();
     }
 
+    @Override
     protected float getSoundVolume() {
-        return 0.1F;
+        return 0.60F;
     }
 }

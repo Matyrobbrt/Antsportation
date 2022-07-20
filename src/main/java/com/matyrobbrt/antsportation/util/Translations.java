@@ -38,7 +38,11 @@ public enum Translations {
     UNBOXER("gui", "unboxer", "Unboxer"),
     CONFIGURATION_GUI("gui", "configuration", "Configuration: %s"),
 
-    SUBTITLE_PACKING("subtitle", "packing", "Packing")
+    SUBTITLE_PACKING("subtitle", "packing", "Packing"),
+    SUBTITLE_ANT_HURT("subtitle", "ant_hurt", "Ant hurt"),
+    SUBTITLE_ANT_DEATH("subtitle", "ant_death", "Ant death"),
+    SUBTITLE_ANT_WALK("subtitle", "ant_walk", "Ant walking"),
+    SUBTITLE_ANT_ATTACK("subtitle", "ant_attack", "Ant attack"),
     ;
 
     public final String key;
