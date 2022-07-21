@@ -52,6 +52,11 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
 
     @PatchouliCategoryGen
     public static final PatchouliCategory MACHINES_CATEGORY = new PatchouliCategory('Machines', 'machines', 'Information about Antsportation machines', AntsportationBlocks.BOXER.get())
+    @PatchouliCategoryGen
+    public static final PatchouliCategory ITEMS_CATEGORY = new PatchouliCategory('Items', 'items', 'Information about Antsportation items', AntsportationBlocks.ANT_JAR.get())
+    @PatchouliCategoryGen
+    public static final PatchouliCategory BLOCKS_CATEGORY = new PatchouliCategory('Blocks', 'blocks', 'Information about Antsportation blocks', AntsportationBlocks.ANT_NEST.get())
+
 
     @Override
     void addEntries() {

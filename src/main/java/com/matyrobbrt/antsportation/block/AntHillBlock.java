@@ -3,7 +3,9 @@ package com.matyrobbrt.antsportation.block;
 import com.matyrobbrt.antsportation.block.entity.AntHillBE;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
+import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.item.AntJarItem;
+import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -12,6 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -68,6 +71,21 @@ public class AntHillBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         return new AntHillBE(pPos, pState);
+    }
+
+    @Override
+    public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
+        AntHillBE blockEntity = pLevel.getBlockEntity(pPos) != null && pLevel.getBlockEntity(pPos).getBlockState().is(AntsportationBlocks.ANT_HILL.get()) ? ((AntHillBE) pLevel.getBlockEntity(pPos)) : null;
+        if(!pLevel.isClientSide() && pEntity instanceof AntWorkerEntity ant && !blockEntity.hasQueen){
+            boolean success = blockEntity.addItem(ant.getOffhandItem());
+            if(success){
+                ant.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+            }
+            if(ant.getOffhandItem() != null){
+                ant.spawnAtLocation(ant.getOffhandItem());
+            }
+            ant.discard();
+        }
     }
 
     @Override

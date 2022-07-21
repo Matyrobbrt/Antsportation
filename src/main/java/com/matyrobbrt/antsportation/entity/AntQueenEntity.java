@@ -114,6 +114,6 @@ public class AntQueenEntity extends PathfinderMob implements NeutralMob {
 
     @Override
     protected float getSoundVolume() {
-        return 0.60F;
+        return 0.30F;
     }
 }

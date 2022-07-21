@@ -107,13 +107,6 @@ public class AntQueenModel<T extends AntQueenEntity> extends EntityModel<T> {
     @Override
     public void setupAnim(@NotNull T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         all.y = 35;
-        this.leg_left_front.setPos(-2.4f, -14.6f, 0f);
-        this.leg_left_front.setRotation((float) (pEntity.getLevel().getGameTime() * 5 * Math.PI / 180f), leg_left_front.yRot, leg_left_front.zRot);
-        //this.leg_left_front.xRot = ;
-
-
-        this.leg_left_middle.xRot = ((float) (pEntity.getLevel().getGameTime() * 5 * Math.PI / 180f));
-        this.leg_left_back.xRot = ((float) (pEntity.getLevel().getGameTime() * 5 * Math.PI / 180f));
     }
 
     @Override

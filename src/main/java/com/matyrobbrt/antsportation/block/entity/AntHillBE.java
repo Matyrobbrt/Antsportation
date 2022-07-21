@@ -40,7 +40,7 @@ public class AntHillBE extends BlockEntity {
         nextMarker = NbtUtils.readBlockPos(nbt.getCompound("nextMarker"));
     }
 
-    //Temporary functionality TODO: do the ant spawning when we get that far
+
     public void tick() {
         if (level != null && hasQueen && level.getGameTime() % SPAWNRATE == 0 && !level.isClientSide()) {
             if (nextMarker == null) {
@@ -135,5 +135,23 @@ public class AntHillBE extends BlockEntity {
         protected void onContentsChanged(int slot) {
             AntHillBE.this.setChanged();
         }
+    }
+
+    public void extractItem(int slot, int amount, boolean simulate){
+        this.inventory.extractItem(slot, amount, simulate);
+    }
+    public void insertItem(int slot, ItemStack stack, boolean simulate){
+        this.inventory.insertItem(slot, stack, simulate);
+    }
+    public boolean addItem(ItemStack item){
+        int number = 0;
+        for (ItemStack stack : this.inventory.getStacks()) {
+            if ((stack.is(item.getItem()) || stack.isEmpty()) && stack.getCount() + item.getCount() <= item.getMaxStackSize()) {
+                this.inventory.insertItem(number, item, false);
+                return true;
+            }
+            number++;
+        }
+        return false;
     }
 }

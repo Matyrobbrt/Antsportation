@@ -1,0 +1,16 @@
+{
+  "name": "Ant Jar Block",
+  "category": "antsportation:blocks",
+  "icon": "antsportation:ant_jar",
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "title": "Ant Jar Block",
+      "border": true,
+      "images": [
+        "antsportation:patchouli/images/emptyantjar.png",
+        "antsportation:patchouli/images/antjar.png"
+      ]
+    }
+  ]
+}
