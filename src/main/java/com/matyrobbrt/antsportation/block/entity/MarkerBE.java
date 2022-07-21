@@ -26,9 +26,8 @@ import java.util.stream.Collectors;
 @ParametersAreNonnullByDefault
 public class MarkerBE extends BlockEntity {
 
-    private int sugarAmount = 0;
+    private static final int SUGARAMOUNT = 10;
     private DyeColor color = DyeColor.WHITE;
-    private static final String SUGAR_NBT_KEY = "sugar_amount";
     private static final String COLOR_NBT_KEY = "dye_color";
     public BlockPos nextMarker;
     private int antCount = 0;
@@ -37,7 +36,6 @@ public class MarkerBE extends BlockEntity {
     @Override
     public void load(CompoundTag nbt) {
         super.load(nbt);
-        sugarAmount = nbt.getInt(SUGAR_NBT_KEY);
         color = DyeColor.byName(nbt.getString(COLOR_NBT_KEY), DyeColor.WHITE);
         nextMarker = NbtUtils.readBlockPos(nbt.getCompound("nextMarker"));
         antCount = nbt.getInt("antCount");
@@ -47,14 +45,13 @@ public class MarkerBE extends BlockEntity {
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
-        pTag.putInt(SUGAR_NBT_KEY, sugarAmount);
         pTag.putString(COLOR_NBT_KEY, color.getName());
         if (nextMarker != null) {
             pTag.put("nextMarker", NbtUtils.writeBlockPos(nextMarker));
         }
         pTag.putInt("antCount", antCount);
         ListTag listtag = new ListTag();
-        ants.forEach((ant)->listtag.add(NbtUtils.createUUID(ant)));
+        ants.forEach((ant) -> listtag.add(NbtUtils.createUUID(ant)));
         pTag.put("ants", listtag);
     }
 
@@ -78,14 +75,12 @@ public class MarkerBE extends BlockEntity {
 
     public void setAntCount(int count) {
         antCount = count;
-    }   
+    }
 
     public boolean shouldReceiveAnt(int offset) {
-        try{
-
-            return (antCount+offset) % (1/(sugarAmount*5f/100f)) == 0;
-
-        }catch (ArithmeticException error) {
+        try {
+            return (antCount + offset) % (1 / (SUGARAMOUNT * 5f / 100f)) == 0;
+        } catch (ArithmeticException error) {
             return false;
         }
     }
@@ -95,27 +90,7 @@ public class MarkerBE extends BlockEntity {
     }
 
     public int getSugarAmount() {
-        return sugarAmount;
-    }
-
-    public boolean increaseSugarAmount() {
-        if (sugarAmount >= 10) {
-            return false;
-        }
-        sugarAmount += 1;
-        setChanged();
-        level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
-        return true;
-    }
-
-    public boolean decreaseSugarAmount() {
-        if (sugarAmount <= 0) {
-            return false;
-        }
-        sugarAmount -= 1;
-        setChanged();
-        level.markAndNotifyBlock(getBlockPos(), getLevel().getChunkAt(getBlockPos()), getBlockState(), getBlockState(), 3, 512);
-        return true;
+        return SUGARAMOUNT;
     }
 
     public DyeColor getColor() {
@@ -131,8 +106,6 @@ public class MarkerBE extends BlockEntity {
     public boolean isColored() {
         return color != DyeColor.WHITE;
     }
-
-
 
     @Override
     public @NotNull CompoundTag getUpdateTag() {
@@ -153,7 +126,7 @@ public class MarkerBE extends BlockEntity {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public void checkMarker(AntWorkerEntity pEntity){
+    public void checkMarker(AntWorkerEntity pEntity) {
         if (level == null || level.isClientSide()) {
             return;
         }
@@ -173,7 +146,6 @@ public class MarkerBE extends BlockEntity {
                 .orElse(null);
         increaseNeighbourAntCount();
 
-
         if (nextMarker == null && findAdjacentBlock(pEntity, level, this.getBlockPos(),
                 (entity) -> entity != null &&
                         entity.getBlockPos() != this.getBlockPos() &&
@@ -195,9 +167,9 @@ public class MarkerBE extends BlockEntity {
                         ((MarkerBE) entity).isColored()
         ).orElse(null) == null) {
             nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
-                    entity != null && !pEntity.nodeHistory.contains(entity.getBlockPos())  &&
-                            entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
-                            (((MarkerBE) entity).getColor().equals(this.getColor()))
+                            entity != null && !pEntity.nodeHistory.contains(entity.getBlockPos()) &&
+                                    entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
+                                    (((MarkerBE) entity).getColor().equals(this.getColor()))
                     , 10).orElse(null);
         }
         if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get()) && !level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
@@ -206,7 +178,7 @@ public class MarkerBE extends BlockEntity {
                                     entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
                                     (((MarkerBE) entity).getColor() == this.getColor())
                     , 10).orElse(null);
-        } else if (nextMarker == null){
+        } else if (nextMarker == null) {
             nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
                             entity != null && !pEntity.nodeHistory.contains(entity.getBlockPos()) &&
                                     entity.getBlockPos() != this.getBlockPos() && entity.getBlockState().is(AntsportationBlocks.MARKER.get()) &&
@@ -245,9 +217,9 @@ public class MarkerBE extends BlockEntity {
         return Optional.empty();
     }
 
-    public Direction getAdjacent(AntWorkerEntity pEntity, Level level, BlockPos searchPos){
-        for(Direction dir : Direction.values()){
-            if(searchPos != null && searchPos.relative(dir).compareTo(this.getBlockPos()) == 0){
+    public Direction getAdjacent(AntWorkerEntity pEntity, Level level, BlockPos searchPos) {
+        for (Direction dir : Direction.values()) {
+            if (searchPos != null && searchPos.relative(dir).compareTo(this.getBlockPos()) == 0) {
                 return dir;
             }
         }
@@ -263,7 +235,7 @@ public class MarkerBE extends BlockEntity {
                 blocks.add(dir);
             }
         }
-        if(direction == null){
+        if (direction == null) {
             return 0;
         }
         return blocks.indexOf(direction.getOpposite());

@@ -200,19 +200,6 @@ public class MarkerBlock extends BaseEntityBlock {
         if (pLevel.isClientSide || !(tile instanceof MarkerBE marker)) {
             return InteractionResult.PASS;
         }
-        if(pPlayer.isCrouching()){
-            if(marker.decreaseSugarAmount()) {
-                if (!pPlayer.isCreative()) {
-                    pPlayer.addItem(Items.SUGAR.getDefaultInstance());
-                }
-            }
-        }
-        else if (inHand.is(Items.SUGAR)) {
-            if (marker.increaseSugarAmount()) {
-                shrinkHandItem(pPlayer, inHand);
-                return InteractionResult.SUCCESS;
-            }
-        }
         if (inHand.getItem() instanceof DyeItem dye) {
             marker.setColor(dye.getDyeColor());
             shrinkHandItem(pPlayer, inHand);
