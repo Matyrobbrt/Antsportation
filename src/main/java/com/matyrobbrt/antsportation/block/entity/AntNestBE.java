@@ -127,7 +127,7 @@ public class AntNestBE extends BlockEntity {
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (hasQueen) {
+            if(hasQueen){
                 if(side != Direction.UP) {
                     return inventoryInputLazy.cast();
                 }

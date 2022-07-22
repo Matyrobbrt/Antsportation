@@ -85,6 +85,7 @@ public class AntsportationClient {
         event.registerLayerDefinition(AntQueenModel.LAYER_LOCATION, AntQueenModel::createBodyLayer);
         event.registerLayerDefinition(AntSoldierModel.LAYER_LOCATION, AntSoldierModel::createBodyLayer);
         event.registerLayerDefinition(AntWorkerModel.LAYER_LOCATION, AntWorkerModel::createBodyLayer);
+        event.registerLayerDefinition(AntWorkerModel.LAYER_LOCATION_BOX, AntWorkerModel::createBoxLayer);
     }
 
     @SubscribeEvent

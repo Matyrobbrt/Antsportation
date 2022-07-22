@@ -16,6 +16,9 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("SpellCheckingInspection")
 public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Antsportation.MOD_ID, "ant_worker.png"), "all");
+    public static final ModelLayerLocation LAYER_LOCATION_BOX = new ModelLayerLocation(new ResourceLocation(Antsportation.MOD_ID, "box_model.png"), "bb_main");
+
+
     private final ModelPart all;
     private final ModelPart head;
     private final ModelPart antenna_east;
@@ -31,13 +34,31 @@ public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
     private final ModelPart leg_left_back;
     private final ModelPart thorax;
 
+    private final ModelPart antenna_east_r1;
+    private final ModelPart antenna_west_r1;
+    private final ModelPart leg_right_front_r1;
+    private final ModelPart leg_right_back_r1;
+    private final ModelPart leg_left_front_r1;
+    private final ModelPart leg_left_middle_r1;
+    private final ModelPart thorax_r1;
+
+    private final ModelPart box;
+    private final ModelPart eastFlap;
+    private final ModelPart westFlap;
+    private final ModelPart eastFlap_r1;
+    private final ModelPart westFlap_r1;
+
+    private AntWorkerEntity ant;
 
 
-    public AntWorkerModel(ModelPart bone) {
+
+    public AntWorkerModel(ModelPart bone, ModelPart boxBone) {
         this.all = bone.getChild("all");
         this.head = all.getChild("head");
         this.antenna_east = head.getChild("antenna_east");
         this.antenna_west = head.getChild("antenna_west");
+        this.antenna_east_r1 = antenna_east.getChild("antenna_east_r1");
+        this.antenna_west_r1 = antenna_west.getChild("antenna_west_r1");
         this.body = all.getChild("body");
         this.legs_west = body.getChild("legs_west");
         this.legs_east = body.getChild("legs_east");
@@ -47,7 +68,34 @@ public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
         this.leg_left_front = legs_west.getChild("leg_left_front");
         this.leg_left_middle = legs_west.getChild("leg_left_middle");
         this.leg_left_back = legs_west.getChild("leg_left_back");
+        this.leg_right_front_r1 = leg_right_front.getChild("leg_right_front_r1");
+        this.leg_right_back_r1 = leg_right_back.getChild("leg_right_back_r1");
+        this.leg_left_front_r1 = leg_left_front.getChild("leg_left_front_r1");
+        this.leg_left_middle_r1 = leg_left_middle.getChild("leg_left_middle_r1");
         this.thorax = all.getChild("thorax");
+        this.thorax_r1 = thorax.getChild("thorax_r1");
+        this.box = boxBone.getChild("bb_main");
+        this.eastFlap = box.getChild("Up_East");
+        this.westFlap = box.getChild("Up_West");
+        this.eastFlap_r1 = eastFlap.getChild("Up_East_r1");
+        this.westFlap_r1 = westFlap.getChild("Up_West_r1");
+    }
+    public static LayerDefinition createBoxLayer(){
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition bb_main = partdefinition.addOrReplaceChild("bb_main", CubeListBuilder.create().texOffs(7, 14).addBox(-2.0F, -3.9F, -2.0F, 4.0F, 3.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(14, 0).addBox(-2.0F, -3.9F, 1.9F, 4.0F, 3.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 11).addBox(1.9F, -3.9F, -1.9F, 0.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(10, 1).addBox(-2.0F, -3.9F, -1.9F, 0.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 0).addBox(-1.9F, -0.1F, -1.9F, 3.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+        PartDefinition Up_East = bb_main.addOrReplaceChild("Up_East", CubeListBuilder.create(), PartPose.offset(0, 0, 0));
+        PartDefinition Up_East_r1 = Up_East.addOrReplaceChild("Up_East_r1", CubeListBuilder.create().texOffs(0, 4).addBox(-0.05F, 0.1F, -2.0F, 0.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -3.95F, 0.0F, 0.0F, 0.0F, 0.3927F));
+        PartDefinition Up_West = bb_main.addOrReplaceChild("Up_West", CubeListBuilder.create(), PartPose.offset(0, 0, 0));
+        PartDefinition Up_West_r1 = Up_West.addOrReplaceChild("Up_West_r1", CubeListBuilder.create().texOffs(5, 7).addBox(-0.05F, 0.1F, -2.0F, 0.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -3.95F, 0.0F, 0.0F, 0.0F, -0.3927F));
+
+        return LayerDefinition.create(meshdefinition, 32, 32);
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -108,6 +156,7 @@ public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
     @Override
     public void setupAnim(@NotNull T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         all.y = 35;
+        ant = pEntity;
         this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
         this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);
     }
@@ -117,6 +166,9 @@ public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
         pPoseStack.pushPose();
         pPoseStack.scale(0.7f, 0.7f, 0.7f);
         all.render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+        if(!ant.getOffhandItem().isEmpty()) {
+            box.render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+        }
         pPoseStack.popPose();
     }
 }

@@ -85,6 +85,9 @@ public class MarkerBlock extends BaseEntityBlock {
             return;
         }
         BE.checkMarker(((AntWorkerEntity) pEntity));
+        if (!pLevel.isClientSide()){
+            ant.nodeHistory.add(ant.getNextMarker());
+        }
         if (BE.nextMarker == null || ant.nodeHistory.contains(BE.nextMarker)) {
             return;
         }

@@ -11,9 +11,9 @@ import java.util.List;
 public class AntEntityGen {
     public static void onEntitySpawn(final BiomeLoadingEvent event) {
         addEntityToForrestBiomes(event, AntsportationEntities.ANT_SOLDIER.get(),
-                400, 1, 4);
+                1400, 1, 4);
         addEntityToForrestBiomes(event, AntsportationEntities.ANT_QUEEN.get(),
-                100, 1, 1);
+                800, 1, 1);
     }
 
 

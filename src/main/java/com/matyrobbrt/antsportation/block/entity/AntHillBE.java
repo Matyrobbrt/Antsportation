@@ -44,10 +44,10 @@ public class AntHillBE extends BlockEntity {
     public void tick() {
         if (level != null && hasQueen && level.getGameTime() % SPAWNRATE == 0 && !level.isClientSide()) {
             if (nextMarker == null) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_NEST.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
             }
             if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get())) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_NEST.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
             }
             if (nextMarker == null) {
                 nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get()), 10).orElse(null);
