@@ -86,7 +86,7 @@ public class AntQueenModel<T extends AntQueenEntity> extends EntityModel<T> {
 
         PartDefinition leg_left_front = legs_west.addOrReplaceChild("leg_left_front", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-        PartDefinition leg_left_front_r1 = leg_left_front.addOrReplaceChild("leg_left_front_r1", CubeListBuilder.create().texOffs(0, 16).addBox(0.0175F, -0.7255F, -0.4273F, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6F, -2.25F, -1.4F, -0.6109F, 0.0F, 0.0F));
+        PartDefinition leg_left_front_r1 = leg_left_front.addOrReplaceChild("leg_left_front_r1", CubeListBuilder.create().texOffs(0, 16).addBox(-2.5f, 4f, -1.5f, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2F, -4.8F, 1F, -0.6109F, 0.0F, 0.0F));
 
         PartDefinition leg_left_middle = legs_west.addOrReplaceChild("leg_left_middle", CubeListBuilder.create(), PartPose.offset(0F, 0F, 1.0F));
 
@@ -107,6 +107,7 @@ public class AntQueenModel<T extends AntQueenEntity> extends EntityModel<T> {
     @Override
     public void setupAnim(@NotNull T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         all.y = 35;
+        this.leg_left_front.xRot = (float)Math.sin(pAgeInTicks*0.1f)*0.1f;
     }
 
     @Override

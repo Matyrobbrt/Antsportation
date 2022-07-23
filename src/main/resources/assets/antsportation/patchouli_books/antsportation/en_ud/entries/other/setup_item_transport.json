@@ -1,0 +1,66 @@
+{
+  "name": "Setup item Transport",
+  "category": "antsportation:other",
+  "icon": "minecraft:sugar",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "<gold>$(l:antsportation:blocks/ant_hill)Ant Hills</> are used as beginning and end of the line of ants.<br>First place down an <gold>$(l:antsportation:blocks/ant_nest)Ant Nest</>, put an ant hill on top of that.<br>You can input or output items inside of the Ant Nest at any of the Ant nests sides except the top!",
+      "title": "Input and output"
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Input/Output",
+      "border": true,
+      "images": [
+        "antsportation:patchouli/images/input.png",
+        "antsportation:patchouli/images/output.png"
+      ]
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Setting out a path",
+      "text": "To set out a path for your ants to follow you have to use $(l:antsportation:items/marker)Markers.$()<br>Place a marker down once every 8-10 blocks (lower will work too but it's a bit less reliable. though if it works for 1 ant, it'll work for the others too!)."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Setting out a path",
+      "text": "You can also place the markers on the sides of blocks to have them climb up walls like spiders can! Although don't make the path too small, because they might fall off.<br>When you connect the Input/Output ant hill to the final or first marker, make sure that between the hill and the marker the distance is more than 3 blocks, else ants might get stuck."
+    },
+    {
+      "type": "patchouli:image",
+      "name": "Path",
+      "border": true,
+      "images": [
+        "antsportation:patchouli/images/path.png",
+        "antsportation:patchouli/images/pathstart.png"
+      ]
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Splitting",
+      "text": "It's possible to split a stream of ants into 2.<br> This can be done by placing 2 markers adjacent to your marker where you want to split.<br> Then you can color those 2 markers and the ants will split to those paths (don't continue the white path).<br> You have to continue those 2 paths in their respective colors. You can dye the markers with vanilla dyes.<br> If you want to split where a colored marker is, you first have to merge it with a white marker."
+    },
+    {
+      "type": "patchouli:image",
+      "name": "Splitting",
+      "border": true,
+      "images": [
+        "antsportation:patchouli/images/split.png"
+      ]
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Merging",
+      "text": "You can also merge colored paths back to white markers. This just happens when there is no colored marker within a 10 block radius, it'll try to find a white one and if there is one the ants will go to that one.<br> You can merge multiple colored ones with on white one.<br> After this just continue the white path!"
+    },
+    {
+      "type": "patchouli:image",
+      "name": "Merging",
+      "border": true,
+      "images": [
+        "antsportation:patchouli/images/merge.png"
+      ]
+    }
+  ]
+}

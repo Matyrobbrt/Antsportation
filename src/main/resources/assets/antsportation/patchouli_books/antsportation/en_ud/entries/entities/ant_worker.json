@@ -1,0 +1,17 @@
+{
+  "name": "Worker Ant",
+  "category": "antsportation:entities",
+  "icon": "antsportation:ant_worker_spawn_egg",
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "name": "Worker Ants",
+      "entity":"antsportation:ant_worker"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Worker Ants are spawned by the ant hill to transport your items.<br>The worker ants are peaceful and wont get aggressive if you hit them.",
+      "title": "Worker Ants"
+    }
+  ]
+}

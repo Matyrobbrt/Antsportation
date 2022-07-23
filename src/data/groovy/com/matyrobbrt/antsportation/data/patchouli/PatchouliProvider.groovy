@@ -2,6 +2,7 @@
 package com.matyrobbrt.antsportation.data.patchouli
 
 import com.matyrobbrt.antsportation.Antsportation
+import com.matyrobbrt.antsportation.item.BoxItem
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks
 import com.matyrobbrt.antsportation.registration.AntsportationItems
 import com.matyrobbrt.antsportation.util.Translations
@@ -15,11 +16,13 @@ import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliCategory
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliEntry
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliMacro
 import groovy.transform.CompileStatic
+import net.minecraft.client.Minecraft
 import net.minecraft.core.Registry
 import net.minecraft.data.DataGenerator
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.ItemLike
+import net.minecraftforge.registries.ForgeRegistries
 import org.jetbrains.annotations.Nullable
 
 import javax.annotation.ParametersAreNonnullByDefault
@@ -56,7 +59,12 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
     public static final PatchouliCategory ITEMS_CATEGORY = new PatchouliCategory('Items', 'items', 'Information about Antsportation items', AntsportationBlocks.ANT_JAR.get())
     @PatchouliCategoryGen
     public static final PatchouliCategory BLOCKS_CATEGORY = new PatchouliCategory('Blocks', 'blocks', 'Information about Antsportation blocks', AntsportationBlocks.ANT_NEST.get())
-
+    @PatchouliCategoryGen
+    public static final PatchouliCategory WORLD_CATEGORY = new PatchouliCategory('World', 'world','Information about Antsportation world generation', AntsportationBlocks.ANT_HILL.get())
+    @PatchouliCategoryGen
+    public static final PatchouliCategory OTHER_CATEGORY = new PatchouliCategory('Other', 'other', 'Information about things that dont fit in the other categories', AntsportationItems.MARKER.get())
+    @PatchouliCategoryGen
+    public static final PatchouliCategory ENTITY_CATEGORY = new PatchouliCategory('Entity', 'entities', 'Information about the entities in Antsportation', AntsportationItems.ANT_QUEEN_SPAWN_EGG.get())
 
     @Override
     void addEntries() {
@@ -106,6 +114,34 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             )))
             addPage(boxingStatsPage)
             addPage(getCraftingRecipe(AntsportationBlocks.UNBOXER))
+        }
+        entry(BLOCKS_CATEGORY){
+            displayName 'Ant Hill'
+            icon AntsportationBlocks.ANT_HILL
+            addPage(new SpotlightPage(AntsportationBlocks.ANT_HILL.get(), multiline(
+                    '<item>Ant Hills</> are blocks you can find generating in the world.',
+                    'Upon breaking it there is a chance a queen will pop out.',
+                    '$(l:antsportation:other/setup_item_transport)You can use Ant hills to set up the input and output for your ants.$()',
+                    'Break the Hills with a shovel!'
+            )))
+        }
+
+        entry(BLOCKS_CATEGORY){
+            displayName 'Ant Nest'
+            icon AntsportationBlocks.ANT_NEST
+            addPage(new SpotlightPage(AntsportationBlocks.ANT_NEST.get(), multiline(
+                    '<item>Ant Nests</> are blocks you can find generating in the world.',
+                    'Ant Nests are used in combination with the $(l:antsportation:blocks/ant_hill)Ant Hill$() as an $(l:antsportation:other/setup_item_transport)input and/or output point for your ants.$()',
+                    'You can input and output on all sides by using something such as a hopper or a pipe from any other mod.'
+            )))
+        }
+        entry(BLOCKS_CATEGORY){
+            displayName 'Marker'
+            icon AntsportationItems.MARKER
+            addPage(new SpotlightPage(AntsportationItems.MARKER.get(), multiline(
+                    '<item>Markers</> are used to create a path for the ants to follow.<br>See how this is done in $(l:antsportation:other/setup_item_transport)setup item transport.$()'
+            )))
+            addPage getCraftingRecipe(AntsportationBlocks.MARKER)
         }
     }
 

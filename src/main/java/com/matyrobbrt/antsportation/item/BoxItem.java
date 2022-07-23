@@ -245,6 +245,7 @@ public class BoxItem extends BaseItem {
         public BoxItem asItem() {
             return item.get();
         }
+
     }
 
     public record ItemStackInstance(CompoundTag tag, Consumer<CompoundTag> remover) {

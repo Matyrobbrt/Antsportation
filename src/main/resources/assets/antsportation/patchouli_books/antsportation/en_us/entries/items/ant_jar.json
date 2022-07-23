@@ -1,0 +1,21 @@
+{
+  "name": "Ant Jar",
+  "category": "antsportation:items",
+  "icon": "antsportation:ant_jar",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:ant_jar",
+      "text": "<item>Ant Jars</> are items used to pick up ant queens.<br>Rightclicking an ant queen with an empty and jar will pick it up.<br>You can place it back down by rightclicking with it on a block again (if there is an ant queen inside.<br>You can also place it down by shift rightclicking see $(l:antsportation:blocks/ant_jar_block)<blue>ant jar block</>"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:ant_jar{BlockStateTag:{antinside:\"true\"}}",
+      "text": "<item>Filled ant jars</> can be rightclicked on ant hills to put the queen inside.<br>You can also click the hill with an empty jar and this will put the queen in the jar again."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "antsportation:ant_jar"
+    }
+  ]
+}

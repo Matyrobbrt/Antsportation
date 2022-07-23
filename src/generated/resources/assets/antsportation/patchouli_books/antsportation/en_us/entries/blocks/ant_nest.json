@@ -1,0 +1,12 @@
+{
+  "name": "Ant Nest",
+  "category": "antsportation:blocks",
+  "icon": "antsportation:ant_nest",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:ant_nest",
+      "text": "<item>Ant Nests</> are blocks you can find generating in the world.<br>Ant Nests are used in combination with the $(l:antsportation:blocks/ant_hill)Ant Hill$() as an $(l:antsportation:other/setup_item_transport)input and/or output point for your ants.$()<br>You can input and output on all sides by using something such as a hopper or a pipe from any other mod."
+    }
+  ]
+}

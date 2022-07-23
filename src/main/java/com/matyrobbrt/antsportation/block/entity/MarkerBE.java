@@ -130,7 +130,6 @@ public class MarkerBE extends BlockEntity {
         if (level == null || level.isClientSide()) {
             return;
         }
-        this.ants.add(pEntity.getUUID());
         if (this.ants.size() > 10) {
             ants.clear();
         }

@@ -81,13 +81,13 @@ public class MarkerBlock extends BaseEntityBlock {
         if (!(blockEntity instanceof MarkerBE BE)) {
             return;
         }
+        if (!pLevel.isClientSide()){
+            ant.nodeHistory.add(ant.getNextMarker());
+        }
         if (BE.ants.contains(pEntity.getUUID())) {
             return;
         }
         BE.checkMarker(((AntWorkerEntity) pEntity));
-        if (!pLevel.isClientSide()){
-            ant.nodeHistory.add(ant.getNextMarker());
-        }
         if (BE.nextMarker == null || ant.nodeHistory.contains(BE.nextMarker)) {
             return;
         }

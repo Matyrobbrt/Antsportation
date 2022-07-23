@@ -1,0 +1,21 @@
+{
+  "name": "Ant Jar Block",
+  "category": "antsportation:blocks",
+  "icon": "antsportation:ant_jar",
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "title": "Ant Jar Block",
+      "border": true,
+      "images": [
+        "antsportation:patchouli/images/emptyantjar.png",
+        "antsportation:patchouli/images/antjar.png"
+      ]
+    },
+    {
+      "type": "patchouli:text",
+      "text": "This block is for decoration and for storing ant queens.<br>Place this block down by shift rightclicking with an $(l:antsportation:items/ant_jar)ant jar item.$()<br>If the ant jar is broken while there is an ant inside, the ant will pop out and the jar will break. $(bold)$(#ff0000)The jar will only drop with silktouch!!!</>",
+      "title": "Ant Jar Block"
+    }
+  ]
+}

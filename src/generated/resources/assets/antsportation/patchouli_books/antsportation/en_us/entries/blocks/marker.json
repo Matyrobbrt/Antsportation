@@ -1,0 +1,16 @@
+{
+  "name": "Marker",
+  "category": "antsportation:blocks",
+  "icon": "antsportation:marker",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:marker",
+      "text": "<item>Markers</> are used to create a path for the ants to follow.<br>See how this is done in $(l:antsportation:other/setup_item_transport)setup item transport.$()"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "antsportation:marker"
+    }
+  ]
+}
