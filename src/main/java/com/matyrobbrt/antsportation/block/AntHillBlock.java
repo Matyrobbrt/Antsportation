@@ -122,12 +122,12 @@ public class AntHillBlock extends BaseEntityBlock {
     }
 
     private static final VoxelShape SHAPE = Stream.of(
-            Block.box(5, 10, 5, 11, 11, 11),
-            Block.box(0, -1, 0, 16, 4, 16),
-            Block.box(1, 4, 1, 15, 6, 15),
-            Block.box(2, 6, 2, 14, 8, 14),
-            Block.box(3, 8, 3, 13, 9, 13),
-            Block.box(4, 9, 4, 12, 10, 12)
+            Block.box(5, 11, 5, 11, 12, 11),
+            Block.box(0, 0, 0, 16, 5, 16),
+            Block.box(1, 5, 1, 15, 7, 15),
+            Block.box(2, 7, 2, 14, 9, 14),
+            Block.box(3, 9, 3, 13, 10, 13),
+            Block.box(4, 10, 4, 12, 11, 12)
     ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
     @Override

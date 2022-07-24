@@ -191,6 +191,9 @@ public class MarkerBlock extends BaseEntityBlock {
     @Override
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
         var direction = pState.getValue(FACING);
+        if(direction == Direction.DOWN) {
+            return false;
+        }
         var block = pPos.relative(direction.getOpposite());
         var supportBlockState = pLevel.getBlockState(block);
         return canSupportCenter(pLevel, block, direction);
