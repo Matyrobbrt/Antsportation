@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.client;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.block.entity.BoxModel;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
 import com.matyrobbrt.antsportation.client.blockentity.AntJarRenderer;
 import com.matyrobbrt.antsportation.client.entity.AntQueenModel;
@@ -38,6 +39,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Antsportation.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AntsportationClient {
+
     @SubscribeEvent
     static void clientSetup(final FMLClientSetupEvent event) {
         MinecraftForgeClient.registerTooltipComponentFactory(BoxItem.Tooltip.class, BoxTooltipClient::new);
@@ -85,7 +87,7 @@ public class AntsportationClient {
         event.registerLayerDefinition(AntQueenModel.LAYER_LOCATION, AntQueenModel::createBodyLayer);
         event.registerLayerDefinition(AntSoldierModel.LAYER_LOCATION, AntSoldierModel::createBodyLayer);
         event.registerLayerDefinition(AntWorkerModel.LAYER_LOCATION, AntWorkerModel::createBodyLayer);
-        event.registerLayerDefinition(AntWorkerModel.LAYER_LOCATION_BOX, AntWorkerModel::createBoxLayer);
+        event.registerLayerDefinition(AntWorkerModel.LAYER_LOCATION_BOX, BoxModel::createBoxLayer);
     }
 
     @SubscribeEvent
