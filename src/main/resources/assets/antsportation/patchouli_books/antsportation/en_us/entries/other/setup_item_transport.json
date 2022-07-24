@@ -66,6 +66,11 @@
       "images": [
         "antsportation:patchouli/images/merge.png"
       ]
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Starting the item transport",
+      "text": "To actually start the item transport by the ants you'll have to do one thing.<br>Rightclick the ant hill the ants should come from (so the input) while holding an Ant jar with a queen ant inside.<br>After doing this the ants will pop out and start transporting your items!"
     }
   ]
 }

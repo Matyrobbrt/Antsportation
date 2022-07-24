@@ -1,7 +1,7 @@
 {
   "name": "Setup item Transport",
   "category": "antsportation:other",
-  "icon": "minecraft:sugar",
+  "icon": "antsportation:marker",
   "pages": [
     {
       "type": "patchouli:text",
@@ -29,7 +29,7 @@
     },
     {
       "type": "patchouli:image",
-      "name": "Path",
+      "title": "Path",
       "border": true,
       "images": [
         "antsportation:patchouli/images/path.png",
@@ -39,11 +39,16 @@
     {
       "type": "patchouli:text",
       "title": "Splitting",
-      "text": "It's possible to split a stream of ants into 2.<br> This can be done by placing 2 markers adjacent to your marker where you want to split.<br> Then you can color those 2 markers and the ants will split to those paths (don't continue the white path).<br> You have to continue those 2 paths in their respective colors. You can dye the markers with vanilla dyes.<br> If you want to split where a colored marker is, you first have to merge it with a white marker."
+      "text": "It's possible to split a stream of ants into 2.This can be done by placing 2 markers adjacent to your marker where you want to split.<br> Then you can color those 2 markers and the ants will split to those paths (don't continue the white path).<br>You have to continue those 2 paths in their respective colors. "
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You can dye the markers with vanilla dyes.<br>If you want to split where a colored marker is, you first have to merge it with a white marker.",
+      "title": "Splitting"
     },
     {
       "type": "patchouli:image",
-      "name": "Splitting",
+      "title": "Splitting",
       "border": true,
       "images": [
         "antsportation:patchouli/images/split.png"
@@ -52,15 +57,20 @@
     {
       "type": "patchouli:text",
       "title": "Merging",
-      "text": "You can also merge colored paths back to white markers. This just happens when there is no colored marker within a 10 block radius, it'll try to find a white one and if there is one the ants will go to that one.<br> You can merge multiple colored ones with on white one.<br> After this just continue the white path!"
+      "text": "You can also merge colored paths back to white markers. This just happens when there is no colored marker within a 10 block radius, it'll try to find a white one and if there is one the ants will go to that one.<br>You can merge multiple colored ones with on white one. After this just continue the white path!"
     },
     {
       "type": "patchouli:image",
-      "name": "Merging",
+      "title": "Merging",
       "border": true,
       "images": [
         "antsportation:patchouli/images/merge.png"
       ]
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Starting the item transport",
+      "text": "To actually start the item transport by the ants you'll have to do one thing.<br>Rightclick the ant hill the ants should come from (so the input) while holding an Ant jar with a queen ant inside.<br>After doing this the ants will pop out and start transporting your items!"
     }
   ]
 }
