@@ -1,10 +1,13 @@
 package com.matyrobbrt.antsportation.block;
 
 import com.matyrobbrt.antsportation.block.entity.boxing.UnboxerBE;
+import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.HasRecipe;
 import com.matyrobbrt.antsportation.registration.AntsportationTags;
+import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,9 +26,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
 @ParametersAreNonnullByDefault
-public class UnboxerBlock extends BaseEntityBlock implements HasRecipe {
+@SuppressWarnings("deprecation")
+public class UnboxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoProvider {
     public UnboxerBlock(Properties props) {
         super(props);
     }
@@ -73,5 +78,10 @@ public class UnboxerBlock extends BaseEntityBlock implements HasRecipe {
                 .pattern("CBC")
                 .define('C', Tags.Items.CHESTS)
                 .define('B', AntsportationTags.Items.BOXES);
+    }
+
+    @Override
+    public @NotNull List<Component> getInfo() {
+        return List.of(Translations.JEI_UNBOXER.translate());
     }
 }

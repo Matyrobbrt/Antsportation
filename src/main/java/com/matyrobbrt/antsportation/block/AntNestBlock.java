@@ -1,9 +1,12 @@
 package com.matyrobbrt.antsportation.block;
 
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
+import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -23,9 +26,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
+@ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class AntNestBlock extends BaseEntityBlock {
+public class AntNestBlock extends BaseEntityBlock implements JEIInfoProvider {
     public static final BooleanProperty PLACEDBYPLAYER = BooleanProperty.create("placedbyplayer");
     public AntNestBlock(Properties p_49224_) {
         super(p_49224_);
@@ -34,10 +39,6 @@ public class AntNestBlock extends BaseEntityBlock {
 
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext pContext) {
         return this.defaultBlockState().setValue(PLACEDBYPLAYER, true);
-    }
-
-    private static <T extends BlockEntity> void tick(Level pLevel1, BlockPos pPos, BlockState pState1, T pBlockEntity) {
-        ((AntNestBE) pBlockEntity).tick();
     }
 
     @Override
@@ -59,7 +60,7 @@ public class AntNestBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide() ? null : AntNestBlock::tick;
+        return pLevel.isClientSide() ? null : ($, $1, $2, be) -> ((AntNestBE) be).tick();
     }
 
     @Override
@@ -85,6 +86,10 @@ public class AntNestBlock extends BaseEntityBlock {
                 }
             }
         }
+    }
 
+    @Override
+    public @NotNull List<Component> getInfo() {
+        return List.of(Translations.JEI_ANT_NEST.translate());
     }
 }

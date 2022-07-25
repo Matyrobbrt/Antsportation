@@ -15,16 +15,19 @@ public class AntsportationEntities {
 
     public static final RegistryObject<EntityType<AntQueenEntity>> ANT_QUEEN = ENTITIES.register("ant_queen",
             () -> EntityType.Builder.of(AntQueenEntity::new, MobCategory.CREATURE)
+                    .fireImmune()
                     .sized(0.7f, 0.4f)
                     .build(Antsportation.rlStr("ant_queen")));
 
     public static final RegistryObject<EntityType<AntSoldierEntity>> ANT_SOLDIER = ENTITIES.register("ant_soldier",
             () -> EntityType.Builder.of(AntSoldierEntity::new, MobCategory.CREATURE)
+                    .fireImmune()
                     .sized(1f, 0.4f)
                     .build(Antsportation.rlStr("ant_soldier")));
 
     public static final RegistryObject<EntityType<AntWorkerEntity>> ANT_WORKER = ENTITIES.register("ant_worker",
             () -> EntityType.Builder.of(AntWorkerEntity::new, MobCategory.CREATURE)
+                    .fireImmune()
                     .sized(0.5f, 0.4f)
                     .build(Antsportation.rlStr("ant_worker")));
 }

@@ -122,7 +122,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
                     '<item>Ant Hills</> are blocks you can find generating in the world.',
                     'Upon breaking it there is a chance a queen will pop out.',
                     '$(l:antsportation:other/setup_item_transport)You can use Ant hills to set up the input and output for your ants.$()',
-                    'Note that you cant actually input/output items inside of the anthill. You have to do this in the $(l:antsportation:blocks/ant_nest)ant nest$()',
+                    'A Hill will attempt to spawn a Worker Ant every <gold>$(scfg/ants.hillSpawnDelay)</> ticks.',
                     'Break the Hills with a shovel!'
             )))
         }
@@ -131,7 +131,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             displayName 'Ant Nest'
             icon AntsportationBlocks.ANT_NEST
             addPage(new SpotlightPage(AntsportationBlocks.ANT_NEST.get(), multiline(
-                    '<item>Ant Nests</> are blocks you can find generating in the world.',
+                    '<item>Ant Nests</> are blocks generated in the world.',
                     'Ant Nests are used in combination with the $(l:antsportation:blocks/ant_hill)Ant Hill$() as an $(l:antsportation:other/setup_item_transport)input and/or output point for your ants.$()',
                     'You can input and output on all sides by using something such as a hopper or a pipe from any other mod.',
                     '$(bold)Note that you cannot input/output items in the $(l:antsportation:blocks/ant_hill)ant hill$()'
@@ -144,6 +144,39 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
                     '<item>Markers</> are used to create a path for the ants to follow.<br>See how this is done in $(l:antsportation:other/setup_item_transport)setup item transport.$()'
             )))
             addPage getCraftingRecipe(AntsportationBlocks.MARKER)
+        }
+
+        entry(ITEMS_CATEGORY) {
+            displayName 'Boxes'
+            icon = BoxItem.BoxTier.BASIC.asItem()
+            addPage(new TextPage('Boxes', multiline(
+                    "<item>Boxes</> are used to package items for ant transportation. There are ${BoxItem.BoxTier.values().length} tiers of boxes.",
+                    'All of them can hold different amounts of items and types of items. You can put items in and get items out of boxes with the $(l:antsportation:machines/boxer)Boxer$() and $(l:antsportation:machines/unboxer)Unboxer$() machine respectively.'
+            )))
+            addPage(new TextPage('Displaying contents', multiline(
+                    'The contents of boxes can be displayed in multiple ways:',
+                    'One of the ways is using the tooltip. Pressing shift will display the advanced tooltip which, unlike the normal tooltip, shows the name of the items as well.',
+                    'The other way is using the GUI which can be accessed by right-clicking the box in air.'
+            )))
+            final var recipes = new ArrayList<List<ItemLike>>()
+            for (int i = 0; i < BoxItem.BoxTier.values().size(); i++) {
+                final box = BoxItem.BoxTier.values()[i]
+                addPage(new SpotlightPage(box, multiline(
+                        "${box.name().toLowerCase().capitalize()} boxes are the ${i + 1}${Utils.calculateNumeralType(i + 1)} tier of boxes.",
+                        "They can store <blue>${box.space}</> items and <blue>${box.types}</> types."
+                )))
+                if (recipes.size() < 1 || recipes.get(recipes.size() - 1).size() >= 2) {
+                    recipes.add([(ItemLike) box])
+                } else {
+                    recipes.get(recipes.size() - 1).add(box)
+                }
+            }
+            recipes.each {
+                final var page = new CraftingRecipePage(Registry.ITEM.getKey(it.get(0).asItem()).toString())
+                if (it.size() > 1)
+                    page.addSecondRecipe(Registry.ITEM.getKey(it.get(1).asItem()).toString())
+                addPage(page)
+            }
         }
     }
 

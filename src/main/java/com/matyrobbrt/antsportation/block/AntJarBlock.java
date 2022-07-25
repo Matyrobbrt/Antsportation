@@ -1,10 +1,13 @@
 package com.matyrobbrt.antsportation.block;
 
 import com.matyrobbrt.antsportation.block.entity.AntJarBE;
+import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -22,13 +25,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 import java.util.Properties;
 import java.util.stream.Stream;
 
 @SuppressWarnings("deprecation")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class AntJarBlock extends Block implements EntityBlock {
+public class AntJarBlock extends Block implements EntityBlock, JEIInfoProvider {
     public static final BooleanProperty ANTINSIDE = BooleanProperty.create("antinside");
 
     public AntJarBlock(Properties p_49795_) {
@@ -72,5 +76,12 @@ public class AntJarBlock extends Block implements EntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new AntJarBE(blockPos, blockState);
+    }
+
+    @Override
+    public List<Component> getInfo() {
+        return List.of(
+                Translations.JEI_ANT_JAR.translate()
+        );
     }
 }

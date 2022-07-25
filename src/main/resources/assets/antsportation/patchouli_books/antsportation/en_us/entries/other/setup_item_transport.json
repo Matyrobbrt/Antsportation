@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "<gold>$(l:antsportation:blocks/ant_hill)Ant Hills</> are used as beginning and end of the line of ants.<br>First place down an <gold>$(l:antsportation:blocks/ant_nest)Ant Nest</>, put an ant hill on top of that.<br>You can input or output items inside of the Ant Nest (not the ant hill) at any of the Ant nests sides except the top!<br>$(bold)Ants can only carry boxes so you have to $(l:antsportation:machines/boxer)box$()$(bold)and $(l:antsportation:machines/unboxer)unbox your items!$()",
+      "text": "<gold>$(l:antsportation:blocks/ant_hill)Ant Hills</> are used as the beginning and the end of ant lines.<br>First place down an <gold>$(l:antsportation:blocks/ant_nest)Ant Nest</> and then put an Ant Hill on top of that.<br>You can input or output items into the Nest (not the ant hill) from any sides except the top!",
       "title": "Input and output"
     },
     {
@@ -19,13 +19,13 @@
     },
     {
       "type": "patchouli:text",
-      "title": "Setting out a path",
-      "text": "To set out a path for your ants to follow you have to use $(l:antsportation:items/marker)Markers.$()<br>Place a marker down once every 8-10 blocks (lower will work too but it's a bit less reliable. though if it works for 1 ant, it'll work for the others too!)."
+      "title": "Setting up a path",
+      "text": "To set out a path for your ants to follow you have to use $(l:antsportation:items/marker)Markers.$()<br>Place a marker down once every 8-10 blocks (lower will work too but it's a bit less reliable; Though if it works for 1 ant, it'll work for the others too!)."
     },
     {
       "type": "patchouli:text",
-      "title": "Setting out a path",
-      "text": "You can also place the markers on the sides of blocks to have them climb up walls like spiders can! Although don't make the path too small, because they might fall off.<br>When you connect the Input/Output ant hill to the final or first marker, make sure that between the hill and the marker the distance is more than 3 blocks (it has the same spacing as between markers), else ants might get stuck.<br>$(bold)Only put the ant queen inside one of the ant hills. Never do it on both sides!$()"
+      "title": "Setting up a path",
+      "text": "You can also place the markers on the sides of blocks to have them climb up walls like spiders can! Although don't make the path too small, because they might fall off.<br>When you connect the I/O Ant Hill to the final or first marker, make sure that between the hill and the marker the distance is more than 3 blocks, else ants might get stuck."
     },
     {
       "type": "patchouli:image",
@@ -39,7 +39,7 @@
     {
       "type": "patchouli:text",
       "title": "Splitting",
-      "text": "It's possible to split a stream of ants into 2.This can be done by placing 2 markers adjacent to your marker where you want to split.<br> Then you can color those 2 markers and the ants will split to those paths (don't continue the white path).<br>You have to continue those 2 paths in their respective colors. "
+      "text": "It's possible to split a stream of ants into 2. This can be done by placing 2 markers adjacent to the marker you want to split on.<br> You can afterwards colour the two markers and the ants will split on those paths (don't continue the white path).<br>You have to continue those paths in their respective colours. "
     },
     {
       "type": "patchouli:text",
@@ -57,7 +57,7 @@
     {
       "type": "patchouli:text",
       "title": "Merging",
-      "text": "You can also merge colored paths back to white markers. This just happens when there is no colored marker within a 10 block radius, it'll try to find a white one and if there is one the ants will go to that one.<br>You can merge multiple colored ones with on white one. After this just continue the white path!"
+      "text": "You can also merge colored paths back with white markers. This just happens when there is no colored marker within a 10 block radius, it'll try to find a white one and if there is one the ants will go to that one.<br>You can merge multiple colored ones with a white one. After this, just continue the white path!"
     },
     {
       "type": "patchouli:image",
@@ -69,8 +69,8 @@
     },
     {
       "type": "patchouli:text",
-      "title": "Starting the item transport",
-      "text": "To actually start the item transport by the ants you'll have to do one thing.<br>Rightclick the ant hill the ants should come from (so the input) while holding an Ant jar with a queen ant inside.<br>After doing this the ants will pop out and start transporting your items!"
+      "title": "Start transporting!",
+      "text": "To actually start the AntSportation you'll have to do one thing.<br>Right-click the Ant Hill the ants should come from (so the input) while holding an Ant jar with a queen ant inside.<br>After doing this the ants will pop out and start transporting your items!"
     }
   ]
 }

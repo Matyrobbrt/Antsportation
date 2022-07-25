@@ -1,0 +1,41 @@
+{
+  "name": "Boxes",
+  "category": "antsportation:items",
+  "icon": "antsportation:basic_box",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "<item>Boxes</> are used to package items for ant transportation. There are 3 tiers of boxes.<br>All of them can hold different amounts of items and types of items. You can put items in and get items out of boxes with the $(l:antsportation:machines/boxer)Boxer$() and $(l:antsportation:machines/unboxer)Unboxer$() machine respectively.",
+      "title": "Boxes"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The contents of boxes can be displayed in multiple ways:<br>One of the ways is using the tooltip. Pressing shift will display the advanced tooltip which, unlike the normal tooltip, shows the name of the items as well.<br>The other way is using the GUI which can be accessed by right-clicking the box in air.",
+      "title": "Displaying contents"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:basic_box",
+      "text": "Basic boxes are the 1st tier of boxes.<br>They can store <blue>256</> items and <blue>16</> types."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:advanced_box",
+      "text": "Advanced boxes are the 2nd tier of boxes.<br>They can store <blue>2048</> items and <blue>36</> types."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:epic_box",
+      "text": "Epic boxes are the 3rd tier of boxes.<br>They can store <blue>16384</> items and <blue>64</> types."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "antsportation:basic_box",
+      "recipe2": "antsportation:advanced_box"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "antsportation:epic_box"
+    }
+  ]
+}

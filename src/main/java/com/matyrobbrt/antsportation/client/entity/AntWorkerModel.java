@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("SpellCheckingInspection")
+// Generated with BlockBench
 public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
 
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Antsportation.MOD_ID, "ant_worker.png"), "all");
@@ -25,8 +25,6 @@ public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
     private final ModelPart head;
     private final ModelPart antenna1;
     private final ModelPart antenna2;
-    private final ModelPart mouth1;
-    private final ModelPart mouth2;
     private final ModelPart body;
     private final ModelPart thorax;
     private final ModelPart leg_left_front;
@@ -38,15 +36,12 @@ public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
 
     private final ModelPart leg_right;
     private final ModelPart leg_left;
-    private AntWorkerEntity ant;
 
     public AntWorkerModel(ModelPart bone) {
         this.all = bone.getChild("all");
         this.head = all.getChild("head");
         this.antenna1 = head.getChild("antenna1");
         this.antenna2 = head.getChild("antenna2");
-        this.mouth1 = head.getChild("mouth1");
-        this.mouth2 = head.getChild("mouth2");
         this.body = all.getChild("body");
         this.thorax = all.getChild("thorax");
         this.leg_left = body.getChild("legs_left");
@@ -66,7 +61,7 @@ public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition root = meshdefinition.getRoot();
 
-        PartDefinition all = root.addOrReplaceChild("all", CubeListBuilder.create(), PartPose.offset(0.0F, 34.0F, 0.0F));
+        PartDefinition all = root.addOrReplaceChild("all", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
         PartDefinition head = all.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 9).addBox(-2.0F, -3.0F, -4.0F, 4.0F, 4.0F, 4.0F),
                 PartPose.offset(0.05F, -3.0F, -1.0F));
@@ -116,29 +111,30 @@ public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(@NotNull T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        ant = pEntity;
-        //Initial rot
+        all.y = 34;
         this.head.yRot = pNetHeadYaw * ((float) Math.PI / 180F);
         this.head.xRot = pHeadPitch * ((float) Math.PI / 180F);
         head.xRot += Mth.sin(pAgeInTicks / 10f) / 30f;
         thorax.xRot = -Mth.sin(pAgeInTicks / 5f) / 20f;
-        antenna1.xRot = Mth.sin(pAgeInTicks / 10f) / 10f + 0.6f;
-        antenna2.xRot = Mth.sin(pAgeInTicks / 10f) / 10f + 0.6f;
+        var f1 = -Mth.sin(pAgeInTicks / 10f) / 10f + 0.6f;
+        antenna1.xRot = f1;
+        antenna2.xRot = f1;
 
+        var f2 = (Mth.cos(pLimbSwing * 0.6662F * 2.0F - 0.5F) * 0.5F) * pLimbSwingAmount * 2;
+        var f3 = (Mth.cos(pLimbSwing * 0.6662f * 2.0F + 0.5F) * 0.5F) * pLimbSwingAmount * 2;
         leg_right_back.xRot = 0;
-        leg_right_back.xRot += -(Mth.cos(pLimbSwing * 0.6662F * 2.0F - 0.5F) * 0.5F) * pLimbSwingAmount * 2 + 0.5;
+        leg_right_back.xRot += -f2 + 0.5;
         leg_right_middle.xRot = 0;
-        leg_right_middle.xRot += (Mth.cos(pLimbSwing * 0.6662f * 2.0F + 0.5F) * 0.5F) * pLimbSwingAmount * 2;
+        leg_right_middle.xRot += f3;
         leg_right_front.xRot = 0;
-        leg_right_front.xRot += -(Mth.cos(pLimbSwing * 0.6662F * 2.0F - 0.5F) * 0.5F) * pLimbSwingAmount * 2 - 0.5f;
+        leg_right_front.xRot += -f2 - 0.5f;
 
         leg_left_back.xRot = 0;
-        leg_left_back.xRot += (Mth.cos(pLimbSwing * 0.6662F * 2.0F - 0.5F) * 0.5F) * pLimbSwingAmount * 2 + 0.5;
+        leg_left_back.xRot += f2 + 0.5;
         leg_left_middle.xRot = 0;
-        leg_left_middle.xRot += -(Mth.cos(pLimbSwing * 0.6662f * 2.0F + 0.5F) * 0.5F) * pLimbSwingAmount * 2;
+        leg_left_middle.xRot += -f3;
         leg_left_front.xRot = 0;
-        leg_left_front.xRot += (Mth.cos(pLimbSwing * 0.6662F * 2.0F - 0.5F) * 0.5F) * pLimbSwingAmount * 2 - 0.5f;
-
+        leg_left_front.xRot += f2 - 0.5f;
     }
 
     @Override

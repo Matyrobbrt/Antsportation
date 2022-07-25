@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+@SuppressWarnings("ConstantConditions")
 public class AntsportationBlocks {
     public static final Map<Supplier<? extends Block>, MineData> MINE_DATA = new HashMap<>();
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registry.BLOCK_REGISTRY, Antsportation.MOD_ID);

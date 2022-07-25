@@ -17,8 +17,9 @@ public class AntEntityGen {
     }
 
 
+    @SuppressWarnings("SameParameterValue")
     private static void addEntityToForrestBiomes(BiomeLoadingEvent event, EntityType<?> type,
-                                                  int weight, int minCount, int maxCount) {
+                                                 int weight, int minCount, int maxCount) {
         // Goes through each entry in the biomes and sees if it matches the current biome we are loading
         boolean isBiomeSelected = event.getCategory().compareTo(Biome.BiomeCategory.FOREST) == 0;
 

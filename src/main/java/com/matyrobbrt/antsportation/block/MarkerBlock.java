@@ -1,12 +1,20 @@
 package com.matyrobbrt.antsportation.block;
 
+import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
+import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.util.Translations;
+import com.matyrobbrt.antsportation.util.Utils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
@@ -32,9 +40,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
-public class MarkerBlock extends BaseEntityBlock {
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
+public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
 
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
@@ -77,22 +89,31 @@ public class MarkerBlock extends BaseEntityBlock {
         if (!(pEntity instanceof AntWorkerEntity ant)) {
             return;
         }
-        BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-        if (!(blockEntity instanceof MarkerBE BE)) {
+        if (!(pLevel.getBlockEntity(pPos) instanceof MarkerBE marker)) {
             return;
         }
-        if (!pLevel.isClientSide()){
+        if (!pLevel.isClientSide()) {
             ant.nodeHistory.add(ant.getNextMarker());
         }
-        if (BE.ants.contains(pEntity.getUUID())) {
+        if (marker.ants.contains(pEntity.getUUID())) {
             return;
         }
-        BE.checkMarker(((AntWorkerEntity) pEntity));
-        if (BE.nextMarker == null || ant.nodeHistory.contains(BE.nextMarker)) {
+        marker.checkMarker(ant);
+        if (marker.nextMarker == null || ant.nodeHistory.contains(marker.nextMarker)) {
             return;
         }
-        ant.setNextMarker(BE.nextMarker);
-        BE.ants.add(ant.getUUID());
+        ant.setNextMarker(marker.nextMarker);
+        marker.ants.add(ant.getUUID());
+    }
+
+    @Override
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
+        if (pPlacer instanceof Player player && !pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof MarkerBE marker) {
+            final var near = MarkerBE.findNearestBlock(null, pLevel, pPos, e -> e instanceof MarkerBE marker2 && marker2.getColor() == marker.getColor(), 5);
+            near.ifPresent(blockPos -> Antsportation.informPlayer(player, Translations.MESSAGE_TOO_CLOSE_MARKER.translate(
+                    Utils.textComponent(pPos.toShortString()).withStyle(s -> s.withColor(ChatFormatting.AQUA)), Utils.textComponent(blockPos.toShortString()).withStyle(s -> s.withColor(ChatFormatting.GOLD))
+            )));
+        }
     }
 
     @Nullable
@@ -191,11 +212,10 @@ public class MarkerBlock extends BaseEntityBlock {
     @Override
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
         var direction = pState.getValue(FACING);
-        if(direction == Direction.DOWN) {
+        if (direction == Direction.DOWN) {
             return false;
         }
         var block = pPos.relative(direction.getOpposite());
-        var supportBlockState = pLevel.getBlockState(block);
         return canSupportCenter(pLevel, block, direction);
     }
 
@@ -224,5 +244,10 @@ public class MarkerBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         return new MarkerBE(pPos, pState);
+    }
+
+    @Override
+    public List<Component> getInfo() {
+        return List.of(Translations.JEI_MARKER.translate());
     }
 }

@@ -6,8 +6,7 @@
     {
       "type": "patchouli:text",
       "title": "Two close streams",
-      "text": "If you want to have 2 different streams of ants close to eachother e.g. 2 way traffic, you can color them both a diff color (like red and blue).<br>This will keep them separated however at the ends you'll have to space them further apart to fuse them with a white one again."
-
+      "text": "If you want to have 2 different streams of ants close to eachother e.g. 2 way traffic, you can have them in different colours (like red and blue).<br>This will keep them separated, however at the ends you'll have to space them further apart to fuse them with a white one again."
     },
     {
       "type": "patchouli:text",

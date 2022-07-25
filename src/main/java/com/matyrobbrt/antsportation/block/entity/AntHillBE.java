@@ -1,10 +1,13 @@
 package com.matyrobbrt.antsportation.block.entity;
 
+import com.matyrobbrt.antsportation.compat.top.TOPContext;
+import com.matyrobbrt.antsportation.compat.top.TOPInfoDriver;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.util.Translations;
+import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.Containers;
@@ -14,18 +17,24 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.function.IntSupplier;
 import java.util.function.Predicate;
 
-public class AntHillBE extends BlockEntity {
+public class AntHillBE extends BlockEntity implements TOPInfoDriver {
     public final AntHillBE.Inventory inventory = new Inventory();
-    private static final int SPAWNRATE = 100;
+    private static final IntSupplier SPAWN_RATE = ServerConfig.CONFIG.ants().hillSummonRate()::get;
     public boolean hasQueen = false;
     public BlockPos nextMarker;
 
+    private int ticks;
+
+    private static final Predicate<BlockEntity> IS_HILL = (entity) -> entity instanceof AntHillBE hill && hill.hasQueen;
+    private static final Predicate<BlockEntity> IS_MARKER = (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get());
 
     public AntHillBE(BlockPos pWorldPosition, BlockState pBlockState) {
         super(AntsportationBlocks.ANT_HILL_BE.get(), pWorldPosition, pBlockState);
@@ -42,40 +51,44 @@ public class AntHillBE extends BlockEntity {
 
 
     public void tick() {
-        if (level != null && hasQueen && level.getGameTime() % SPAWNRATE == 0 && !level.isClientSide()) {
+        ticks++;
+        if (level != null && hasQueen && ticks >= SPAWN_RATE.getAsInt()) {
+            ticks = 0;
             if (nextMarker == null) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), IS_HILL, 10).orElse(null);
             }
             if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get())) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), IS_HILL, 10).orElse(null);
             }
             if (nextMarker == null) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get()), 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), IS_MARKER, 10).orElse(null);
             }
             if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get()), 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), IS_MARKER, 10).orElse(null);
             }
             if (nextMarker != null) {
-                AntWorkerEntity antWorker = new AntWorkerEntity(AntsportationEntities.ANT_WORKER.get(), level);
-                    int number = 0;
-                    for (ItemStack stack : this.inventory.getStacks()) {
-                        if (!stack.isEmpty()) {
-                            ItemStack itemStack = stack.copy();
-                            itemStack.setCount(1);
-                            antWorker.setItemSlot(EquipmentSlot.OFFHAND, stack);
-                            this.inventory.extractItem(number, 1, false);
-                            break;
-                        }
-                        number++;
+                for (int i = 0; i < inventory.getSlots(); i++) {
+                    final var stack = inventory.getStackInSlot(i);
+                    if (!stack.isEmpty()) {
+                        AntWorkerEntity antWorker = new AntWorkerEntity(AntsportationEntities.ANT_WORKER.get(), level);
+                        ItemStack itemStack = stack.copy();
+                        final var amount = Math.min(stack.getMaxStackSize(), stack.getCount());
+                        itemStack.setCount(amount);
+                        antWorker.setItemSlot(EquipmentSlot.OFFHAND, itemStack);
+                        inventory.extractItem(i, amount, false);
+                        antWorker.setPos(getBlockPos().getX() + 0.5, getBlockPos().getY() + 1, getBlockPos().getZ() + 0.5);
+                        antWorker.setNextMarker(nextMarker);
+                        antWorker.nodeHistory.add(this.getBlockPos());
+                        level.addFreshEntity(antWorker);
+                        setChanged();
+                        break;
                     }
-                antWorker.setPos(getBlockPos().getX() + 0.5, getBlockPos().getY() + 1, getBlockPos().getZ() + 0.5);
-                antWorker.setNextMarker(nextMarker);
-                antWorker.nodeHistory.add(this.getBlockPos());
-                level.addFreshEntity(antWorker);
+                }
             }
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     public Optional<BlockPos> findNearestBlock(Level level, BlockPos searchPos, Predicate<BlockEntity> p_28076_, double pDistance) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
@@ -84,7 +97,7 @@ public class AntHillBE extends BlockEntity {
                 for (int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
                     for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
                         blockpos$mutableblockpos.setWithOffset(searchPos, k, i - 1, l);
-                        if (searchPos.closerThan(blockpos$mutableblockpos, pDistance) && p_28076_.test(level.getBlockEntity(blockpos$mutableblockpos))) {
+                        if (searchPos.closerThan(blockpos$mutableblockpos, pDistance) && !searchPos.equals(blockpos$mutableblockpos) && p_28076_.test(level.getBlockEntity(blockpos$mutableblockpos))) {
                             return Optional.of(blockpos$mutableblockpos);
                         }
                     }
@@ -117,13 +130,14 @@ public class AntHillBE extends BlockEntity {
         dropContents(inventory);
     }
 
+    @Override
+    public void addInfo(TOPContext context) {
+        context.text(Translations.TOP_TICKS_UNTIL_SPAWN.translate(SPAWN_RATE.getAsInt() - ticks));
+    }
+
     class Inventory extends ItemStackHandler {
         public Inventory() {
             super(10);
-        }
-
-        protected NonNullList<ItemStack> getStacks() {
-            return stacks;
         }
 
         @Override
@@ -137,21 +151,7 @@ public class AntHillBE extends BlockEntity {
         }
     }
 
-    public void extractItem(int slot, int amount, boolean simulate){
-        this.inventory.extractItem(slot, amount, simulate);
-    }
-    public void insertItem(int slot, ItemStack stack, boolean simulate){
-        this.inventory.insertItem(slot, stack, simulate);
-    }
-    public boolean addItem(ItemStack item){
-        int number = 0;
-        for (ItemStack stack : this.inventory.getStacks()) {
-            if ((stack.is(item.getItem()) || stack.isEmpty()) && stack.getCount() + item.getCount() <= item.getMaxStackSize()) {
-                this.inventory.insertItem(number, item, false);
-                return true;
-            }
-            number++;
-        }
-        return false;
+    public ItemStack addItem(ItemStack item){
+        return ItemHandlerHelper.insertItem(inventory, item, false);
     }
 }

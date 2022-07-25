@@ -43,6 +43,20 @@ public enum Translations {
     SUBTITLE_ANT_DEATH("subtitle", "ant_death", "Ant death"),
     SUBTITLE_ANT_WALK("subtitle", "ant_walk", "Ant walking"),
     SUBTITLE_ANT_ATTACK("subtitle", "ant_attack", "Ant attack"),
+
+    JEI_ANT_JAR("jei", "ant_jar", "Used for decoration and storing Ant Queens."),
+    JEI_ANT_NEST("jei", "ant_nest", "Generated randomly throughout forest biomes. Break them with Silk Touch otherwise you might get hurt!"),
+
+    JEI_BOXER("jei", "boxer", "Machine used to pack items into boxes."),
+    JEI_UNBOXER("jei", "unboxer", "Machine used to unpack items from boxes."),
+    JEI_MARKER("jei", "marker", "Used to create a path for ants to follow."),
+    JEI_BOX("jei", "box", "Used to package items for ant transportation. Use Boxers / Unboxers for inserting and extracting items."),
+
+    MESSAGE_BASE("message", "base", "[\u00a76" + Antsportation.MOD_NAME + "\u00a7r] %s"),
+    MESSAGE_TOO_CLOSE_MARKER("message", "too_close_marker", "The marker placed at %s is too close to the marker at %s. Consider spreading the markers for optimal results."),
+
+    TOP_TICKS_UNTIL_SPAWN("top", "ticks_until_spawn", "Ticks until a new ant is spawned: %s"),
+    TOP_MARKER_COLOUR("top", "marker_colour", "Marker colour: %s")
     ;
 
     public final String key;

@@ -16,9 +16,13 @@ import com.matyrobbrt.antsportation.registration.AntsportationMenus;
 import com.matyrobbrt.antsportation.registration.AntsportationPlacedFeatures;
 import com.matyrobbrt.antsportation.registration.AntsportationRecipes;
 import com.matyrobbrt.antsportation.registration.AntsportationSounds;
+import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -39,7 +43,8 @@ public class Antsportation {
     public static final Rarity ADVANCED = Rarity.create("ADVANCED", ChatFormatting.RED);
 
     public static final String MOD_ID = "antsportation";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final String MOD_NAME = "Antsportation";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 
     public Antsportation() {
         LOGGER.debug("Initialising Antsportation");
@@ -93,5 +98,9 @@ public class Antsportation {
 
     public static String rlStr(String path) {
         return MOD_ID + ":" + path;
+    }
+
+    public static void informPlayer(Player player, Component message) {
+        player.sendMessage(Translations.MESSAGE_BASE.translate(message), Util.NIL_UUID);
     }
 }

@@ -90,10 +90,10 @@ public class EmptyNBTRequiredRecipe extends ShapedRecipe {
             int i = pBuffer.readVarInt();
             int j = pBuffer.readVarInt();
             String s = pBuffer.readUtf();
-            NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i * j, Ingredient.EMPTY);
+            NonNullList<Ingredient> items = NonNullList.withSize(i * j, Ingredient.EMPTY);
 
-            for(int k = 0; k < nonnulllist.size(); ++k) {
-                nonnulllist.set(k, Ingredient.fromNetwork(pBuffer));
+            for(int k = 0; k < items.size(); ++k) {
+                items.set(k, Ingredient.fromNetwork(pBuffer));
             }
 
             ItemStack itemstack = pBuffer.readItem();
@@ -102,7 +102,7 @@ public class EmptyNBTRequiredRecipe extends ShapedRecipe {
             for (var x = 0; x < amount; x++) {
                 intList.add(pBuffer.readByte());
             }
-            return new EmptyNBTRequiredRecipe(pRecipeId, s, i, j, nonnulllist, itemstack, intList);
+            return new EmptyNBTRequiredRecipe(pRecipeId, s, i, j, items, itemstack, intList);
         }
 
         @Override

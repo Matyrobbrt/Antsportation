@@ -14,6 +14,7 @@ import com.matyrobbrt.antsportation.client.screen.BaseContainerScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxScreen;
 import com.matyrobbrt.antsportation.client.screen.BoxerScreen;
 import com.matyrobbrt.antsportation.client.screen.UnboxerScreen;
+import com.matyrobbrt.antsportation.client.tooltip.BoxTooltipClient;
 import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
@@ -27,6 +28,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -37,6 +39,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+@SuppressWarnings("unused")
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Antsportation.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AntsportationClient {
 
@@ -48,6 +51,10 @@ public class AntsportationClient {
         addCustomItemProperties();
         setRenderLayer();
         registerBlockEntityRenderer();
+    }
+
+    private static void registerBlockEntityRenderer() {
+        BlockEntityRenderers.register(AntsportationBlocks.ANT_JAR_BE.get(), $ -> new AntJarRenderer());
     }
 
     private static void registerMenus() {
@@ -66,10 +73,10 @@ public class AntsportationClient {
         var blockColors = event.getBlockColors();
         blockColors.register((blockState, tintGetter, blockPos, index) -> {
             var level = Minecraft.getInstance().level;
-            var blockEntity = level.getBlockEntity(blockPos);
+            if (level == null || blockPos == null) return -1;
+            final var blockEntity = level.getBlockEntity(blockPos);
             if (blockEntity instanceof MarkerBE marker) {
-                var color = marker.getColor().getMaterialColor().col;
-                return color;
+                return marker.getColor().getMaterialColor().col;
             }
             return -1;
         }, AntsportationBlocks.MARKER.get());
@@ -111,7 +118,4 @@ public class AntsportationClient {
         ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.ANT_JAR.get(), RenderType.translucent());
     }
 
-    private static void registerBlockEntityRenderer() {
-        AntJarRenderer.register();
-    }
 }
