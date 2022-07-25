@@ -1,9 +1,13 @@
 package com.matyrobbrt.antsportation.block;
 
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
+import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.util.Translations;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -32,9 +36,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
-public class MarkerBlock extends BaseEntityBlock {
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
+public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
 
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
@@ -224,5 +232,10 @@ public class MarkerBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         return new MarkerBE(pPos, pState);
+    }
+
+    @Override
+    public List<Component> getInfo() {
+        return List.of(Translations.JEI_MARKER.translate());
     }
 }

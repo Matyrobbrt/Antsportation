@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "This block is for decoration and for storing ant queens.<br>Place this block down by sneak right-clicking with an $(l:antsportation:items/ant_jar)ant jar.$()<br>If the ant jar is broken while there is an ant inside, the ant will pop out and the jar will break. $(bold)$(#ff0000)The jar will only drop with SilkTouch!</>",
+      "text": "This block is for decoration and for storing Ant Queens.<br>Place this block down by sneak right-clicking with an $(l:antsportation:items/ant_jar)ant jar.$()<br>If the ant jar is broken while there is an ant inside, the ant will pop out and the jar will break. $(bold)$(#ff0000)The jar will only drop with SilkTouch!</>",
       "title": "Ant Jar Block"
     }
   ]

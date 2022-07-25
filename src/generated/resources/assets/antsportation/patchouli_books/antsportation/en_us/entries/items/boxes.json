@@ -16,17 +16,17 @@
     {
       "type": "patchouli:spotlight",
       "item": "antsportation:basic_box",
-      "text": "Basic boxes are the 1st tier of boxes.<br>They can store 256 items and 16 types."
+      "text": "Basic boxes are the 1st tier of boxes.<br>They can store <blue>256</> items and <blue>16</> types."
     },
     {
       "type": "patchouli:spotlight",
       "item": "antsportation:advanced_box",
-      "text": "Advanced boxes are the 2nd tier of boxes.<br>They can store 2048 items and 36 types."
+      "text": "Advanced boxes are the 2nd tier of boxes.<br>They can store <blue>2048</> items and <blue>36</> types."
     },
     {
       "type": "patchouli:spotlight",
       "item": "antsportation:epic_box",
-      "text": "Epic boxes are the 3rt tier of boxes.<br>They can store 16384 items and 64 types."
+      "text": "Epic boxes are the 3rd tier of boxes.<br>They can store <blue>16384</> items and <blue>64</> types."
     },
     {
       "type": "patchouli:crafting",

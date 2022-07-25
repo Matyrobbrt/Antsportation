@@ -14,7 +14,7 @@
     {
       "type": "patchouli:text",
       "title": "Ant Nests",
-      "text": "Ant Nests randomly generate throughout forest biomes.<br>They consist out of an $(l:antsportation:blocks/ant_nest)Ant Nest() with an $(l:antsportation:blocks/ant_hill)Ant Hill$() on top and when you break them they will spawn some $(l:antsportation:entities/soldier_ant)Soldier Ants$() and an $(l:antsportation:entities/ant_queen)Ant Queen!$()"
+      "text": "Ant Nests randomly generate throughout forest biomes.<br>They consist out of an $(l:antsportation:blocks/ant_nest)Ant Nest$() with an $(l:antsportation:blocks/ant_hill)Ant Hill$() on top and when you break them they will spawn some $(l:antsportation:entities/soldier_ant)Soldier Ants$() and an $(l:antsportation:entities/ant_queen)Ant Queen!$()"
     }
   ]
 }

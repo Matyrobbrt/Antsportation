@@ -8,6 +8,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -48,7 +49,7 @@ public class AntHillBE extends BlockEntity {
 
 
     public void tick() {
-        if (level != null && hasQueen && level.getGameTime() % SPAWNRATE == 0 && !level.isClientSide()) {
+        if (level != null && hasQueen && level.getGameTime() % SPAWNRATE == 0) {
             if (nextMarker == null) {
                 nextMarker = findNearestBlock(level, this.getBlockPos(), IS_HILL, 10).orElse(null);
             }
@@ -62,22 +63,22 @@ public class AntHillBE extends BlockEntity {
                 nextMarker = findNearestBlock(level, this.getBlockPos(), IS_MARKER, 10).orElse(null);
             }
             if (nextMarker != null) {
-                AntWorkerEntity antWorker = new AntWorkerEntity(AntsportationEntities.ANT_WORKER.get(), level);
-                    int number = 0;
-                    for (ItemStack stack : this.inventory.getStacks()) {
-                        if (!stack.isEmpty()) {
-                            ItemStack itemStack = stack.copy();
-                            itemStack.setCount(1);
-                            antWorker.setItemSlot(EquipmentSlot.OFFHAND, stack);
-                            this.inventory.extractItem(number, 1, false);
-                            break;
-                        }
-                        number++;
+                for (int i = 0; i < inventory.getSlots(); i++) {
+                    final var stack = inventory.getStackInSlot(i);
+                    if (!stack.isEmpty()) {
+                        AntWorkerEntity antWorker = new AntWorkerEntity(AntsportationEntities.ANT_WORKER.get(), level);
+                        ItemStack itemStack = stack.copy();
+                        itemStack.setCount(1);
+                        antWorker.setItemSlot(EquipmentSlot.OFFHAND, itemStack);
+                        inventory.extractItem(i, 1, false);
+                        antWorker.setPos(getBlockPos().getX() + 0.5, getBlockPos().getY() + 1, getBlockPos().getZ() + 0.5);
+                        antWorker.setNextMarker(nextMarker);
+                        antWorker.nodeHistory.add(this.getBlockPos());
+                        level.addFreshEntity(antWorker);
+                        setChanged();
+                        break;
                     }
-                antWorker.setPos(getBlockPos().getX() + 0.5, getBlockPos().getY() + 1, getBlockPos().getZ() + 0.5);
-                antWorker.setNextMarker(nextMarker);
-                antWorker.nodeHistory.add(this.getBlockPos());
-                level.addFreshEntity(antWorker);
+                }
             }
         }
     }
@@ -123,13 +124,9 @@ public class AntHillBE extends BlockEntity {
         dropContents(inventory);
     }
 
-    private class Inventory extends ItemStackHandler {
+    class Inventory extends ItemStackHandler {
         public Inventory() {
             super(10);
-        }
-
-        protected NonNullList<ItemStack> getStacks() {
-            return stacks;
         }
 
         @Override
@@ -145,13 +142,5 @@ public class AntHillBE extends BlockEntity {
 
     public ItemStack addItem(ItemStack item){
         return ItemHandlerHelper.insertItem(inventory, item, false);
-    }
-
-    private final LazyOptional<IItemHandler> capOptional = LazyOptional.of(() -> inventory);
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, capOptional);
     }
 }

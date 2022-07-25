@@ -65,7 +65,7 @@ public class Utils {
         return switch (last) {
             case 1 -> "st";
             case 2 -> "nd";
-            case 3 -> "rt";
+            case 3 -> "rd";
             default -> "th";
         };
     }

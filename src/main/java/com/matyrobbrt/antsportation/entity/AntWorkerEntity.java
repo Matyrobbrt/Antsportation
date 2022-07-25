@@ -11,19 +11,23 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("ConstantConditions")
 public class AntWorkerEntity extends PathfinderMob {
     public List<BlockPos> nodeHistory = new ArrayList<>();
     private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(AntWorkerEntity.class, EntityDataSerializers.BYTE);
@@ -36,12 +40,12 @@ public class AntWorkerEntity extends PathfinderMob {
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        if(entityData.get(NEXT_MARKER) != null) {
+        if (entityData.get(NEXT_MARKER) != null) {
             pCompound.put("nextMarker", NbtUtils.writeBlockPos(entityData.get(NEXT_MARKER)));
         }
         ListTag listtag = new ListTag();
-        nodeHistory.forEach((node)->{
-            if(node != null){
+        nodeHistory.forEach((node) -> {
+            if (node != null) {
                 listtag.add(NbtUtils.writeBlockPos(node));
             }
         });
@@ -51,11 +55,12 @@ public class AntWorkerEntity extends PathfinderMob {
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        if(pCompound.getCompound("nextMarker") != null) {
+        if (pCompound.getCompound("nextMarker") != null) {
             entityData.set(NEXT_MARKER, NbtUtils.readBlockPos(pCompound.getCompound("nextMarker")));
         }
-        nodeHistory = pCompound.getList("nodeHistory", 10).stream().map(((tag)->(CompoundTag)tag)).map(NbtUtils::readBlockPos).collect(Collectors.toList());
+        nodeHistory = pCompound.getList("nodeHistory", 10).stream().map(((tag) -> (CompoundTag) tag)).map(NbtUtils::readBlockPos).collect(Collectors.toList());
     }
+
     public static AttributeSupplier setAttributes() {
         return PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 5.0D)
@@ -73,6 +78,7 @@ public class AntWorkerEntity extends PathfinderMob {
     protected @NotNull PathNavigation createNavigation(@NotNull Level pLevel) {
         return new WallClimberNavigation(this, pLevel);
     }
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -80,11 +86,11 @@ public class AntWorkerEntity extends PathfinderMob {
         this.entityData.define(NEXT_MARKER, null);
     }
 
-    public void setNextMarker(BlockPos pos){
+    public void setNextMarker(BlockPos pos) {
         this.entityData.set(NEXT_MARKER, pos);
     }
 
-    public BlockPos getNextMarker(){
+    public BlockPos getNextMarker() {
         return this.entityData.get(NEXT_MARKER);
     }
 
@@ -93,14 +99,20 @@ public class AntWorkerEntity extends PathfinderMob {
         super.tick();
         if (!this.level.isClientSide) {
             this.setClimbing(this.horizontalCollision);
-            if(level.getGameTime() % 5 == 0){
-                if(this.getNextMarker() != null) {
+            if (level.getGameTime() % 5 == 0) {
+                if (this.getNextMarker() != null) {
                     this.navigation.moveTo(getNextMarker().getX(), getNextMarker().getY(), getNextMarker().getZ(), 1);
                 }
-
             }
         }
+    }
 
+    @Override
+    @ParametersAreNonnullByDefault
+    public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
+        super.setItemSlot(pSlot, pStack);
+        setPersistenceRequired();
+        setGuaranteedDrop(pSlot);
     }
 
     public boolean isClimbing() {
@@ -137,6 +149,5 @@ public class AntWorkerEntity extends PathfinderMob {
     protected float getSoundVolume() {
         return 0.25f;
     }
-
 
 }

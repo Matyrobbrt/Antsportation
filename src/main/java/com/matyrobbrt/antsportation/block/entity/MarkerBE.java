@@ -19,14 +19,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("ConstantConditions")
 @ParametersAreNonnullByDefault
 public class MarkerBE extends BlockEntity {
 
@@ -59,6 +55,9 @@ public class MarkerBE extends BlockEntity {
         pTag.put("ants", listtag);
     }
 
+    public int getAntCount() {
+        return antCount;
+    }
 
     public void increaseAntCount() {
         antCount++;
@@ -66,10 +65,16 @@ public class MarkerBE extends BlockEntity {
 
     public void increaseNeighbourAntCount() {
         for (Direction dir : Direction.values()) {
-            if (level.getBlockEntity(getBlockPos().relative(dir)) instanceof MarkerBE marker) {
-                marker.increaseAntCount();
+            final BlockEntity blockEntity;
+            blockEntity = level.getBlockEntity(getBlockPos().relative(dir));
+            if (blockEntity != null && blockEntity.getBlockState().is(AntsportationBlocks.MARKER.get())) {
+                ((MarkerBE) blockEntity).increaseAntCount();
             }
         }
+    }
+
+    public void setAntCount(int count) {
+        antCount = count;
     }
 
     public boolean shouldReceiveAnt(int offset) {
@@ -82,6 +87,10 @@ public class MarkerBE extends BlockEntity {
 
     public MarkerBE(BlockPos pWorldPosition, BlockState pBlockState) {
         super(AntsportationBlocks.MARKER_BE.get(), pWorldPosition, pBlockState);
+    }
+
+    public int getSugarAmount() {
+        return SUGARAMOUNT;
     }
 
     public DyeColor getColor() {
@@ -126,7 +135,7 @@ public class MarkerBE extends BlockEntity {
         }
         nextMarker = findAdjacentBlock(pEntity, level, this.getBlockPos(),
                 (entity) -> entity instanceof MarkerBE marker &&
-                        marker.getColor() != getColor() &&
+                        marker.getColor() != this.getColor() &&
                         marker.isColored() &&
                         marker.shouldReceiveAnt(
                                 adjacentBlocks(this.getAdjacent(pEntity, level, entity.getBlockPos()), pEntity, level, this.getBlockPos())
@@ -136,30 +145,35 @@ public class MarkerBE extends BlockEntity {
 
         if (nextMarker == null && findAdjacentBlock(pEntity, level, this.getBlockPos(),
                 (entity) -> entity instanceof MarkerBE marker &&
-                        marker.getColor() != getColor() &&
+                        getColor() != marker.getColor() &&
                         marker.isColored()
         ).orElse(null) == null) {
-            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity instanceof AntHillBE hill && hill.hasQueen, 10).orElse(null);
+            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity instanceof AntHillBE antHill && !antHill.hasQueen, 10).orElse(null);
 
         }
         if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get()) && !level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
-            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity instanceof AntHillBE hill && hill.hasQueen, 10).orElse(null);
+            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity instanceof AntHillBE antHillBE && !antHillBE.hasQueen, 10).orElse(null);
         }
-        final Predicate<BlockEntity> isSameColourMarker = entity -> entity instanceof MarkerBE marker && !pEntity.nodeHistory.contains(entity.getBlockPos()) &&
-                marker.getColor() == getColor();
         if (nextMarker == null && findAdjacentBlock(pEntity, level, this.getBlockPos(),
                 (entity) -> entity instanceof MarkerBE marker &&
-                        marker.getColor() != getColor() &&
+                        marker.getColor() != this.getColor() &&
                         marker.isColored()
         ).orElse(null) == null) {
-            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), isSameColourMarker, 10).orElse(null);
+            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
+                            entity instanceof MarkerBE marker && !pEntity.nodeHistory.contains(entity.getBlockPos()) &&
+                                    marker.getColor() == getColor()
+                    , 10).orElse(null);
         }
         if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get()) && !level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
-            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), isSameColourMarker, 10).orElse(null);
+            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
+                            entity instanceof MarkerBE marker && !pEntity.nodeHistory.contains(entity.getBlockPos()) &&
+                                    marker.getColor() == getColor()
+                    , 10).orElse(null);
         } else if (nextMarker == null) {
             nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
                             entity instanceof MarkerBE marker && !pEntity.nodeHistory.contains(entity.getBlockPos()) &&
-                                    !marker.isColored(), 10).orElse(null);
+                                    !marker.isColored()
+                    , 10).orElse(null);
         }
     }
 

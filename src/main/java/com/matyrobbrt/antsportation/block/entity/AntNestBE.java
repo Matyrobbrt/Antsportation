@@ -70,16 +70,15 @@ public class AntNestBE extends BlockEntity {
     public void tick() {
         if (getLevel().getGameTime() % IORATE == 0) {
             final var above = getLevel().getBlockEntity(worldPosition.above());
-            if (above != null) {
-                above.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(cap -> {
-                    if (hasQueen) {
-                        pushToBlockAbove(cap);
-                    } else {
-                        pullFromBlockAbove(cap);
-                    }
-                });
+            if (above instanceof AntHillBE antHill) {
+                if (hasQueen) {
+                    pushToBlockAbove(antHill);
+                } else {
+                    pullFromBlockAbove(antHill);
+                }
             }
         }
+        hasQueen = getLevel().getBlockEntity(worldPosition.above()) instanceof AntHillBE blockEntity && blockEntity.hasQueen;
     }
 
     @NotNull
@@ -88,20 +87,20 @@ public class AntNestBE extends BlockEntity {
         return level;
     }
 
-    private void pullFromBlockAbove(IItemHandler blockEntity) {
-        for (int i = 0; i < blockEntity.getSlots(); i++) {
-            final var extracted = blockEntity.extractItem(i, 16, true);
+    private void pullFromBlockAbove(AntHillBE blockEntity) {
+        for (int i = 0; i < blockEntity.inventory.getSlots(); i++) {
+            final var extracted = blockEntity.inventory.extractItem(i, 16, true);
             if (!extracted.isEmpty()) {
                 final var remainder = ItemHandlerHelper.insertItem(inventory, extracted, false);
-                blockEntity.extractItem(i, extracted.getCount() - remainder.getCount(), false);
+                blockEntity.inventory.extractItem(i, extracted.getCount() - remainder.getCount(), false);
             }
         }
     }
 
-    private void pushToBlockAbove(IItemHandler blockEntity) {
+    private void pushToBlockAbove(AntHillBE blockEntity) {
         final var slot = inventory.getStackInSlot(0);
         if (slot.isEmpty()) return;
-        final var remainder = ItemHandlerHelper.insertItem(blockEntity, slot, false);
+        final var remainder = ItemHandlerHelper.insertItem(blockEntity.inventory, slot, false);
         inventory.setStackInSlot(0, remainder);
     }
 

@@ -19,12 +19,12 @@
     },
     {
       "type": "patchouli:text",
-      "title": "Setting out a path",
+      "title": "Setting up a path",
       "text": "To set out a path for your ants to follow you have to use $(l:antsportation:items/marker)Markers.$()<br>Place a marker down once every 8-10 blocks (lower will work too but it's a bit less reliable; Though if it works for 1 ant, it'll work for the others too!)."
     },
     {
       "type": "patchouli:text",
-      "title": "Setting out a path",
+      "title": "Setting up a path",
       "text": "You can also place the markers on the sides of blocks to have them climb up walls like spiders can! Although don't make the path too small, because they might fall off.<br>When you connect the I/O Ant Hill to the final or first marker, make sure that between the hill and the marker the distance is more than 3 blocks, else ants might get stuck."
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "type": "patchouli:text",
-      "title": "Starting the item transport",
+      "title": "Start transporting!",
       "text": "To actually start the AntSportation you'll have to do one thing.<br>Right-click the Ant Hill the ants should come from (so the input) while holding an Ant jar with a queen ant inside.<br>After doing this the ants will pop out and start transporting your items!"
     }
   ]

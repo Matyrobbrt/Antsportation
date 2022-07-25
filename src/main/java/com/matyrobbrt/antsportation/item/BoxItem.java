@@ -2,6 +2,7 @@ package com.matyrobbrt.antsportation.item;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.ShapedRecipe;
 import com.matyrobbrt.antsportation.menu.BoxMenu;
@@ -45,7 +46,7 @@ import java.util.stream.Stream;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class BoxItem extends BaseItem {
+public class BoxItem extends BaseItem implements JEIInfoProvider {
     public static final String TAG_ITEMS = "Items";
 
     private final BoxTier tier;
@@ -176,6 +177,11 @@ public class BoxItem extends BaseItem {
         tier.recipe.accept(helper.shaped(this));
     }
 
+    @Override
+    public List<Component> getInfo() {
+        return List.of(Translations.JEI_BOX.translate());
+    }
+
     public enum BoxTier implements ItemLike {
         BASIC(256, 16, 0xffffff, Rarity.COMMON, recipe -> recipe
                 .pattern(
@@ -195,7 +201,7 @@ public class BoxItem extends BaseItem {
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('C', Tags.Items.CHESTS)
                 .define('R', Tags.Items.DUSTS_REDSTONE)),
-        @SuppressWarnings("ConstantConditions")
+        @SuppressWarnings({"ConstantConditions", "deprecation"})
         EPIC(16384, 64, Rarity.EPIC.color.getColor(), Rarity.EPIC, recipe -> recipe
                 .pattern(
                         "IDI",

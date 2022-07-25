@@ -162,7 +162,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
                 final box = BoxItem.BoxTier.values()[i]
                 addPage(new SpotlightPage(box, multiline(
                         "${box.name().toLowerCase().capitalize()} boxes are the ${i + 1}${Utils.calculateNumeralType(i + 1)} tier of boxes.",
-                        "They can store ${box.space} items and ${box.types} types."
+                        "They can store <blue>${box.space}</> items and <blue>${box.types}</> types."
                 )))
                 if (recipes.size() < 1 || recipes.get(recipes.size() - 1).size() >= 2) {
                     recipes.add([(ItemLike) box])
