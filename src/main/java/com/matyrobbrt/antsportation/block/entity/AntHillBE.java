@@ -72,9 +72,10 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
                     if (!stack.isEmpty()) {
                         AntWorkerEntity antWorker = new AntWorkerEntity(AntsportationEntities.ANT_WORKER.get(), level);
                         ItemStack itemStack = stack.copy();
-                        itemStack.setCount(1);
+                        final var amount = Math.min(stack.getMaxStackSize(), stack.getCount());
+                        itemStack.setCount(amount);
                         antWorker.setItemSlot(EquipmentSlot.OFFHAND, itemStack);
-                        inventory.extractItem(i, 1, false);
+                        inventory.extractItem(i, amount, false);
                         antWorker.setPos(getBlockPos().getX() + 0.5, getBlockPos().getY() + 1, getBlockPos().getZ() + 0.5);
                         antWorker.setNextMarker(nextMarker);
                         antWorker.nodeHistory.add(this.getBlockPos());

@@ -38,6 +38,9 @@ class Tags {
             for (final value in BoxItem.BoxTier.values()) {
                 boxes.add(value.asItem())
             }
+
+            tag(AntsportationTags.Items.ANT_TRANSPORTABLE)
+                    .addTag(AntsportationTags.Items.BOXES)
         }
     }
 }

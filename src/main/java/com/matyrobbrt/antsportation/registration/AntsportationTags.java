@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 public class AntsportationTags {
     public static final class Items {
         public static final TagKey<Item> BOXES = grabMod("boxes");
+        public static final TagKey<Item> ANT_TRANSPORTABLE = grabMod("ant_transportable");
 
         private static TagKey<Item> grabMod(String path) {
             return TagKey.create(Registry.ITEM_REGISTRY, Antsportation.rl(path));
