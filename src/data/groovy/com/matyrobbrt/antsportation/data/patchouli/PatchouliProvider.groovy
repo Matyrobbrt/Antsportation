@@ -6,6 +6,7 @@ import com.matyrobbrt.antsportation.item.BoxItem
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks
 import com.matyrobbrt.antsportation.registration.AntsportationItems
 import com.matyrobbrt.antsportation.util.Translations
+import com.matyrobbrt.antsportation.util.Utils
 import com.matyrobbrt.lib.datagen.patchouli.PatchouliProvider.PatchouliBookGen
 import com.matyrobbrt.lib.datagen.patchouli.PatchouliProvider.PatchouliCategoryGen
 import com.matyrobbrt.lib.datagen.patchouli.page.CraftingRecipePage
