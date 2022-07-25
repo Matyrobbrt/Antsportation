@@ -20,7 +20,7 @@ public enum Translations {
     SPEED_UPGRADE_TOOLTIP("tooltip.item", "speed_upgrade", "Insert in a Boxer in order to make it faster."),
     SPEED_UPGRADE_TOOLTIP2("tooltip.item", "speed_upgrade_2", "Decreases process duration by %s ticks."),
     SPEED_UPGRADE_TOOLTIP3("tooltip.item", "speed_upgrade_3", "Increases energy usage: %s more FE / tick"),
-    TRANSPORTABLE_ITEM("tooltip.item", "transportable", "This item can be transported by ants."),
+    TRANSPORTABLE_ITEM("tooltip.item", "transportable", "This item can be transported directly by ants."),
 
     HAS_ANT_TOOLTIP("tooltip.item", "has_ant", "This jar contains an ant"),
 

@@ -57,7 +57,7 @@
   "tooltip.item.antsportation.speed_upgrade": "Insert in a Boxer in order to make it faster.",
   "tooltip.item.antsportation.speed_upgrade_2": "Decreases process duration by %s ticks.",
   "tooltip.item.antsportation.speed_upgrade_3": "Increases energy usage: %s more FE / tick",
-  "tooltip.item.antsportation.transportable": "This item can be transported by ants.",
+  "tooltip.item.antsportation.transportable": "This item can be transported directly by ants.",
   "top.antsportation.marker_colour": "Marker colour: %s",
   "top.antsportation.ticks_until_spawn": "Ticks until a new ant is spawned: %s"
 }
