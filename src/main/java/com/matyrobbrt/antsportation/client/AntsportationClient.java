@@ -21,6 +21,9 @@ import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationMenus;
+import com.matyrobbrt.antsportation.registration.AntsportationTags;
+import com.matyrobbrt.antsportation.util.Translations;
+import com.matyrobbrt.antsportation.util.config.ClientConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -35,6 +38,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -51,6 +56,8 @@ public class AntsportationClient {
         addCustomItemProperties();
         setRenderLayer();
         registerBlockEntityRenderer();
+
+        MinecraftForge.EVENT_BUS.addListener(AntsportationClient::onTooltip);
     }
 
     private static void registerBlockEntityRenderer() {
@@ -102,6 +109,12 @@ public class AntsportationClient {
         event.registerEntityRenderer(AntsportationEntities.ANT_QUEEN.get(), AntQueenRenderer::new);
         event.registerEntityRenderer(AntsportationEntities.ANT_SOLDIER.get(), AntSoldierRenderer::new);
         event.registerEntityRenderer(AntsportationEntities.ANT_WORKER.get(), AntWorkerRenderer::new);
+    }
+
+    static void onTooltip(final ItemTooltipEvent event) {
+        if (ClientConfig.CONFIG.showTransportableItems().get() && event.getItemStack().is(AntsportationTags.Items.ANT_TRANSPORTABLE)) {
+            event.getToolTip().add(Translations.TRANSPORTABLE_ITEM.translate());
+        }
     }
 
     public static void renderBg(BaseContainerScreen<?> containerScreen, ResourceLocation texture, PoseStack poseStack) {

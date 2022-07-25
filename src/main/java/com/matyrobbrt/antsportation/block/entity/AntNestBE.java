@@ -29,6 +29,7 @@ public class AntNestBE extends BlockEntity {
     private final LazyOptional<IItemHandler> inventoryInputLazy = LazyOptional.of(() -> new DelegatingItemHandler(inventory) {
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            if (!ServerConfig.CONFIG.ants().onlyTransportableItems().get()) return super.insertItem(slot, stack, simulate);
             return stack.is(AntsportationTags.Items.ANT_TRANSPORTABLE) ? super.insertItem(slot, stack, simulate) : stack;
         }
 

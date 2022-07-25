@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.util.config;
 
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
+import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
@@ -45,7 +46,10 @@ public record ServerConfig(Boxing boxing, Ants ants) {
                     builder.comment("The delay in ticks until Ant Hills will spawn a new Worker Ant.")
                             .defineInRange("hillSpawnDelay", 100, 1, 100_000),
                     builder.comment("The delay in ticks before an Ant Nest will attempt to push / pull into a hill.")
-                            .defineInRange("nestIORate", 5, 1, 100_000)
+                            .defineInRange("nestIORate", 5, 1, 100_000),
+                    builder.comment("If the only items that can be transported directly by ants are the ones in the '" + AntsportationTags.Items.ANT_TRANSPORTABLE.location() + "' tag.",
+                                    "If 'false', all items can be transported directly by ants.")
+                            .define("onlyTransportableItems", true)
             );
         }
         builder.pop();
@@ -62,7 +66,7 @@ public record ServerConfig(Boxing boxing, Ants ants) {
             return (int) ((AntsportationItems.SPEED_UPGRADE.get().getDefaultInstance().getMaxStackSize() * upgradeEnergyUsage.get()) * 1.50);
         }
     }
-    public record Ants(IntValue hillSummonRate, IntValue nestIORate) {}
+    public record Ants(IntValue hillSummonRate, IntValue nestIORate, ForgeConfigSpec.BooleanValue onlyTransportableItems) {}
 
     public static int getBoxing(Function<Boxing, IntValue> getter) {
         return getter.apply(CONFIG.boxing()).get();

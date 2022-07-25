@@ -17,6 +17,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationPlacedFeatures;
 import com.matyrobbrt.antsportation.registration.AntsportationRecipes;
 import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import com.matyrobbrt.antsportation.util.Translations;
+import com.matyrobbrt.antsportation.util.config.ClientConfig;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -67,6 +68,7 @@ public class Antsportation {
         bus.addListener((final RegisterCapabilitiesEvent event) -> event.register(OneTimeRewardCap.class));
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, MOD_ID + "-server.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC, MOD_ID + "-client.toml");
 
         LOGGER.debug("Antsportation initialized");
 
