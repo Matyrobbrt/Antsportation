@@ -19,7 +19,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -44,7 +43,6 @@ import java.util.function.Consumer;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-// TODO the box model should be common but with a tint based on tier colour
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class BoxItem extends BaseItem {
@@ -154,12 +152,6 @@ public class BoxItem extends BaseItem {
     }
 
     @Override
-    public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
-        // load(stack, Registry.ITEM.byId(new Random().nextInt(Registry.ITEM.size())).getDefaultInstance());
-        return super.onLeftClickEntity(stack, player, entity);
-    }
-
-    @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Translations.TOOLTIP_ITEMS.translate(
                 Utils.textComponent(Utils.getCompressedCount(getStoredCount(pStack))).withStyle(ChatFormatting.GOLD),
@@ -203,6 +195,7 @@ public class BoxItem extends BaseItem {
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('C', Tags.Items.CHESTS)
                 .define('R', Tags.Items.DUSTS_REDSTONE)),
+        @SuppressWarnings("ConstantConditions")
         EPIC(16384, 64, Rarity.EPIC.color.getColor(), Rarity.EPIC, recipe -> recipe
                 .pattern(
                         "IDI",

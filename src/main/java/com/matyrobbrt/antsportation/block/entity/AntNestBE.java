@@ -5,16 +5,17 @@ import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import com.matyrobbrt.antsportation.util.cap.DelegatingItemHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -67,48 +68,41 @@ public class AntNestBE extends BlockEntity {
     }
 
     public void tick() {
-        if(level != null && level.getGameTime() % IORATE == 0 && level.getBlockEntity(this.worldPosition.above()) instanceof AntHillBE blockEntity) {
-            if (hasQueen) {
-                pushToBlockAbove(blockEntity);
-            }else{
-                pullFromBlockAbove(blockEntity);
-            }
-        } else if(level != null && level.getBlockEntity(this.worldPosition.above()) instanceof AntHillBE blockEntity){
-            this.hasQueen = blockEntity.hasQueen;
-        } else{
-            this.hasQueen = false;
-        }
-    }
-
-    private void pullFromBlockAbove(AntHillBE blockEntity) {
-        final ItemStack slot = inventory.getStackInSlot(0);
-        if(slot.getCount() + 1 <= slot.getMaxStackSize()) {
-            int number = 0;
-            for (ItemStack stack : blockEntity.inventory.getStacks()) {
-                if (!stack.isEmpty()) {
-                    ItemStack itemStack = stack.copy();
-                    itemStack.setCount(1);
-                    this.inventory.insertItem(0, itemStack, false);
-                    blockEntity.inventory.extractItem(number, 1, false);
-                }
-                number++;
+        if (getLevel().getGameTime() % IORATE == 0) {
+            final var above = getLevel().getBlockEntity(worldPosition.above());
+            if (above != null) {
+                above.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(cap -> {
+                    if (hasQueen) {
+                        pushToBlockAbove(cap);
+                    } else {
+                        pullFromBlockAbove(cap);
+                    }
+                });
             }
         }
     }
 
-    private void pushToBlockAbove(AntHillBE blockEntity){
-        if(this.inventory.getStackInSlot(0).getCount() - 1 >= 0) {
-            int number = 0;
-            for (ItemStack stack : blockEntity.inventory.getStacks()) {
-                if (stack.getCount() + 1 <= stack.getMaxStackSize()) {
-                    ItemStack itemStack = inventory.getStackInSlot(0);
-                    itemStack.setCount(1);
-                    blockEntity.inventory.insertItem(number, itemStack, false);
-                    this.inventory.extractItem(0, 1, false);
-                }
-                number++;
+    @NotNull
+    @SuppressWarnings("ConstantConditions")
+    public Level getLevel() {
+        return level;
+    }
+
+    private void pullFromBlockAbove(IItemHandler blockEntity) {
+        for (int i = 0; i < blockEntity.getSlots(); i++) {
+            final var extracted = blockEntity.extractItem(i, 16, true);
+            if (!extracted.isEmpty()) {
+                final var remainder = ItemHandlerHelper.insertItem(inventory, extracted, false);
+                blockEntity.extractItem(i, extracted.getCount() - remainder.getCount(), false);
             }
         }
+    }
+
+    private void pushToBlockAbove(IItemHandler blockEntity) {
+        final var slot = inventory.getStackInSlot(0);
+        if (slot.isEmpty()) return;
+        final var remainder = ItemHandlerHelper.insertItem(blockEntity, slot, false);
+        inventory.setStackInSlot(0, remainder);
     }
 
     private void dropContents(IItemHandler handler) {
@@ -127,12 +121,12 @@ public class AntNestBE extends BlockEntity {
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if(hasQueen){
-                if(side != Direction.UP) {
+            if (hasQueen) {
+                if (side != Direction.UP) {
                     return inventoryInputLazy.cast();
                 }
-            }else{
-                if(side != Direction.UP) {
+            } else {
+                if (side != Direction.UP) {
                     return inventoryOutputLazy.cast();
                 }
             }
@@ -140,13 +134,9 @@ public class AntNestBE extends BlockEntity {
         return super.getCapability(cap, side);
     }
 
-    class Inventory extends ItemStackHandler {
+    private class Inventory extends ItemStackHandler {
         public Inventory() {
             super(1);
-        }
-
-        protected NonNullList<ItemStack> getStacks() {
-            return stacks;
         }
 
         @Override

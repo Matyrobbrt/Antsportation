@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("SpellCheckingInspection")
+// Generated with BlockBench
 public class AntQueenModel<T extends AntQueenEntity> extends EntityModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Antsportation.MOD_ID, "ant_queen.png"), "all");
     private final ModelPart all;

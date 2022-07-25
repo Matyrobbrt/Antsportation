@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation.block;
 
+import com.matyrobbrt.antsportation.block.entity.AntHillBE;
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
 public class AntNestBlock extends BaseEntityBlock {
     public static final BooleanProperty PLACEDBYPLAYER = BooleanProperty.create("placedbyplayer");
@@ -85,6 +87,12 @@ public class AntNestBlock extends BaseEntityBlock {
                 }
             }
         }
+    }
 
+    @Override
+    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
+        if (!pLevel.isClientSide && pLevel.getBlockEntity(pPos) instanceof AntNestBE nest) {
+            nest.hasQueen = pLevel.getBlockEntity(pPos) instanceof AntHillBE blockEntity && blockEntity.hasQueen;
+        }
     }
 }

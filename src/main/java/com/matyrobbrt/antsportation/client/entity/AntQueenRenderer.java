@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
+// Generated with BlockBench
 public class AntQueenRenderer extends MobRenderer<AntQueenEntity, AntQueenModel<AntQueenEntity>> {
     public static final ResourceLocation ANT_QUEEN_LOCATION = new ResourceLocation(Antsportation.MOD_ID, "textures/entity/ant_queen.png");
 

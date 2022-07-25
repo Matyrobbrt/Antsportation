@@ -5,13 +5,11 @@ import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.item.AntJarItem;
-import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -75,14 +73,11 @@ public class AntHillBlock extends BaseEntityBlock {
 
     @Override
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
-        AntHillBE blockEntity = pLevel.getBlockEntity(pPos) != null && pLevel.getBlockEntity(pPos).getBlockState().is(AntsportationBlocks.ANT_HILL.get()) ? ((AntHillBE) pLevel.getBlockEntity(pPos)) : null;
-        if(!pLevel.isClientSide() && pEntity instanceof AntWorkerEntity ant && !blockEntity.hasQueen){
-            boolean success = blockEntity.addItem(ant.getOffhandItem());
-            if(success){
-                ant.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
-            }
-            if(ant.getOffhandItem() != null){
-                ant.spawnAtLocation(ant.getOffhandItem());
+        if (!pLevel.isClientSide() && pEntity instanceof AntWorkerEntity ant && pLevel.getBlockEntity(pPos) instanceof AntHillBE blockEntity && blockEntity.hasQueen){
+            final var remainder = blockEntity.addItem(ant.getOffhandItem());
+            ant.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+            if (!remainder.isEmpty()) {
+                ant.spawnAtLocation(remainder);
             }
             ant.discard();
         }
@@ -103,8 +98,11 @@ public class AntHillBlock extends BaseEntityBlock {
                 if (antHill.hasQueen) {
                     antHill.hasQueen = false;
                     CompoundTag withAnt = new CompoundTag();
-                    withAnt.put("BlockStateTag", new CompoundTag());
-                    withAnt.getCompound("BlockStateTag").putString("antinside", "true");
+                    {
+                        final CompoundTag comp = new CompoundTag();
+                        comp.putString("antinside", "true");
+                        withAnt.put("BlockStateTag", comp);
+                    }
                     ItemStack antJar = new ItemStack(AntsportationItems.ANT_JAR.get());
                     antJar.setTag(withAnt);
                     pPlayer.setItemInHand(pHand, antJar);

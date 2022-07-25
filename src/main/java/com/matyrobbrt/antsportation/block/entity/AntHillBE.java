@@ -13,7 +13,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +30,8 @@ public class AntHillBE extends BlockEntity {
     public boolean hasQueen = false;
     public BlockPos nextMarker;
 
+    private static final Predicate<BlockEntity> IS_HILL = (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen;
+    private static final Predicate<BlockEntity> IS_MARKER = (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get());
 
     public AntHillBE(BlockPos pWorldPosition, BlockState pBlockState) {
         super(AntsportationBlocks.ANT_HILL_BE.get(), pWorldPosition, pBlockState);
@@ -44,16 +50,16 @@ public class AntHillBE extends BlockEntity {
     public void tick() {
         if (level != null && hasQueen && level.getGameTime() % SPAWNRATE == 0 && !level.isClientSide()) {
             if (nextMarker == null) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), IS_HILL, 10).orElse(null);
             }
             if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get())) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen, 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), IS_HILL, 10).orElse(null);
             }
             if (nextMarker == null) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get()), 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), IS_MARKER, 10).orElse(null);
             }
             if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
-                nextMarker = findNearestBlock(level, this.getBlockPos(), (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get()), 10).orElse(null);
+                nextMarker = findNearestBlock(level, this.getBlockPos(), IS_MARKER, 10).orElse(null);
             }
             if (nextMarker != null) {
                 AntWorkerEntity antWorker = new AntWorkerEntity(AntsportationEntities.ANT_WORKER.get(), level);
@@ -117,7 +123,7 @@ public class AntHillBE extends BlockEntity {
         dropContents(inventory);
     }
 
-    class Inventory extends ItemStackHandler {
+    private class Inventory extends ItemStackHandler {
         public Inventory() {
             super(10);
         }
@@ -137,21 +143,15 @@ public class AntHillBE extends BlockEntity {
         }
     }
 
-    public void extractItem(int slot, int amount, boolean simulate){
-        this.inventory.extractItem(slot, amount, simulate);
+    public ItemStack addItem(ItemStack item){
+        return ItemHandlerHelper.insertItem(inventory, item, false);
     }
-    public void insertItem(int slot, ItemStack stack, boolean simulate){
-        this.inventory.insertItem(slot, stack, simulate);
-    }
-    public boolean addItem(ItemStack item){
-        int number = 0;
-        for (ItemStack stack : this.inventory.getStacks()) {
-            if ((stack.is(item.getItem()) || stack.isEmpty()) && stack.getCount() + item.getCount() <= item.getMaxStackSize()) {
-                this.inventory.insertItem(number, item, false);
-                return true;
-            }
-            number++;
-        }
-        return false;
+
+    private final LazyOptional<IItemHandler> capOptional = LazyOptional.of(() -> inventory);
+
+    @NotNull
+    @Override
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
+        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, capOptional);
     }
 }

@@ -2,7 +2,7 @@ package com.matyrobbrt.antsportation.client.screen;
 
 import com.google.common.collect.Lists;
 import com.matyrobbrt.antsportation.Antsportation;
-import com.matyrobbrt.antsportation.client.BoxTooltipClient;
+import com.matyrobbrt.antsportation.client.tooltip.BoxTooltipClient;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.menu.BoxMenu;
 import com.matyrobbrt.antsportation.util.Utils;

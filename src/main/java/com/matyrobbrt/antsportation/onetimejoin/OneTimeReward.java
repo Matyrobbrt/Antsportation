@@ -24,7 +24,7 @@ public class OneTimeReward extends ForgeRegistryEntry<OneTimeReward> {
         final Codec<List<ItemStack>> item = ItemStack.CODEC.listOf();
         @Override
         public <T> DataResult<Pair<OneTimeReward, T>> decode(DynamicOps<T> ops, T input) {
-            return ops.getMap(input).<OneTimeReward>flatMap(map -> {
+            return ops.getMap(input).flatMap(map -> {
                 var val = map.get("requiredMod");
                 if (val == null)
                     val = ops.createString("");

@@ -1,4 +1,4 @@
-package com.matyrobbrt.antsportation.client;
+package com.matyrobbrt.antsportation.client.tooltip;
 
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.util.Translations;
@@ -109,6 +109,7 @@ public final class BoxTooltipClient implements ClientTooltipComponent {
         pFont.drawShadow(pPoseStack, formattedcharsequence, (float)(pX - pFont.width(formattedcharsequence) / 2), (float)pY, pColor);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void drawBorder(int pX, int pY, int pSlotWidth, int pSlotHeight, PoseStack pPoseStack, int pBlitOffset) {
         blit(pPoseStack, pX, pY, pBlitOffset, Texture.BORDER_CORNER_TOP);
         blit(pPoseStack, pX + pSlotWidth * 18 + 1, pY, pBlitOffset, Texture.BORDER_CORNER_TOP);
@@ -151,7 +152,7 @@ public final class BoxTooltipClient implements ClientTooltipComponent {
         public final int w;
         public final int h;
 
-        private Texture(int x, int y, int width, int height) {
+        Texture(int x, int y, int width, int height) {
             this.x = x;
             this.y = y;
             this.w = width;
