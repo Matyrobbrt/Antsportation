@@ -60,6 +60,16 @@ public class Utils {
         }
     }
 
+    public static String calculateNumeralType(int x) {
+        final var last = x % 10;
+        return switch (last) {
+            case 1 -> "st";
+            case 2 -> "nd";
+            case 3 -> "rt";
+            default -> "th";
+        };
+    }
+
     // Automatic en_ud generation
     // Inspired from https://github.com/Tropicraft/Tropicraft/blob/a600e6bce7f1d131eb2a7d1e6fa36e1718d2014f/src/main/java/net/tropicraft/core/client/data/TropicraftLangProvider.java#L526-L567
 

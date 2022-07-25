@@ -14,15 +14,16 @@ import java.util.List;
 import java.util.Set;
 
 public class AntNestGen {
-    public static void generateNest(final BiomeLoadingEvent event){
-        ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
-        Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(key);
+    public static void generateNest(final BiomeLoadingEvent event) {
+        if (event.getName() == null) return;
+        final ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
+        final var types = BiomeDictionary.getTypes(key);
 
-        if(types.contains(BiomeDictionary.Type.FOREST)) {
+        if (types.contains(BiomeDictionary.Type.FOREST)) {
             List<Holder<PlacedFeature>> base =
                     event.getGeneration().getFeatures(GenerationStep.Decoration.TOP_LAYER_MODIFICATION);
 
-            base.add(AntsportationPlacedFeatures.ANT_NEST_PLACED.getHolder().get());
+            base.add(AntsportationPlacedFeatures.ANT_NEST_PLACED.getHolder().orElseThrow());
         }
     }
 }

@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Worker Ants are spawned by the ant hill to transport your items.<br>The worker ants are peaceful and wont get aggressive if you hit them.",
+      "text": "Worker Ants are spawned by the ant hill to transport your items.<br>The worker ants are peaceful and won't get aggressive if you hit them.",
       "title": "Worker Ants"
     }
   ]
