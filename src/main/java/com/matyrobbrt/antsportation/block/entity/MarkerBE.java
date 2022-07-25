@@ -1,7 +1,12 @@
 package com.matyrobbrt.antsportation.block.entity;
 
+import com.matyrobbrt.antsportation.compat.top.TOPContext;
+import com.matyrobbrt.antsportation.compat.top.TOPInfoDriver;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.util.Translations;
+import com.matyrobbrt.antsportation.util.Utils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -23,8 +28,9 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("ConstantConditions")
 @ParametersAreNonnullByDefault
-public class MarkerBE extends BlockEntity {
+public class MarkerBE extends BlockEntity implements TOPInfoDriver {
 
     private static final int SUGARAMOUNT = 10;
     private DyeColor color = DyeColor.WHITE;
@@ -55,10 +61,6 @@ public class MarkerBE extends BlockEntity {
         pTag.put("ants", listtag);
     }
 
-    public int getAntCount() {
-        return antCount;
-    }
-
     public void increaseAntCount() {
         antCount++;
     }
@@ -73,10 +75,6 @@ public class MarkerBE extends BlockEntity {
         }
     }
 
-    public void setAntCount(int count) {
-        antCount = count;
-    }
-
     public boolean shouldReceiveAnt(int offset) {
         try {
             return (antCount + offset) % (1 / (SUGARAMOUNT * 5f / 100f)) == 0;
@@ -87,10 +85,6 @@ public class MarkerBE extends BlockEntity {
 
     public MarkerBE(BlockPos pWorldPosition, BlockState pBlockState) {
         super(AntsportationBlocks.MARKER_BE.get(), pWorldPosition, pBlockState);
-    }
-
-    public int getSugarAmount() {
-        return SUGARAMOUNT;
     }
 
     public DyeColor getColor() {
@@ -232,4 +226,11 @@ public class MarkerBE extends BlockEntity {
         return blocks.indexOf(direction.getOpposite());
     }
 
+    @Override
+    public void addInfo(TOPContext context) {
+        context.text(Translations.TOP_MARKER_COLOUR.translate(
+                Utils.textComponent(getColor().getName().replace('_', ' '))
+                        .withStyle(s -> s.withColor(getColor().getTextColor()))
+        ));
+    }
 }

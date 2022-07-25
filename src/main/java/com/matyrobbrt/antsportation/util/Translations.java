@@ -55,7 +55,8 @@ public enum Translations {
     MESSAGE_BASE("message", "base", "[\u00a76" + Antsportation.MOD_NAME + "\u00a7r] %s"),
     MESSAGE_TOO_CLOSE_MARKER("message", "too_close_marker", "The marker placed at %s is too close to the marker at %s. Consider spreading the markers for optimal results."),
 
-    TOP_TICKS_UNTIL_SPAWN("top", "ticks_until_spawn", "Ticks until a new ant is spawned: %s")
+    TOP_TICKS_UNTIL_SPAWN("top", "ticks_until_spawn", "Ticks until a new ant is spawned: %s"),
+    TOP_MARKER_COLOUR("top", "marker_colour", "Marker colour: %s")
     ;
 
     public final String key;
