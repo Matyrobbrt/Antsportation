@@ -6,7 +6,7 @@
     {
       "type": "patchouli:spotlight",
       "item": "antsportation:ant_hill",
-      "text": "<item>Ant Hills</> are blocks generated in the world.<br>Upon breaking it there is a chance a queen will pop out.<br>$(l:antsportation:other/setup_item_transport)You can use Ant hills to set up the input and output for your ants.$()<br>A Hill will attempt to spawn a Worker Ant every <gold>$(scfg/ants.hillSpawnDelay)</> ticks.<br>Break the Hills with a shovel!"
+      "text": "<item>Ant Hills</> are blocks you can find generating in the world.<br>Upon breaking it there is a chance a queen will pop out.<br>$(l:antsportation:other/setup_item_transport)You can use Ant hills to set up the input and output for your ants.$()<br>A Hill will attempt to spawn a Worker Ant every <gold>$(scfg/ants.hillSpawnDelay)</> ticks.<br>Break the Hills with a shovel!"
     }
   ]
 }

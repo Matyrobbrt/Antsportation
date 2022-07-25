@@ -24,9 +24,10 @@ import net.minecraft.world.item.ItemStack;
 public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerModel<AntWorkerEntity>> {
 
     public static final ResourceLocation ANT_WORKER_LOCATION = new ResourceLocation(Antsportation.MOD_ID, "textures/entity/ant_worker.png");
+    private static final RenderType RENDER_TYPE = RenderType.entityCutout(Antsportation.rl("textures/entity/box_model.png"));
+
     private final BoxModel box;
     private final ItemRenderer itemRenderer;
-
 
     public AntWorkerRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new AntWorkerModel<>(pContext.bakeLayer(AntWorkerModel.LAYER_LOCATION)), 0.3F);
@@ -42,10 +43,10 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
     @Override
     public void render(AntWorkerEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
-        VertexConsumer buffer = pBuffer.getBuffer(RenderType.entityCutout(Antsportation.rl("textures/entity/box_model.png")));
-        if(!pEntity.getOffhandItem().isEmpty()) {
+        VertexConsumer buffer = pBuffer.getBuffer(RENDER_TYPE);
+        if (!pEntity.getOffhandItem().isEmpty()) {
             ItemStack boxitem = pEntity.getOffhandItem();
-            if(boxitem.is(AntsportationTags.Items.BOXES)) {
+            if (boxitem.is(AntsportationTags.Items.BOXES)) {
                 pMatrixStack.pushPose();
                 pMatrixStack.translate(0, 0.5, 0);
                 box.all.zRot = (float) Math.PI;
@@ -63,14 +64,13 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
                 box.flap2.zRot = -(float) Math.cos(pEntity.tickCount / 10f + 20) * 0.2f - 400;
                 box.render(pMatrixStack, buffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1, pEntity.tickCount, pEntity.tickCount);
                 pMatrixStack.popPose();
-                BoxItem.ItemStackInstance stackInBoxOrNull = BoxItem.getStoredItems(boxitem).reduce((first, second) -> second).orElse(null);
-                ItemStack stackInBox = stackInBoxOrNull != null ? stackInBoxOrNull.getStack() : ItemStack.EMPTY;
+                final var stackInBox = BoxItem.getStoredItems(boxitem).findFirst().map(BoxItem.ItemStackInstance::getStack).orElse(ItemStack.EMPTY);
                 pMatrixStack.pushPose();
                 pMatrixStack.scale(0.3f, 0.3f, 0.3f);
                 pMatrixStack.translate(0.4f, 1.2, 0);
                 itemRenderer.renderStatic(null, stackInBox, ItemTransforms.TransformType.FIXED, false, pMatrixStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);
                 pMatrixStack.popPose();
-            }else{
+            } else {
                 pMatrixStack.pushPose();
                 pMatrixStack.scale(0.3f, 0.3f, 0.3f);
                 pMatrixStack.translate(0.4f, 1.1+-(float) Math.sin(0.1f * pEntity.tickCount) * 0.02f+0.05f, 0);

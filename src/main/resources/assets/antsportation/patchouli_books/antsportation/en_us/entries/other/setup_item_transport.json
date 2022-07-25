@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "<gold>$(l:antsportation:blocks/ant_hill)Ant Hills</> are used as the beginning and the end of ant lines.<br>First place down an <gold>$(l:antsportation:blocks/ant_nest)Ant Nest</> and then put an Ant Hill on top of that.<br>You can input or output items into the Nest (not the ant hill) from any sides except the top!",
+      "text": "<gold>$(l:antsportation:blocks/ant_hill)Ant Hills$()</> are used as the beginning and the end of ant lines.<br>First place down an <gold>$(l:antsportation:blocks/ant_nest)Ant Nest</> and then put an Ant Hill on top of that.<br>You can input or output items into the Nest (not the ant hill) from any sides except the top!<br>Note: ants can carry any item in the <gold>antsportation:ant_transportable</> tag.",
       "title": "Input and output"
     },
     {
@@ -20,7 +20,7 @@
     {
       "type": "patchouli:text",
       "title": "Setting up a path",
-      "text": "To set out a path for your ants to follow you have to use $(l:antsportation:items/marker)Markers.$()<br>Place a marker down once every 8-10 blocks (lower will work too but it's a bit less reliable; Though if it works for 1 ant, it'll work for the others too!)."
+      "text": "To set out a path for your ants to follow you have to use $(l:antsportation:items/marker)Markers$().<br>Place a marker down once every 8-10 blocks (lower will work too but it's a bit less reliable; Though if it works for 1 ant, it'll work for the others too!)."
     },
     {
       "type": "patchouli:text",

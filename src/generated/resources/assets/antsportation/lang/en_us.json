@@ -35,7 +35,7 @@
   "jei.antsportation.unboxer": "Machine used to unpack items from boxes.",
   "message.antsportation.base": "[\u00A76Antsportation\u00A7r] %s",
   "message.antsportation.too_close_marker": "The marker placed at %s is too close to the marker at %s. Consider spreading the markers for optimal results.",
-  "patchouli.antsportation.landing_text": "$(#800080)Welcome to Antsportation, <player>! <br2>This book will guide you through the mod and show you how to use ants to make cool item transportation systems!",
+  "patchouli.antsportation.landing_text": "$(#800080)Welcome to Antsportation, <player>! <br2>This book will guide you through the mod and show you how to use ants to make cool item transportation systems!<br>Check out $(l:antsportation:other/setup_item_transport)Setting up item transportation$() on how to get started!",
   "redstone.antsportation.disabled": "Disabled",
   "redstone.antsportation.high": "High",
   "redstone.antsportation.low": "Low",

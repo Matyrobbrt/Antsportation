@@ -113,32 +113,30 @@ public class AntWorkerEntity extends BaseAntEntity {
         super.setItemSlot(pSlot, pStack);
         setPersistenceRequired();
         setGuaranteedDrop(pSlot);
+    }
 
-        public boolean isClimbing () {
-            return (this.entityData.get(DATA_FLAGS_ID) & 1) != 0;
+    public boolean isClimbing() {
+        return (this.entityData.get(DATA_FLAGS_ID) & 1) != 0;
+    }
+
+    @Override
+    public boolean onClimbable() {
+        return this.isClimbing();
+    }
+
+    public void setClimbing(boolean pClimbing) {
+        byte b0 = this.entityData.get(DATA_FLAGS_ID);
+        if (pClimbing) {
+            b0 = (byte) (b0 | 1);
+        } else {
+            b0 = (byte) (b0 & -2);
         }
 
-        @Override
-        public boolean onClimbable () {
-            return this.isClimbing();
-        }
+        this.entityData.set(DATA_FLAGS_ID, b0);
+    }
 
-        public void setClimbing ( boolean pClimbing){
-            byte b0 = this.entityData.get(DATA_FLAGS_ID);
-            if (pClimbing) {
-                b0 = (byte) (b0 | 1);
-            } else {
-                b0 = (byte) (b0 & -2);
-            }
-
-            this.entityData.set(DATA_FLAGS_ID, b0);
-        }
-
-        @Override
-        protected float getSoundVolume () {
-            return 0.25f;
-        }
-
-
+    @Override
+    protected float getSoundVolume() {
+        return 0.25f;
     }
 }

@@ -135,7 +135,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
                     '<item>Ant Nests</> are blocks generated in the world.',
                     'Ant Nests are used in combination with the $(l:antsportation:blocks/ant_hill)Ant Hill$() as an $(l:antsportation:other/setup_item_transport)input and/or output point for your ants.$()',
                     'You can input and output on all sides by using something such as a hopper or a pipe from any other mod.',
-                    '$(bold)Note that you cannot input/output items in the $(l:antsportation:blocks/ant_hill)ant hill$()'
+                    '$(bold)Note that you cannot input/output items directly in $(l:antsportation:blocks/ant_hill)Ant Hills$().'
             )))
         }
         entry(BLOCKS_CATEGORY){
