@@ -85,7 +85,8 @@ public class AntHillBlock extends BaseEntityBlock {
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
         if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof AntHillBE antHill) {
-            if (AntJarItem.hasAntInside(pPlayer.getItemInHand(pHand))) {
+            final var inHand = pPlayer.getItemInHand(pHand);
+            if (AntJarItem.hasAntInside(inHand)) {
                 if (!antHill.hasQueen) {
                     antHill.hasQueen = true;
                     pPlayer.setItemInHand(pHand, new ItemStack(AntsportationItems.ANT_JAR.get()));
@@ -93,7 +94,7 @@ public class AntHillBlock extends BaseEntityBlock {
                 } else {
                     return InteractionResult.FAIL;
                 }
-            } else if (!AntJarItem.hasAntInside(pPlayer.getItemInHand(pHand))) {
+            } else if (!inHand.isEmpty() && inHand.getItem() instanceof AntJarItem) {
                 if (antHill.hasQueen) {
                     antHill.hasQueen = false;
                     CompoundTag withAnt = new CompoundTag();
