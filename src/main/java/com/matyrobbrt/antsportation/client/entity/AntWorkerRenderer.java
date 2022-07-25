@@ -10,6 +10,8 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultedVertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -49,16 +51,15 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
             if (boxitem.is(AntsportationTags.Items.BOXES)) {
                 pMatrixStack.pushPose();
                 pMatrixStack.translate(0, 0.5, 0);
+                pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
                 box.all.zRot = (float) Math.PI;
                 box.all.y = -3.7f + -(float) Math.sin(0.1f * pEntity.tickCount) * 0.1f;
                 box.all.x = 1.35f;
                 box.all.z = 0f;
                 box.all.yRot = (float) Math.PI / 2;
                 box.flap1.y = -3;
-
                 box.flap1.x = -2;
                 box.flap2.x = 2;
-
                 box.flap2.y = -3;
                 box.flap1.zRot = (float) Math.cos(pEntity.tickCount / 10f + 15) * 0.2f + 400;
                 box.flap2.zRot = -(float) Math.cos(pEntity.tickCount / 10f + 20) * 0.2f - 400;
@@ -66,6 +67,7 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
                 pMatrixStack.popPose();
                 final var stackInBox = BoxItem.getStoredItems(boxitem).findFirst().map(BoxItem.ItemStackInstance::getStack).orElse(ItemStack.EMPTY);
                 pMatrixStack.pushPose();
+                pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
                 pMatrixStack.scale(0.3f, 0.3f, 0.3f);
                 pMatrixStack.translate(0.4f, 1.2, 0);
                 itemRenderer.renderStatic(null, stackInBox, ItemTransforms.TransformType.FIXED, false, pMatrixStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);

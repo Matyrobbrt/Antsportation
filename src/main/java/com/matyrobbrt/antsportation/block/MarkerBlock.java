@@ -103,7 +103,9 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
             return;
         }
         ant.setNextMarker(marker.nextMarker);
+
         marker.ants.add(ant.getUUID());
+
     }
 
     @Override
