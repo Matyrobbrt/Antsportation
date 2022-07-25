@@ -27,7 +27,7 @@ import java.util.function.Predicate;
 
 public class AntHillBE extends BlockEntity implements TOPInfoDriver {
     public final AntHillBE.Inventory inventory = new Inventory();
-    private static final IntSupplier SPAWN_RATE = ServerConfig.CONFIG.ants().summonRate()::get;
+    private static final IntSupplier SPAWN_RATE = ServerConfig.CONFIG.ants().hillSummonRate()::get;
     public boolean hasQueen = false;
     public BlockPos nextMarker;
 

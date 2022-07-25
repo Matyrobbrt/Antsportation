@@ -3,6 +3,7 @@ package com.matyrobbrt.antsportation.block.entity;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import com.matyrobbrt.antsportation.util.cap.DelegatingItemHandler;
+import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -22,7 +23,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class AntNestBE extends BlockEntity {
     public final AntNestBE.Inventory inventory = new Inventory();
-    private static final int IORATE = 5;
     public boolean hasQueen = false;
 
 
@@ -38,11 +38,6 @@ public class AntNestBE extends BlockEntity {
         }
     });
     private final LazyOptional<IItemHandler> inventoryOutputLazy = LazyOptional.of(() -> new DelegatingItemHandler(inventory) {
-        @Override
-        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return super.extractItem(slot, amount, simulate);
-        }
-
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             return stack;
@@ -68,7 +63,7 @@ public class AntNestBE extends BlockEntity {
     }
 
     public void tick() {
-        if (getLevel().getGameTime() % IORATE == 0) {
+        if (getLevel().getGameTime() % ServerConfig.CONFIG.ants().nestIORate().get() == 0) {
             final var above = getLevel().getBlockEntity(worldPosition.above());
             if (above instanceof AntHillBE antHill) {
                 if (hasQueen) {

@@ -4,12 +4,8 @@ import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public record ServerConfig(Boxing boxing, Ants ants) {
     public static final ServerConfig CONFIG;
@@ -46,8 +42,10 @@ public record ServerConfig(Boxing boxing, Ants ants) {
         final Ants ants;
         {
             ants = new Ants(
-                    builder.comment("The delay in ticks between an Ant Hill will spawn a new Worker Ant.")
-                            .defineInRange("hillSpawnDelay", 100, 1, 100_000)
+                    builder.comment("The delay in ticks until Ant Hills will spawn a new Worker Ant.")
+                            .defineInRange("hillSpawnDelay", 100, 1, 100_000),
+                    builder.comment("The delay in ticks before an Ant Nest will attempt to push / pull into a hill.")
+                            .defineInRange("nestIORate", 5, 1, 100_000)
             );
         }
         builder.pop();
@@ -64,7 +62,7 @@ public record ServerConfig(Boxing boxing, Ants ants) {
             return (int) ((AntsportationItems.SPEED_UPGRADE.get().getDefaultInstance().getMaxStackSize() * upgradeEnergyUsage.get()) * 1.50);
         }
     }
-    public record Ants(IntValue summonRate) {}
+    public record Ants(IntValue hillSummonRate, IntValue nestIORate) {}
 
     public static int getBoxing(Function<Boxing, IntValue> getter) {
         return getter.apply(CONFIG.boxing()).get();
