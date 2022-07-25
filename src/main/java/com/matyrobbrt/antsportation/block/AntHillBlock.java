@@ -58,8 +58,7 @@ public class AntHillBlock extends BaseEntityBlock {
     @Override
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext pContext) {
         return this.defaultBlockState()
-                .setValue(PLACEDBYPLAYER, true)
-                .setValue(IS_GRASSY, pContext.getLevel().getBiome(pContext.getClickedPos()).is(Tags.Biomes.IS_PLAINS));
+                .setValue(PLACEDBYPLAYER, true);
     }
 
     @Override
@@ -112,6 +111,7 @@ public class AntHillBlock extends BaseEntityBlock {
                 }
                 return InteractionResult.FAIL;
             }
+            pState.setValue(IS_GRASSY, !antHill.hasQueen);
         }
         return InteractionResult.FAIL;
     }

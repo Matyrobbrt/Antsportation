@@ -11,7 +11,7 @@
     {
       "type": "patchouli:text",
       "title": "Ant Queen",
-      "text": "The ant queen is the mother of all ants!<br>You can capture her inside of an $(l:antsportation:items/ant_jar)ant jar.$()<br> $(l:antsportation:other/setup_item_transport)The ant queen is used to start a stream of ants to transport your items!$()<br>The ant queen is a neutral mob, so don't hit her."
+      "text": "The ant queen is the mother of all ants!<br>You can capture her inside of an $(l:antsportation:items/ant_jar)ant jar.$()<br>$(l:antsportation:other/setup_item_transport)The ant queen is used to start a stream of ants to transport your items!$()<br>The ant queen is a neutral mob, so don't hit her."
     }
   ]
 }

@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.client.entity;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.block.entity.BoxModel;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -145,9 +146,6 @@ public class AntWorkerModel<T extends AntWorkerEntity> extends EntityModel<T> {
         pPoseStack.pushPose();
         pPoseStack.scale(0.7f, 0.7f, 0.7f);
         all.render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
-        //        if (!ant.getOffhandItem().isEmpty()) {
-        //            box.render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
-        //        }
         pPoseStack.popPose();
     }
 }

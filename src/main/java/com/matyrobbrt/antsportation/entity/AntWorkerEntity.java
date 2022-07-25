@@ -138,5 +138,8 @@ public class AntWorkerEntity extends PathfinderMob {
         return 0.25f;
     }
 
-
+    @Override
+    public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {
+        return false;
+    }
 }

@@ -122,6 +122,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
                     '<item>Ant Hills</> are blocks you can find generating in the world.',
                     'Upon breaking it there is a chance a queen will pop out.',
                     '$(l:antsportation:other/setup_item_transport)You can use Ant hills to set up the input and output for your ants.$()',
+                    'Note that you cant actually input/output items inside of the anthill. You have to do this in the $(l:antsportation:blocks/ant_nest)ant nest$()',
                     'Break the Hills with a shovel!'
             )))
         }
@@ -132,7 +133,8 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             addPage(new SpotlightPage(AntsportationBlocks.ANT_NEST.get(), multiline(
                     '<item>Ant Nests</> are blocks you can find generating in the world.',
                     'Ant Nests are used in combination with the $(l:antsportation:blocks/ant_hill)Ant Hill$() as an $(l:antsportation:other/setup_item_transport)input and/or output point for your ants.$()',
-                    'You can input and output on all sides by using something such as a hopper or a pipe from any other mod.'
+                    'You can input and output on all sides by using something such as a hopper or a pipe from any other mod.',
+                    '$(bold)Note that you cannot input/output items in the $(l:antsportation:blocks/ant_hill)ant hill$()'
             )))
         }
         entry(BLOCKS_CATEGORY){

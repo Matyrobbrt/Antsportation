@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "<gold>$(l:antsportation:blocks/ant_hill)Ant Hills</> are used as beginning and end of the line of ants.<br>First place down an <gold>$(l:antsportation:blocks/ant_nest)Ant Nest</>, put an ant hill on top of that.<br>You can input or output items inside of the Ant Nest at any of the Ant nests sides except the top!",
+      "text": "<gold>$(l:antsportation:blocks/ant_hill)Ant Hills</> are used as beginning and end of the line of ants.<br>First place down an <gold>$(l:antsportation:blocks/ant_nest)Ant Nest</>, put an ant hill on top of that.<br>You can input or output items inside of the Ant Nest (not the ant hill) at any of the Ant nests sides except the top!<br>$(bold)Ants can only carry boxes so you have to $(l:antsportation:machines/boxer)box$()$(bold)and $(l:antsportation:machines/unboxer)unbox your items!$()",
       "title": "Input and output"
     },
     {
@@ -25,7 +25,7 @@
     {
       "type": "patchouli:text",
       "title": "Setting out a path",
-      "text": "You can also place the markers on the sides of blocks to have them climb up walls like spiders can! Although don't make the path too small, because they might fall off.<br>When you connect the Input/Output ant hill to the final or first marker, make sure that between the hill and the marker the distance is more than 3 blocks, else ants might get stuck."
+      "text": "You can also place the markers on the sides of blocks to have them climb up walls like spiders can! Although don't make the path too small, because they might fall off.<br>When you connect the Input/Output ant hill to the final or first marker, make sure that between the hill and the marker the distance is more than 3 blocks (it has the same spacing as between markers), else ants might get stuck.<br>$(bold)Only put the ant queen inside one of the ant hills. Never do it on both sides!$()"
     },
     {
       "type": "patchouli:image",
