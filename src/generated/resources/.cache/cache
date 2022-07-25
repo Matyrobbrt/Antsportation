@@ -59,6 +59,7 @@ d90aadf4ca0f6200334154738047dd4649b54d25 data/antsportation/recipes/boxer.json
 7cf6c27eece496d4acbae15dbfed77c95ab5a485 data/antsportation/recipes/guide_book.json
 08778332e50983b24a1b179dc3b690760b7a3647 data/antsportation/recipes/speed_upgrade.json
 4b4d440857977fabd70c5e1216e2e44a284c5e6f data/antsportation/recipes/unboxer.json
+8b308a136c40306ac0150a80f5e01f8004e7c952 data/antsportation/tags/items/ant_transportable.json
 556f2e37ad6ec94348f81a1f35782227e7bf9cfd data/antsportation/tags/items/boxes.json
 e2b0be07b0787680ef6e61f41820df7b4d497884 data/forge/tags/blocks/needs_wood_tool.json
 fbcf854b150c770d8da3e0db433318923c3d24ac data/minecraft/tags/blocks/mineable/pickaxe.json
