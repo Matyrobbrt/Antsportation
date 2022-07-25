@@ -74,7 +74,9 @@ public class AntWorkerEntity extends BaseAntEntity {
 
     @Override
     protected @NotNull PathNavigation createNavigation(@NotNull Level pLevel) {
-        return new WallClimberNavigation(this, pLevel);
+        final var nav = new WallClimberNavigation(this, pLevel);
+        nav.setCanOpenDoors(true);
+        return nav;
     }
 
     @Override

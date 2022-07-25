@@ -31,7 +31,7 @@ public class AntHillBE extends BlockEntity {
     public boolean hasQueen = false;
     public BlockPos nextMarker;
 
-    private static final Predicate<BlockEntity> IS_HILL = (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.ANT_HILL.get()) && ((AntHillBE) entity).hasQueen;
+    private static final Predicate<BlockEntity> IS_HILL = (entity) -> entity instanceof AntHillBE hill && hill.hasQueen;
     private static final Predicate<BlockEntity> IS_MARKER = (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get());
 
     public AntHillBE(BlockPos pWorldPosition, BlockState pBlockState) {
@@ -83,6 +83,7 @@ public class AntHillBE extends BlockEntity {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     public Optional<BlockPos> findNearestBlock(Level level, BlockPos searchPos, Predicate<BlockEntity> p_28076_, double pDistance) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
@@ -91,7 +92,7 @@ public class AntHillBE extends BlockEntity {
                 for (int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
                     for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
                         blockpos$mutableblockpos.setWithOffset(searchPos, k, i - 1, l);
-                        if (searchPos.closerThan(blockpos$mutableblockpos, pDistance) && p_28076_.test(level.getBlockEntity(blockpos$mutableblockpos))) {
+                        if (searchPos.closerThan(blockpos$mutableblockpos, pDistance) && !searchPos.equals(blockpos$mutableblockpos) && p_28076_.test(level.getBlockEntity(blockpos$mutableblockpos))) {
                             return Optional.of(blockpos$mutableblockpos);
                         }
                     }

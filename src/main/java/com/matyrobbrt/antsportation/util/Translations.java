@@ -51,6 +51,9 @@ public enum Translations {
     JEI_UNBOXER("jei", "unboxer", "Machine used to unpack items from boxes."),
     JEI_MARKER("jei", "marker", "Used to create a path for ants to follow."),
     JEI_BOX("jei", "box", "Used to package items for ant transportation. Use Boxers / Unboxers for inserting and extracting items."),
+
+    MESSAGE_BASE("message", "base", "[\u00a76" + Antsportation.MOD_NAME + "\u00a7r] %s"),
+    MESSAGE_TOO_CLOSE_MARKER("message", "too_close_marker", "The marker placed at %s is too close to the marker at %s. Consider spreading the markers for optimal results.")
     ;
 
     public final String key;
