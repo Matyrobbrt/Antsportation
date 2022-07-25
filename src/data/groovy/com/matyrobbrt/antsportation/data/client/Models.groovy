@@ -52,6 +52,7 @@ class Models extends BlockStateProvider {
         spawnEgg(AntsportationItems.ANT_WORKER_SPAWN_EGG)
 
         simpleItem(AntsportationItems.SPEED_UPGRADE)
+        simpleItem(AntsportationItems.MARKER)
 
         block(AntsportationBlocks.ANT_HILL) {
             final var base = modLoc('block/ant_hill_base')

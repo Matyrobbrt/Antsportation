@@ -73,7 +73,7 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
             } else {
                 pMatrixStack.pushPose();
                 pMatrixStack.scale(0.3f, 0.3f, 0.3f);
-                pMatrixStack.translate(0.4f, 1.1+-(float) Math.sin(0.1f * pEntity.tickCount) * 0.02f+0.05f, 0);
+                pMatrixStack.translate(0.4f, 1.1+-(float) Math.sin(0.1f * pEntity.tickCount) * 0.01f+0.05f, 0);
                 itemRenderer.renderStatic(null, pEntity.getOffhandItem(), ItemTransforms.TransformType.FIXED, false, pMatrixStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);
                 pMatrixStack.popPose();
             }
