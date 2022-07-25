@@ -8,8 +8,6 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.PathfinderMob;
@@ -28,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("ConstantConditions")
-public class AntWorkerEntity extends PathfinderMob {
+public class AntWorkerEntity extends BaseAntEntity {
     public List<BlockPos> nodeHistory = new ArrayList<>();
     private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(AntWorkerEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<BlockPos> NEXT_MARKER = SynchedEntityData.defineId(AntWorkerEntity.class, EntityDataSerializers.BLOCK_POS);
@@ -133,16 +131,6 @@ public class AntWorkerEntity extends PathfinderMob {
         }
 
         this.entityData.set(DATA_FLAGS_ID, b0);
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(@NotNull DamageSource damageSourceIn) {
-        return AntsportationSounds.ANT_HURT.get();
-    }
-
-    @Override
-    protected SoundEvent getDeathSound() {
-        return AntsportationSounds.ANT_DEATH.get();
     }
 
     @Override
