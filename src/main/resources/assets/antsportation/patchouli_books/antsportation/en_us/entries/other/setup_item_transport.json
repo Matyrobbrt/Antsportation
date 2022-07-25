@@ -25,7 +25,7 @@
     {
       "type": "patchouli:text",
       "title": "Setting up a path",
-      "text": "You can also place the markers on the sides of blocks to have them climb up walls like spiders can! Although don't make the path too small, because they might fall off.<br>When you connect the I/O Ant Hill to the final or first marker, make sure that between the hill and the marker the distance is more than 3 blocks, else ants might get stuck."
+      "text": "You can also place the markers on the sides of blocks to have them climb up walls like spiders can! Although don't make the path too small, because they might fall off.<br>When you connect the I/O Ant Hill to the final or first marker, make sure that the distance between the hill and the marker is more than 3 blocks, else ants might get stuck."
     },
     {
       "type": "patchouli:image",
