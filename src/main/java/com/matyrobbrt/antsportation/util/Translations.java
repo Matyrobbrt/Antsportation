@@ -53,7 +53,9 @@ public enum Translations {
     JEI_BOX("jei", "box", "Used to package items for ant transportation. Use Boxers / Unboxers for inserting and extracting items."),
 
     MESSAGE_BASE("message", "base", "[\u00a76" + Antsportation.MOD_NAME + "\u00a7r] %s"),
-    MESSAGE_TOO_CLOSE_MARKER("message", "too_close_marker", "The marker placed at %s is too close to the marker at %s. Consider spreading the markers for optimal results.")
+    MESSAGE_TOO_CLOSE_MARKER("message", "too_close_marker", "The marker placed at %s is too close to the marker at %s. Consider spreading the markers for optimal results."),
+
+    TOP_TICKS_UNTIL_SPAWN("top", "ticks_until_spawn", "Ticks until a new ant is spawned: %s")
     ;
 
     public final String key;

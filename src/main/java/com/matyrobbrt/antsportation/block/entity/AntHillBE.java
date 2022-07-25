@@ -1,35 +1,37 @@
 package com.matyrobbrt.antsportation.block.entity;
 
+import com.matyrobbrt.antsportation.compat.top.TOPContext;
+import com.matyrobbrt.antsportation.compat.top.TOPInfoDriver;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.util.Translations;
+import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.function.IntSupplier;
 import java.util.function.Predicate;
 
-public class AntHillBE extends BlockEntity {
+public class AntHillBE extends BlockEntity implements TOPInfoDriver {
     public final AntHillBE.Inventory inventory = new Inventory();
-    private static final int SPAWNRATE = 100;
+    private static final IntSupplier SPAWN_RATE = ServerConfig.CONFIG.ants().summonRate()::get;
     public boolean hasQueen = false;
     public BlockPos nextMarker;
+
+    private int ticks;
 
     private static final Predicate<BlockEntity> IS_HILL = (entity) -> entity instanceof AntHillBE hill && hill.hasQueen;
     private static final Predicate<BlockEntity> IS_MARKER = (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get());
@@ -49,7 +51,9 @@ public class AntHillBE extends BlockEntity {
 
 
     public void tick() {
-        if (level != null && hasQueen && level.getGameTime() % SPAWNRATE == 0) {
+        ticks++;
+        if (level != null && hasQueen && ticks >= SPAWN_RATE.getAsInt()) {
+            ticks = 0;
             if (nextMarker == null) {
                 nextMarker = findNearestBlock(level, this.getBlockPos(), IS_HILL, 10).orElse(null);
             }
@@ -123,6 +127,11 @@ public class AntHillBE extends BlockEntity {
 
     public void dropContents() {
         dropContents(inventory);
+    }
+
+    @Override
+    public void addInfo(TOPContext context) {
+        context.text(Translations.TOP_TICKS_UNTIL_SPAWN.translate(SPAWN_RATE.getAsInt() - ticks));
     }
 
     class Inventory extends ItemStackHandler {

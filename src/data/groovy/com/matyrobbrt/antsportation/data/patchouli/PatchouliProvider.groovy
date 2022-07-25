@@ -123,6 +123,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
                     '<item>Ant Hills</> are blocks generated in the world.',
                     'Upon breaking it there is a chance a queen will pop out.',
                     '$(l:antsportation:other/setup_item_transport)You can use Ant hills to set up the input and output for your ants.$()',
+                    'A Hill will attempt to spawn a Worker Ant every <gold>$(scfg/ants.hillSpawnDelay)</> ticks.',
                     'Break the Hills with a shovel!'
             )))
         }
