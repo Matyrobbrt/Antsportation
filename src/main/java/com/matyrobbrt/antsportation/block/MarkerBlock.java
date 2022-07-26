@@ -105,11 +105,15 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, Has
         if (!(pLevel.getBlockEntity(pPos) instanceof MarkerBE marker)) {
             return;
         }
-        if (!pLevel.isClientSide()) {
-            ant.nodeHistory.add(ant.getNextMarker());
-        }
+
         if (marker.ants.contains(pEntity.getUUID())) {
             return;
+        }
+        if (ant.nodeHistory.contains(pPos)){
+            return;
+        }
+        if (!pLevel.isClientSide()) {
+            ant.nodeHistory.add(ant.getNextMarker());
         }
         marker.checkMarker(ant);
         final var next = marker.nextMarker == null ? null : marker.nextMarker.immutable();

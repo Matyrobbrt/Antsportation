@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 
 public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerModel<AntWorkerEntity>> {
@@ -50,7 +51,7 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
             ItemStack boxitem = pEntity.getOffhandItem();
             if (boxitem.is(AntsportationTags.Items.BOXES)) {
                 pMatrixStack.pushPose();
-                pMatrixStack.translate(0, 0.5, 0);
+                pMatrixStack.translate(0, 0.51, 0);
                 pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
                 box.all.zRot = (float) Math.PI;
                 box.all.y = -3.7f + -(float) Math.sin(0.1f * pEntity.tickCount) * 0.1f;
@@ -70,12 +71,18 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
                 pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
                 pMatrixStack.scale(0.3f, 0.3f, 0.3f);
                 pMatrixStack.translate(0.4f, 1.2, 0);
+                if(!(stackInBox.getItem() instanceof BlockItem)){
+                    pMatrixStack.mulPose(Vector3f.XN.rotationDegrees(90));
+                    pMatrixStack.mulPose(Vector3f.ZN.rotationDegrees(90));
+                    pMatrixStack.scale(0.6f, 0.6f, 0.6f);
+                }
                 itemRenderer.renderStatic(null, stackInBox, ItemTransforms.TransformType.FIXED, false, pMatrixStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);
                 pMatrixStack.popPose();
             } else {
                 pMatrixStack.pushPose();
                 pMatrixStack.scale(0.3f, 0.3f, 0.3f);
                 pMatrixStack.translate(0.4f, 1.1+-(float) Math.sin(0.1f * pEntity.tickCount) * 0.01f+0.05f, 0);
+                pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
                 itemRenderer.renderStatic(null, pEntity.getOffhandItem(), ItemTransforms.TransformType.FIXED, false, pMatrixStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);
                 pMatrixStack.popPose();
             }
