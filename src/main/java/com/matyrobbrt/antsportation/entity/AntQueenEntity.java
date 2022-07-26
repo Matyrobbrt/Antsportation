@@ -118,6 +118,7 @@ public class AntQueenEntity extends BaseAntEntity implements NeutralMob {
     }
 
     private static final UUID HURT_BONUS_UID = UUID.fromString("fd0942e6-ed28-4f99-a36b-37c5a6ad50c5");
+    private static final AttributeModifier HURT_MODIFIER = new AttributeModifier(HURT_BONUS_UID, "Hurt bonus", 10, AttributeModifier.Operation.ADDITION);
 
     @Override
     public void setLastHurtByMob(@Nullable LivingEntity pLivingEntity) {
@@ -125,7 +126,11 @@ public class AntQueenEntity extends BaseAntEntity implements NeutralMob {
         super.setLastHurtByMob(pLivingEntity);
 
         if (ticksSinceLastSummon >= REINFORCEMENT_DELAY && !level.isClientSide()) {
-            getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier(HURT_BONUS_UID, "Hurt bonus", 10, AttributeModifier.Operation.ADDITION));
+            final var attr = getAttribute(Attributes.MAX_HEALTH);
+            // noinspection ConstantConditions
+            if (!attr.hasModifier(HURT_MODIFIER))
+                attr.addPermanentModifier(HURT_MODIFIER);
+
             heal(5);
 
             for (int i = 0; i < 4; ++i) {

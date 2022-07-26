@@ -6,6 +6,7 @@ license = "MIT"
 modId = "antsportation"
 version = "${file.jarVersion}"
 displayName = "Antsportation"
+logoFile = "antsportation.png"
 description = '''
     An item transportation mod
     '''
