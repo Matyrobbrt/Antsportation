@@ -46,7 +46,7 @@ public class AntSoldierEntity extends BaseAntEntity {
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.3f));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1D, false));
-        this.goalSelector.addGoal(6, new MoveToBlockGoal(this, 1, 16) {
+        this.goalSelector.addGoal(6, new MoveToBlockGoal(this, 1, 10) {
             @Override
             protected boolean isValidTarget(@NotNull LevelReader pLevel, @NotNull BlockPos pPos) {
                 return random.nextBoolean() && pLevel.getBlockState(pPos).is(AntsportationBlocks.ANT_HILL.get());

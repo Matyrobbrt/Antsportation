@@ -16,6 +16,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.item.ItemStack;
@@ -40,7 +41,7 @@ public class AntWorkerEntity extends BaseAntEntity {
         super(p_21683_, p_21684_);
     }
 
-    private boolean summonedSoliders;
+    private boolean summonedSoldiers;
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
@@ -55,7 +56,7 @@ public class AntWorkerEntity extends BaseAntEntity {
             }
         });
         pCompound.put("nodeHistory", listtag);
-        pCompound.putBoolean("summonedSoliders", summonedSoliders);
+        pCompound.putBoolean("summonedSoldiers", summonedSoldiers);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class AntWorkerEntity extends BaseAntEntity {
             entityData.set(NEXT_MARKER, NbtUtils.readBlockPos(pCompound.getCompound("nextMarker")));
         }
         nodeHistory = pCompound.getList("nodeHistory", 10).stream().map(((tag) -> (CompoundTag) tag)).map(NbtUtils::readBlockPos).collect(Collectors.toList());
-        summonedSoliders = pCompound.getBoolean("summonedSoliders");
+        summonedSoldiers = pCompound.getBoolean("summonedSoldiers");
     }
 
     public static AttributeSupplier setAttributes() {
@@ -74,6 +75,12 @@ public class AntWorkerEntity extends BaseAntEntity {
                 .add(Attributes.ATTACK_DAMAGE, 1.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.2f).build();
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers().setAlertOthers(AntSoldierEntity.class));
     }
 
     @Override
@@ -123,7 +130,7 @@ public class AntWorkerEntity extends BaseAntEntity {
         final var soliderTarget = getLastHurtByMob() == null ? pLivingEntity : getLastHurtByMob();
         super.setLastHurtByMob(pLivingEntity);
 
-        if (!summonedSoliders && !level.isClientSide()) {
+        if (!summonedSoldiers && !level.isClientSide()) {
             getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier(HURT_BONUS_UID, "Hurt bonus", 5, AttributeModifier.Operation.ADDITION));
             heal(5);
 
@@ -134,7 +141,7 @@ public class AntWorkerEntity extends BaseAntEntity {
                 solider.setTarget(soliderTarget);
                 level.addFreshEntity(solider);
             }
-            summonedSoliders = true;
+            summonedSoldiers = true;
         }
     }
 
