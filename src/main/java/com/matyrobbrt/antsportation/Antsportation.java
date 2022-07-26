@@ -125,11 +125,8 @@ public class Antsportation {
             event.getContext().getLevel().addFreshEntity(ant);
 
             for (int i = 0; i < random.nextInt(4); i++) {
-                final var soldier = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), event.getContext().getLevel());
-                final var blockpos = event.getPos().offset(-2 + soldier.getRandom().nextInt(5), 1, -2 + soldier.getRandom().nextInt(5));
+                final var soldier = AntSoldierEntity.spawnReinforcement(event.getContext().getLevel(), event.getPos());
                 soldier.aggroAtNearest(Player.class);
-                soldier.moveTo(blockpos, 0, 0);
-                event.getContext().getLevel().addFreshEntity(soldier);
             }
         }
     }

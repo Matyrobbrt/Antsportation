@@ -1,14 +1,17 @@
 package com.matyrobbrt.antsportation.entity;
 
-import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.block.entity.AntHillBE;
 import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -33,6 +36,8 @@ public class AntQueenEntity extends BaseAntEntity implements NeutralMob {
     private UUID persistentAngerTarget;
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
+    public static final int REINFORCEMENT_DELAY = 100;
+    private int ticksSinceLastSummon = REINFORCEMENT_DELAY;
 
     public AntQueenEntity(EntityType<? extends PathfinderMob> p_21683_, Level p_21684_) {
         super(p_21683_, p_21684_);
@@ -54,7 +59,7 @@ public class AntQueenEntity extends BaseAntEntity implements NeutralMob {
         this.goalSelector.addGoal(6, new MoveToBlockGoal(this, 1, 16) {
             @Override
             protected boolean isValidTarget(@NotNull LevelReader pLevel, @NotNull BlockPos pPos) {
-                return pLevel.getBlockState(pPos).is(AntsportationBlocks.ANT_HILL.get());
+                return pLevel.getBlockEntity(pPos) instanceof AntHillBE hill && !hill.hasQueen;
             }
         });
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.8D, 1F));
@@ -101,6 +106,46 @@ public class AntQueenEntity extends BaseAntEntity implements NeutralMob {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        ticksSinceLastSummon++;
+        if (ticksSinceLastSummon >= REINFORCEMENT_DELAY) {
+            ticksSinceLastSummon = REINFORCEMENT_DELAY;
+        }
+    }
+
+    private static final UUID HURT_BONUS_UID = UUID.fromString("fd0942e6-ed28-4f99-a36b-37c5a6ad50c5");
+
+    @Override
+    public void setLastHurtByMob(@Nullable LivingEntity pLivingEntity) {
+        final var soliderTarget = getLastHurtByMob() == null ? pLivingEntity : getLastHurtByMob();
+        super.setLastHurtByMob(pLivingEntity);
+
+        if (ticksSinceLastSummon >= REINFORCEMENT_DELAY && !level.isClientSide()) {
+            getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier(HURT_BONUS_UID, "Hurt bonus", 10, AttributeModifier.Operation.ADDITION));
+            heal(5);
+
+            for (int i = 0; i < 4; ++i) {
+                final var soldier = AntSoldierEntity.spawnReinforcement(getLevel(), this.blockPosition());
+                soldier.setTarget(soliderTarget);
+            }
+            ticksSinceLastSummon = 0;
+        }
+    }
+
+    @Override
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putInt("ticksSinceLastSummon", ticksSinceLastSummon);
+    }
+
+    @Override
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        ticksSinceLastSummon = pCompound.getInt("ticksSinceLastSummon");
     }
 
     @Override

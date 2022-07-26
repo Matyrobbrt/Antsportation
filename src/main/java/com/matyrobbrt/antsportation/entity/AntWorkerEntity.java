@@ -135,11 +135,8 @@ public class AntWorkerEntity extends BaseAntEntity {
             heal(5);
 
             for (int i = 0; i < 3; ++i) {
-                final var blockpos = this.blockPosition().offset(-2 + this.random.nextInt(5), 1, -2 + this.random.nextInt(5));
-                final var solider = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), level);
-                solider.moveTo(blockpos, 0.0F, 0.0F);
-                solider.setTarget(soliderTarget);
-                level.addFreshEntity(solider);
+                final var soldier = AntSoldierEntity.spawnReinforcement(getLevel(), this.blockPosition());
+                soldier.setTarget(soliderTarget);
             }
             summonedSoldiers = true;
         }

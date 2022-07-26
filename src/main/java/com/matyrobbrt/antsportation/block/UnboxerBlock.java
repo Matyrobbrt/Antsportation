@@ -7,12 +7,14 @@ import com.matyrobbrt.antsportation.data.HasRecipe;
 import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -29,11 +31,21 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+import static com.matyrobbrt.antsportation.block.BoxerBlock.FACING;
+
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
 public class UnboxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoProvider {
     public UnboxerBlock(Properties props) {
         super(props);
+        registerDefaultState(getStateDefinition().any()
+                .setValue(FACING, Direction.NORTH));
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
     }
 
     @Nullable
@@ -77,7 +89,7 @@ public class UnboxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoP
         helper.emptyNBT(this)
                 .setEmptyNBTSlots(1, 4)
                 .pattern("CBC",
-                        "SHS")
+                         "SHS")
                 .define('C', Tags.Items.CHESTS)
                 .define('B', AntsportationTags.Items.BOXES)
                 .define('S', Tags.Items.STONE)
