@@ -33,7 +33,12 @@ public class AntsportationItems {
 
     public static final RegistryObject<AntJarItem> ANT_JAR = ITEMS.register("ant_jar",
             () -> new AntJarItem(AntsportationBlocks.ANT_JAR.get(),
-                    new Item.Properties().stacksTo(1).craftRemainder(AntsportationItems.ANT_JAR.get())));
+                    new Item.Properties().stacksTo(1)) {
+                @Override
+                public ItemStack getContainerItem(ItemStack itemStack) {
+                    return ANT_JAR.get().getDefaultInstance();
+                }
+            });
 
     public static final RegistryObject<ForgeSpawnEggItem> ANT_QUEEN_SPAWN_EGG = ITEMS.register("ant_queen_spawn_egg",
             () -> new ForgeSpawnEggItem(AntsportationEntities.ANT_QUEEN, 0x290d03, 0x431c11,
