@@ -6,12 +6,12 @@ import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.Utils;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -26,7 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("ConstantConditions")
 @ParametersAreNonnullByDefault
@@ -37,7 +36,9 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
     private static final String COLOR_NBT_KEY = "dye_color";
     public BlockPos nextMarker;
     private int antCount = 0;
-    public List<UUID> ants = new ArrayList<>();
+    public final List<UUID> ants = new ArrayList<>();
+
+    public static final Predicate<BlockEntity> IS_O_HILL = (entity) -> entity instanceof AntHillBE antHillBE && !antHillBE.hasQueen;
 
     @Override
     public void load(CompoundTag nbt) {
@@ -45,7 +46,11 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
         color = DyeColor.byName(nbt.getString(COLOR_NBT_KEY), DyeColor.WHITE);
         nextMarker = NbtUtils.readBlockPos(nbt.getCompound("nextMarker"));
         antCount = nbt.getInt("antCount");
-        ants = nbt.getList("ants", 11).stream().map(NbtUtils::loadUUID).collect(Collectors.toList());
+
+        ants.clear();
+        nbt.getList("ants", Tag.TAG_INT_ARRAY)
+                .stream().map(NbtUtils::loadUUID)
+                .forEach(ants::add);
     }
 
     @Override
@@ -63,14 +68,17 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
 
     public void increaseAntCount() {
         antCount++;
+        if (antCount >= Integer.MAX_VALUE) {
+            antCount = 0;
+        }
     }
 
     public void increaseNeighbourAntCount() {
         for (Direction dir : Direction.values()) {
             final BlockEntity blockEntity;
             blockEntity = level.getBlockEntity(getBlockPos().relative(dir));
-            if (blockEntity != null && blockEntity.getBlockState().is(AntsportationBlocks.MARKER.get())) {
-                ((MarkerBE) blockEntity).increaseAntCount();
+            if (blockEntity instanceof MarkerBE marker) {
+                marker.increaseAntCount();
             }
         }
     }
@@ -127,50 +135,39 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
         if (this.ants.size() > 10) {
             ants.clear();
         }
+        // First we try to find adjacent markers for splitting
         nextMarker = findAdjacentBlock(pEntity, level, this.getBlockPos(),
                 (entity) -> entity instanceof MarkerBE marker &&
                         marker.getColor() != this.getColor() &&
                         marker.isColored() &&
                         marker.shouldReceiveAnt(
-                                adjacentBlocks(this.getAdjacent(pEntity, level, entity.getBlockPos()), pEntity, level, this.getBlockPos())
-                        ))
-                .orElse(null);
+                                adjacentBlocks(this.getAdjacent(entity.getBlockPos()), level, this.getBlockPos())
+                        ));
+        // Notify neighbour markers about the ant we just met
         increaseNeighbourAntCount();
 
-        if (nextMarker == null && findAdjacentBlock(pEntity, level, this.getBlockPos(),
-                (entity) -> entity instanceof MarkerBE marker &&
-                        getColor() != marker.getColor() &&
-                        marker.isColored()
-        ).isEmpty()) {
-            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity instanceof AntHillBE antHill && !antHill.hasQueen, 10).orElse(null);
-
+        // If we haven't found markers to split on, let's try an output hill
+        if (nextMarker == null) {
+            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), IS_O_HILL, 10);
         }
-        if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get()) && !level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
-            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) -> entity instanceof AntHillBE antHillBE && !antHillBE.hasQueen, 10).orElse(null);
+        // No output hill? let's try a marker of the same colour
+        if (nextMarker == null) {
+            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
+                            entity instanceof MarkerBE marker &&
+                                    marker.getColor() == getColor(), 10);
         }
-        if (nextMarker == null && findAdjacentBlock(pEntity, level, this.getBlockPos(),
-                (entity) -> entity instanceof MarkerBE marker &&
-                        marker.getColor() != this.getColor() &&
-                        marker.isColored()
-        ).isEmpty()) {
+        // None of the above conditions match? then we go and try to find white markers
+        if (nextMarker == null) {
             nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
-                            entity instanceof MarkerBE marker && !pEntity.nodeHistory.contains(entity.getBlockPos()) &&
-                                    marker.getColor() == getColor(), 10).orElse(null);
-        }
-        if (nextMarker != null && !level.getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get()) && !level.getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
-            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
-                            entity instanceof MarkerBE marker && !pEntity.nodeHistory.contains(entity.getBlockPos()) &&
-                                    marker.getColor() == getColor(), 10).orElse(null);
-        } else if (nextMarker == null) {
-            nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
-                            entity instanceof MarkerBE marker && !pEntity.nodeHistory.contains(entity.getBlockPos()) &&
-                                    !marker.isColored(), 10).orElse(null);
+                            entity instanceof MarkerBE marker &&
+                                    !marker.isColored(), 10);
         }
     }
 
+    @Nullable
     @SuppressWarnings("DuplicatedCode")
-    public static Optional<BlockPos> findNearestBlock(@Nullable AntWorkerEntity pEntity, Level level, BlockPos searchPos, Predicate<BlockEntity> predicate, double pDistance) {
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+    public static BlockPos findNearestBlock(@Nullable AntWorkerEntity pEntity, Level level, BlockPos searchPos, Predicate<BlockEntity> predicate, double pDistance) {
+        final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
         if (pEntity != null)
             predicate = predicate.and(e -> !pEntity.nodeHistory.contains(pos));
@@ -181,37 +178,38 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
                     for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
                         pos.setWithOffset(searchPos, k, i - 1, l);
                         if (searchPos.closerThan(pos, pDistance) && !pos.equals(searchPos) && predicate.test(level.getBlockEntity(pos))) {
-                            return Optional.of(pos);
+                            return pos;
                         }
                     }
                 }
             }
         }
 
-        return Optional.empty();
+        return null;
     }
 
-    public Optional<BlockPos> findAdjacentBlock(AntWorkerEntity pEntity, Level level, BlockPos searchPos, Predicate<BlockEntity> predicate) {
+    @Nullable
+    public BlockPos findAdjacentBlock(AntWorkerEntity pEntity, Level level, BlockPos searchPos, Predicate<BlockEntity> predicate) {
         BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
         for (Direction dir : Direction.values()) {
             blockPos.setWithOffset(searchPos, dir);
             if (predicate.test(level.getBlockEntity(blockPos)) && !pEntity.nodeHistory.contains(blockPos)) {
-                return Optional.of(blockPos);
+                return blockPos;
             }
         }
-        return Optional.empty();
+        return null;
     }
 
-    public Direction getAdjacent(AntWorkerEntity pEntity, Level level, BlockPos searchPos) {
+    public Direction getAdjacent(BlockPos searchPos) {
         for (Direction dir : Direction.values()) {
-            if (searchPos != null && searchPos.relative(dir).compareTo(this.getBlockPos()) == 0) {
+            if (searchPos.relative(dir).compareTo(this.getBlockPos()) == 0) {
                 return dir;
             }
         }
         return null;
     }
 
-    public int adjacentBlocks(Direction direction, AntWorkerEntity pEntity, Level level, BlockPos searchPos) {
+    public int adjacentBlocks(Direction direction, Level level, BlockPos searchPos) {
         List<Direction> blocks = new ArrayList<>();
         BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
         for (Direction dir : Direction.values()) {

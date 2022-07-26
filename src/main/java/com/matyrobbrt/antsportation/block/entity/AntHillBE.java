@@ -7,6 +7,7 @@ import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.entity.HillAntSoldierEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.util.AntTarget;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.core.BlockPos;
@@ -39,9 +40,6 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
 
     private int progressTicks;
 
-    private static final Predicate<BlockEntity> IS_HILL = (entity) -> entity instanceof AntHillBE hill && hill.hasQueen;
-    private static final Predicate<BlockEntity> IS_MARKER = (entity) -> entity != null && entity.getBlockState().is(AntsportationBlocks.MARKER.get());
-
     public AntHillBE(BlockPos pWorldPosition, BlockState pBlockState) {
         super(AntsportationBlocks.ANT_HILL_BE.get(), pWorldPosition, pBlockState);
     }
@@ -53,17 +51,8 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
             progressTicks++;
             if (progressTicks >= SPAWN_RATE.getAsInt()) {
                 progressTicks = 0;
-                if (nextMarker == null) {
-                    nextMarker = findNearestBlock(level, this.getBlockPos(), IS_HILL, 10).orElse(null);
-                }
-                if (nextMarker != null && !getLevel().getBlockState(nextMarker).is(AntsportationBlocks.ANT_HILL.get())) {
-                    nextMarker = findNearestBlock(level, this.getBlockPos(), IS_HILL, 10).orElse(null);
-                }
-                if (nextMarker == null) {
-                    nextMarker = findNearestBlock(level, this.getBlockPos(), IS_MARKER, 10).orElse(null);
-                }
-                if (nextMarker != null && !getLevel().getBlockState(nextMarker).is(AntsportationBlocks.MARKER.get())) {
-                    nextMarker = findNearestBlock(level, this.getBlockPos(), IS_MARKER, 10).orElse(null);
+                if (nextMarker == null || !isMarkerValid(nextMarker)) {
+                    recalculateNextMarker();
                 }
                 if (nextMarker != null) {
                     for (int i = 0; i < inventory.getSlots(); i++) {
@@ -80,6 +69,16 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
                 }
             }
         }
+    }
+
+    private boolean isMarkerValid(BlockPos pos) {
+        final var state = getLevel().getBlockState(pos);
+        return state.getBlock() instanceof AntTarget target && target.isValidTarget(state, pos, getLevel());
+    }
+
+    private void recalculateNextMarker() {
+        nextMarker = findNearestBlock(this.getBlockPos(), this::isMarkerValid, 10)
+                .orElse(null);
     }
 
     @SuppressWarnings("unused")
@@ -116,16 +115,16 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    public Optional<BlockPos> findNearestBlock(Level level, BlockPos searchPos, Predicate<BlockEntity> p_28076_, double pDistance) {
-        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+    public Optional<BlockPos> findNearestBlock(BlockPos searchPos, Predicate<BlockPos> predicate, double pDistance) {
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
         for (int i = 0; (double) i <= pDistance; i = i > 0 ? -i : 1 - i) {
             for (int j = 0; (double) j < pDistance; ++j) {
                 for (int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
                     for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
-                        blockpos$mutableblockpos.setWithOffset(searchPos, k, i - 1, l);
-                        if (searchPos.closerThan(blockpos$mutableblockpos, pDistance) && !searchPos.equals(blockpos$mutableblockpos) && p_28076_.test(level.getBlockEntity(blockpos$mutableblockpos))) {
-                            return Optional.of(blockpos$mutableblockpos);
+                        pos.setWithOffset(searchPos, k, i - 1, l);
+                        if (searchPos.closerThan(pos, pDistance) && !searchPos.equals(pos) && predicate.test(pos)) {
+                            return Optional.of(pos.immutable());
                         }
                     }
                 }
