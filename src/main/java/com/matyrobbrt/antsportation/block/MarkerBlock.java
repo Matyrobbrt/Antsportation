@@ -3,6 +3,8 @@ package com.matyrobbrt.antsportation.block;
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
+import com.matyrobbrt.antsportation.data.DatagenHelper;
+import com.matyrobbrt.antsportation.data.HasRecipe;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.Utils;
@@ -24,7 +26,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,12 +47,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
+public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, HasRecipe {
 
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
@@ -251,5 +261,17 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
     @Override
     public List<Component> getInfo() {
         return List.of(Translations.JEI_MARKER.translate());
+    }
+
+    @Override
+    public void generateRecipes(DatagenHelper helper) {
+        helper.shaped(this)
+                .pattern(
+                        "SSS",
+                        "SHS",
+                        "SSS"
+                )
+                .define('S', Items.SUGAR)
+                .define('H', Items.HONEY_BOTTLE);
     }
 }
