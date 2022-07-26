@@ -75,7 +75,7 @@ public class UnboxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoP
     @Override
     public void generateRecipes(DatagenHelper helper) {
         helper.emptyNBT(this)
-                .setEmptyNBTSlots(4, 7)
+                .setEmptyNBTSlots(1, 4)
                 .pattern("CBC",
                         "SHS")
                 .define('C', Tags.Items.CHESTS)

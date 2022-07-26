@@ -76,9 +76,9 @@ public class BoxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoPro
     @Override
     public void generateRecipes(DatagenHelper helper) {
         helper.emptyNBT(this)
-                .setEmptyNBTSlots(3, 4, 5)
-                .pattern("S", "P", "S",
-                        "C", "B", "C")
+                .setEmptyNBTSlots(4, 7)
+                .pattern("SPS",
+                         "CBC")
                 .define('C', Tags.Items.CHESTS)
                 .define('B', AntsportationTags.Items.BOXES)
                 .define('S', Tags.Items.STONE)

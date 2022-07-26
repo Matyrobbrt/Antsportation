@@ -1,9 +1,8 @@
 {
   "type": "antsportation:empty_nbt_required",
   "pattern": [
-    "C",
-    "B",
-    "C"
+    "SPS",
+    "CBC"
   ],
   "key": {
     "C": {
@@ -11,14 +10,19 @@
     },
     "B": {
       "tag": "antsportation:boxes"
+    },
+    "S": {
+      "tag": "forge:stone"
+    },
+    "P": {
+      "item": "minecraft:piston"
     }
   },
   "result": {
     "item": "antsportation:boxer"
   },
   "emptyNbtSlots": [
-    3,
     4,
-    5
+    7
   ]
 }

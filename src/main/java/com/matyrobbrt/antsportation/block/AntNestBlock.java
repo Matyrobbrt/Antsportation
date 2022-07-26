@@ -1,6 +1,5 @@
 package com.matyrobbrt.antsportation.block;
 
-import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
@@ -12,8 +11,10 @@ import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -44,8 +45,12 @@ public class AntNestBlock extends BaseEntityBlock implements JEIInfoProvider, Ha
 
     @Override
     public void generateRecipes(DatagenHelper helper) {
-        //helper.shaped(AntsportationBlocks.ANT_NEST.get())
+        helper.shapeless(AntsportationBlocks.ANT_NEST.get(), 1)
+                .requires(Items.COARSE_DIRT, 4)
+                .requires(AntsportationItems.MARKER.get(), 1)
+                .requires(ItemTags.DIRT, 1);
     }
+
 
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext pContext) {
         return this.defaultBlockState().setValue(PLACEDBYPLAYER, true);

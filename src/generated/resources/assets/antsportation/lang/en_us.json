@@ -54,7 +54,7 @@
   "tooltip.antsportation.items": "%s / %s items",
   "tooltip.antsportation.more": "more",
   "tooltip.antsportation.types": "%s / %s types",
-  "tooltip.item.antsportation.has_ant": "This jar contains an ant",
+  "tooltip.item.antsportation.has_ant": "This jar contains an Ant Queen",
   "tooltip.item.antsportation.speed_upgrade": "Insert in a Boxer in order to make it faster.",
   "tooltip.item.antsportation.speed_upgrade_2": "Decreases process duration by %s ticks.",
   "tooltip.item.antsportation.speed_upgrade_3": "Increases energy usage: %s more FE / tick",

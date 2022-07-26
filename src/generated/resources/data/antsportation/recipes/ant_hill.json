@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:rooted_dirt"
+    },
+    {
+      "item": "minecraft:rooted_dirt"
+    },
+    {
+      "item": "minecraft:rooted_dirt"
+    },
+    {
+      "item": "minecraft:rooted_dirt"
+    },
+    {
+      "item": "antsportation:marker"
+    },
+    {
+      "tag": "minecraft:dirt"
+    }
+  ],
+  "result": {
+    "item": "antsportation:ant_hill"
+  }
+}

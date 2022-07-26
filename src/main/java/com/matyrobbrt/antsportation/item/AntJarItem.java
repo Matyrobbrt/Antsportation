@@ -48,6 +48,11 @@ public class AntJarItem extends BaseBlockItem {
     }
 
     @Override
+    public boolean hasCraftingRemainingItem() {
+        return true;
+    }
+
+    @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack pStack, @NotNull Player pPlayer, @NotNull LivingEntity pInteractionTarget, @NotNull InteractionHand pUsedHand) {
         if (pInteractionTarget instanceof AntQueenEntity) {
             ItemStack itemStack = pStack.copy();

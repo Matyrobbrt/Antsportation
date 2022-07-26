@@ -1,7 +1,8 @@
 {
   "type": "antsportation:empty_nbt_required",
   "pattern": [
-    "CBC"
+    "CBC",
+    "SHS"
   ],
   "key": {
     "C": {
@@ -9,6 +10,12 @@
     },
     "B": {
       "tag": "antsportation:boxes"
+    },
+    "S": {
+      "tag": "forge:stone"
+    },
+    "H": {
+      "item": "minecraft:hopper"
     }
   },
   "result": {
@@ -16,7 +23,6 @@
   },
   "emptyNbtSlots": [
     1,
-    4,
-    7
+    4
   ]
 }
