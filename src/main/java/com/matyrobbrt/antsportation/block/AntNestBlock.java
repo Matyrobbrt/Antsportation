@@ -1,10 +1,14 @@
 package com.matyrobbrt.antsportation.block;
 
+import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
+import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.HasRecipe;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
+import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -36,6 +40,11 @@ public class AntNestBlock extends BaseEntityBlock implements JEIInfoProvider, Ha
     public AntNestBlock(Properties p_49224_) {
         super(p_49224_);
         this.registerDefaultState(this.stateDefinition.any().setValue(PLACEDBYPLAYER, false));
+    }
+
+    @Override
+    public void generateRecipes(DatagenHelper helper) {
+        //helper.shaped(AntsportationBlocks.ANT_NEST.get())
     }
 
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext pContext) {
