@@ -1,6 +1,6 @@
 package com.matyrobbrt.antsportation.entity;
 
-import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.block.entity.AntHillBE;
 import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.TimeUtil;
@@ -54,7 +54,7 @@ public class AntQueenEntity extends BaseAntEntity implements NeutralMob {
         this.goalSelector.addGoal(6, new MoveToBlockGoal(this, 1, 16) {
             @Override
             protected boolean isValidTarget(@NotNull LevelReader pLevel, @NotNull BlockPos pPos) {
-                return pLevel.getBlockState(pPos).is(AntsportationBlocks.ANT_HILL.get());
+                return pLevel.getBlockEntity(pPos) instanceof AntHillBE hill && !hill.hasQueen;
             }
         });
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.8D, 1F));
