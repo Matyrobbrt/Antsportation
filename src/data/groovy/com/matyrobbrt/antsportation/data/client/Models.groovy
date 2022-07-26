@@ -77,6 +77,12 @@ class Models extends BlockStateProvider {
             final var confModels = new ConfiguredModel(model).selfArray()
             forAllStates(s -> confModels)
         }
+
+        final var boxerModel = new ConfiguredModel(models().getExistingFile(modLoc('block/boxer')))
+        simpleBlock(AntsportationBlocks.BOXER.get(), boxerModel)
+        simpleBlock(AntsportationBlocks.UNBOXER.get(), boxerModel)
+        blockItem(AntsportationBlocks.BOXER)
+        itemModels().withExistingParent(getLocation(AntsportationBlocks.UNBOXER), modLoc('block/boxer'))
     }
 
     private void blockItem(Supplier<? extends Block> block) {

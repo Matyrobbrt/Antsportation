@@ -58,6 +58,8 @@ class Lang extends LanguageProvider {
             add(entity.get(), name)
         })
 
+        add AntsportationEntities.HILL_ANT_SOLDIER.get(), 'Ant Soldier'
+
         add(((TranslatableComponent) Antsportation.TAB.getDisplayName()).getKey(), "Antsportation")
     }
 
@@ -67,8 +69,10 @@ class Lang extends LanguageProvider {
     }
 
     void add(String key, String value) {
-        super.add(key, value)
-        enUd.add(key, Utils.toUpsideDown(value))
+        try {
+            super.add(key, value)
+            enUd.add(key, Utils.toUpsideDown(value))
+        } catch (IllegalStateException ignored) {}
     }
 
 }

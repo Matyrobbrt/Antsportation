@@ -15,6 +15,7 @@
   "entity.antsportation.ant_queen": "Ant Queen",
   "entity.antsportation.ant_soldier": "Ant Soldier",
   "entity.antsportation.ant_worker": "Ant Worker",
+  "entity.antsportation.hill_ant_soldier": "Ant Soldier",
   "gui.antsportation.boxer": "Boxer",
   "gui.antsportation.configuration": "Configuration: %s",
   "gui.antsportation.unboxer": "Unboxer",
