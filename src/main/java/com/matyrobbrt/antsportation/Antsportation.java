@@ -127,9 +127,9 @@ public class Antsportation {
             for (int i = 0; i < random.nextInt(4); i++) {
                 final var soldier = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), event.getContext().getLevel());
                 final var blockpos = event.getPos().offset(-2 + soldier.getRandom().nextInt(5), 1, -2 + soldier.getRandom().nextInt(5));
-                soldier.aggroAtNearest(Player.class);
-                soldier.moveTo(blockpos, 0, 0);
+                soldier.setPos(blockpos.getX(), blockpos.getY(), blockpos.getZ());
                 event.getContext().getLevel().addFreshEntity(soldier);
+                soldier.aggroAtNearest(Player.class);
             }
         }
     }
