@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.entity;
 
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
+import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -15,12 +16,12 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +39,19 @@ public class AntSoldierEntity extends BaseAntEntity {
                 .add(Attributes.MAX_HEALTH, 3.0D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0f)
                 .add(Attributes.ATTACK_SPEED, 2.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.4f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.4f)
+                .build();
+    }
+
+    public static AntSoldierEntity spawnReinforcement(Level level, BlockPos pos) {
+        final var soldier = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), level);
+        final var blockpos = pos.offset(-2 + soldier.getRandom().nextInt(5), 1, -2 + soldier.getRandom().nextInt(5));
+        soldier.setPos(blockpos.getX(), blockpos.getY(), blockpos.getZ());
+        if (level.getBlockState(blockpos).isAir()) {
+            level.addFreshEntity(soldier);
+            level.levelEvent(null, 2001, blockpos, Block.getId(Blocks.DIRT.defaultBlockState()));
+        }
+        return soldier;
     }
 
     @Override
