@@ -22,6 +22,8 @@ public record ProgressWidget(int x, int y, IntSupplier progress, boolean flipped
     }
 
     public static void renderFlipped(int progress, int x, int y, PoseStack pPoseStack) {
+        if (progress > MAX_PROGRESS)
+            progress = MAX_PROGRESS;
         Screen.blit(pPoseStack, x, y, 24, 31, MAX_PROGRESS, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
         for (int i = 0; i < progress; i++) {
             final int relative = (MAX_PROGRESS - i);
@@ -29,6 +31,8 @@ public record ProgressWidget(int x, int y, IntSupplier progress, boolean flipped
         }
     }
     public static void renderNormal(int progress, int x, int y, PoseStack pPoseStack) {
+        if (progress > MAX_PROGRESS)
+            progress = MAX_PROGRESS;
         final int remaining = MAX_PROGRESS - progress;
         if (remaining > 0)
             Screen.blit(pPoseStack, x + progress, y, progress, 31, remaining, HEIGHT, TEX_WIDTH, TEX_HEIGHT);
