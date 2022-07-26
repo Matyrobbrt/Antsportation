@@ -111,13 +111,13 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, Has
             return;
         }
         marker.checkMarker(ant);
-        if (marker.nextMarker == null || ant.nodeHistory.contains(marker.nextMarker)) {
+        final var next = marker.nextMarker == null ? null : marker.nextMarker.immutable();
+        if (next == null || ant.nodeHistory.contains(next)) {
             return;
         }
-        ant.setNextMarker(marker.nextMarker);
+        ant.setNextMarker(next);
 
         marker.ants.add(ant.getUUID());
-
     }
 
     @Override
