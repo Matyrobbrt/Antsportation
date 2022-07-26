@@ -130,7 +130,7 @@ public class Antsportation {
         }
         Random random = new Random();
         if(random.nextInt(100) > 95 &&(event.getState() != event.getFinalState() || event.getState() != event.getState().getBlock().getToolModifiedState(event.getState(), event.getContext(), ToolActions.HOE_TILL, false))){
-            AntWorkerEntity ant = new AntWorkerEntity(AntsportationEntities.ANT_WORKER.get(), event.getContext().getLevel());
+            AntQueenEntity ant = new AntQueenEntity(AntsportationEntities.ANT_QUEEN.get(), event.getContext().getLevel());
             ant.setPos(event.getPos().getX()+0.5, event.getPos().getY()+1, event.getPos().getZ()+0.5);
             event.getContext().getLevel().addFreshEntity(ant);
         }
