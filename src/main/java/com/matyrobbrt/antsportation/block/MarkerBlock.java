@@ -71,6 +71,8 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, Has
     private static final VoxelShape WEST_SHAPE = Shapes.box(0.984365, 0.1875, 0.1875, 0.984375, 0.8125, 0.8125);
     private static final VoxelShape EAST_SHAPE = Shapes.box(0.015625, 0.1875, 0.1875, 0.015635, 0.8125, 0.8125);
 
+    private static final boolean USE_DYE = false;
+
     public MarkerBlock() {
         super(BlockBehaviour.Properties.of(Material.WOOL)
                 .instabreak()
@@ -247,7 +249,7 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, Has
     }
 
     private void shrinkHandItem(Player pPlayer, ItemStack inHand) {
-        if (!pPlayer.isCreative()) {
+        if (!pPlayer.isCreative() && USE_DYE) {
             inHand.shrink(1);
         }
     }
