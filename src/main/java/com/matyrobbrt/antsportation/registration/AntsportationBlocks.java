@@ -41,12 +41,10 @@ public class AntsportationBlocks {
     public static final RegistryObject<BoxerBlock> BOXER = registerWithItem("boxer", Mineable.PICKAXE, ToolTier.IRON, () -> new BoxerBlock(BlockBehaviour.Properties.of(Material.METAL)
             .color(MaterialColor.COLOR_BLACK)
             .strength(5.0f)
-            .noOcclusion()
     ));
     public static final RegistryObject<UnboxerBlock> UNBOXER = registerWithItem("unboxer", Mineable.PICKAXE, ToolTier.IRON, () -> new UnboxerBlock(BlockBehaviour.Properties.of(Material.METAL)
             .color(MaterialColor.COLOR_BLACK)
             .strength(5.0f)
-            .noOcclusion()
     ));
     public static final RegistryObject<AntNestBlock> ANT_NEST = registerWithItem("ant_nest",Mineable.SHOVEL,ToolTier.WOODEN, ()-> new AntNestBlock(BlockBehaviour.Properties.of(Material.DIRT)
             .color(MaterialColor.COLOR_BROWN)

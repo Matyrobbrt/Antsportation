@@ -2,11 +2,14 @@ package com.matyrobbrt.antsportation.data.client
 
 import com.matyrobbrt.antsportation.Antsportation
 import com.matyrobbrt.antsportation.block.AntHillBlock
+import com.matyrobbrt.antsportation.block.BoxerBlock
 import com.matyrobbrt.antsportation.item.BoxItem
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks
 import com.matyrobbrt.antsportation.registration.AntsportationItems
+import net.minecraft.core.Direction
 import net.minecraft.core.Registry
 import net.minecraft.data.DataGenerator
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.block.Block
 import net.minecraftforge.client.model.generators.*
@@ -20,6 +23,10 @@ import static com.matyrobbrt.antsportation.Antsportation.rl
 class Models extends BlockStateProvider {
     Models(DataGenerator gen, ExistingFileHelper exFileHelper) {
         super(gen, Antsportation.MOD_ID, exFileHelper)
+    }
+
+    public static final Direction[] ROTATABLE_DIRECTIONS = new Direction[] {
+            Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
     }
 
     @Override
@@ -41,7 +48,7 @@ class Models extends BlockStateProvider {
 
             override {
                 predicate(rl('filled'), 1)
-                    .model(withAnt)
+                        .model(withAnt)
             }
 
             layer0(modLoc('item/glass_jar'))
@@ -78,11 +85,33 @@ class Models extends BlockStateProvider {
             forAllStates(s -> confModels)
         }
 
-        final var boxerModel = new ConfiguredModel(models().getExistingFile(modLoc('block/boxer')))
-        simpleBlock(AntsportationBlocks.BOXER.get(), boxerModel)
-        simpleBlock(AntsportationBlocks.UNBOXER.get(), boxerModel)
+        boxer(AntsportationBlocks.BOXER, modLoc('block/boxer_front'))
+        boxer(AntsportationBlocks.UNBOXER, modLoc('block/unboxer_front'))
         blockItem(AntsportationBlocks.BOXER)
-        itemModels().withExistingParent(getLocation(AntsportationBlocks.UNBOXER), modLoc('block/boxer'))
+        blockItem(AntsportationBlocks.UNBOXER)
+    }
+
+    private void boxer(Supplier<? extends Block> block, ResourceLocation front) {
+        final var side = modLoc('block/boxer_side')
+        final var top = modLoc('block/boxer_top')
+        final var bottom = mcLoc('block/stone')
+        this.block(block) {
+            partialState {
+                for (final direction in ROTATABLE_DIRECTIONS) {
+                    int rotationY = switch (direction) {
+                        case Direction.EAST -> 90
+                        case Direction.SOUTH -> 180
+                        case Direction.WEST -> 270
+                        default -> 0
+                    }
+                    with(BoxerBlock.FACING, direction).modelForState()
+                    .modelFile(models().orientableWithBottom(
+                            "block/${getLocation(block)}",
+                            side, front, bottom, top
+                    )).rotationY(rotationY).addModel()
+                }
+            }
+        }
     }
 
     private void blockItem(Supplier<? extends Block> block) {
@@ -97,6 +126,7 @@ class Models extends BlockStateProvider {
         clos.call(prov)
         return prov
     }
+
     private ItemModelBuilder item(Supplier<? extends ItemLike> item, @DelegatesTo(value = ItemModelBuilder, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         this.item(getLocation(item), clos)
     }
@@ -126,6 +156,7 @@ class Models extends BlockStateProvider {
     }
 
     @NotNull
+    @SuppressWarnings('GrDeprecatedAPIUsage')
     private static String getLocation(ItemLike item) {
         Registry.ITEM.getKey(item.asItem()).getPath()
     }
