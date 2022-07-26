@@ -69,8 +69,8 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
                 final var stackInBox = BoxItem.getStoredItems(boxitem).findFirst().map(BoxItem.ItemStackInstance::getStack).orElse(ItemStack.EMPTY);
                 pMatrixStack.pushPose();
                 pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
-                pMatrixStack.scale(0.3f, 0.3f, 0.3f);
-                pMatrixStack.translate(0.4f, 1.2, 0);
+                pMatrixStack.scale(0.25f, 0.25f, 0.25f);
+                pMatrixStack.translate(0.45f, 1.3, 0);
                 if(!(stackInBox.getItem() instanceof BlockItem)){
                     pMatrixStack.mulPose(Vector3f.XN.rotationDegrees(90));
                     pMatrixStack.mulPose(Vector3f.ZN.rotationDegrees(90));
@@ -80,7 +80,7 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
                 pMatrixStack.popPose();
             } else {
                 pMatrixStack.pushPose();
-                pMatrixStack.scale(0.3f, 0.3f, 0.3f);
+                pMatrixStack.scale(0.28f, 0.28f, 0.28f);
                 pMatrixStack.translate(0.4f, 1.1+-(float) Math.sin(0.1f * pEntity.tickCount) * 0.01f+0.05f, 0);
                 pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
                 itemRenderer.renderStatic(null, pEntity.getOffhandItem(), ItemTransforms.TransformType.FIXED, false, pMatrixStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);
