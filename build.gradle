@@ -149,7 +149,8 @@ final var props = [
         'forge_ver'    : forge_version,
         'patchouli_ver': patchouli_version,
         'jei_ver'      : jei_version,
-        'top_ver'      : top_version
+        'top_ver'      : top_version,
+        'version'      : version
 ]
 
 processResources {

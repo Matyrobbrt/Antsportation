@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation.entity;
 
+import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -10,7 +11,9 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -19,10 +22,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("ConstantConditions")
@@ -34,6 +39,8 @@ public class AntWorkerEntity extends BaseAntEntity {
     public AntWorkerEntity(EntityType<? extends PathfinderMob> p_21683_, Level p_21684_) {
         super(p_21683_, p_21684_);
     }
+
+    private boolean summonedSoliders;
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
@@ -48,6 +55,7 @@ public class AntWorkerEntity extends BaseAntEntity {
             }
         });
         pCompound.put("nodeHistory", listtag);
+        pCompound.putBoolean("summonedSoliders", summonedSoliders);
     }
 
     @Override
@@ -57,6 +65,7 @@ public class AntWorkerEntity extends BaseAntEntity {
             entityData.set(NEXT_MARKER, NbtUtils.readBlockPos(pCompound.getCompound("nextMarker")));
         }
         nodeHistory = pCompound.getList("nodeHistory", 10).stream().map(((tag) -> (CompoundTag) tag)).map(NbtUtils::readBlockPos).collect(Collectors.toList());
+        summonedSoliders = pCompound.getBoolean("summonedSoliders");
     }
 
     public static AttributeSupplier setAttributes() {
@@ -104,6 +113,28 @@ public class AntWorkerEntity extends BaseAntEntity {
                     this.navigation.moveTo(getNextMarker().getX(), getNextMarker().getY(), getNextMarker().getZ(), 1);
                 }
             }
+        }
+    }
+
+    private static final UUID HURT_BONUS_UID = UUID.fromString("fd0942e6-ed28-4f99-a35b-37c5a6ad50c5");
+
+    @Override
+    public void setLastHurtByMob(@Nullable LivingEntity pLivingEntity) {
+        final var soliderTarget = getLastHurtByMob() == null ? pLivingEntity : getLastHurtByMob();
+        super.setLastHurtByMob(pLivingEntity);
+
+        if (!summonedSoliders && !level.isClientSide()) {
+            getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier(HURT_BONUS_UID, "Hurt bonus", 5, AttributeModifier.Operation.ADDITION));
+            heal(5);
+
+            for (int i = 0; i < 3; ++i) {
+                final var blockpos = this.blockPosition().offset(-2 + this.random.nextInt(5), 1, -2 + this.random.nextInt(5));
+                final var solider = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), level);
+                solider.moveTo(blockpos, 0.0F, 0.0F);
+                solider.setTarget(soliderTarget);
+                level.addFreshEntity(solider);
+            }
+            summonedSoliders = true;
         }
     }
 

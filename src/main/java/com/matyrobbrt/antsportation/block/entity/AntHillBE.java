@@ -51,8 +51,9 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
 
 
     public void tick() {
+        if (!hasQueen) return;
         ticks++;
-        if (level != null && hasQueen && ticks >= SPAWN_RATE.getAsInt()) {
+        if (level != null && ticks >= SPAWN_RATE.getAsInt()) {
             ticks = 0;
             if (nextMarker == null) {
                 nextMarker = findNearestBlock(level, this.getBlockPos(), IS_HILL, 10).orElse(null);
@@ -132,7 +133,9 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
 
     @Override
     public void addInfo(TOPContext context) {
-        context.text(Translations.TOP_TICKS_UNTIL_SPAWN.translate(SPAWN_RATE.getAsInt() - ticks));
+        if (hasQueen) {
+            context.text(Translations.TOP_TICKS_UNTIL_SPAWN.translate(SPAWN_RATE.getAsInt() - ticks));
+        }
     }
 
     class Inventory extends ItemStackHandler {

@@ -24,6 +24,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationMenus;
 import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.config.ClientConfig;
+import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -112,7 +113,7 @@ public class AntsportationClient {
     }
 
     static void onTooltip(final ItemTooltipEvent event) {
-        if (ClientConfig.CONFIG.showTransportableItems().get() && event.getItemStack().is(AntsportationTags.Items.ANT_TRANSPORTABLE)) {
+        if (ServerConfig.CONFIG.ants().onlyTransportableItems().get() && ClientConfig.CONFIG.showTransportableItems().get() && event.getItemStack().is(AntsportationTags.Items.ANT_TRANSPORTABLE)) {
             event.getToolTip().add(Translations.TRANSPORTABLE_ITEM.translate());
         }
     }

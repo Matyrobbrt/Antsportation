@@ -5,6 +5,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -15,11 +16,16 @@ import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 public class AntSoldierEntity extends BaseAntEntity {
 
@@ -48,12 +54,22 @@ public class AntSoldierEntity extends BaseAntEntity {
         });
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.8D, 1F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers().setAlertOthers(AntQueenEntity.class));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, 5, false, false, (p_28879_) -> p_28879_ instanceof Player));
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
+    protected @NotNull PathNavigation createNavigation(Level pLevel) {
+        return new WallClimberNavigation(this, pLevel);
     }
 
     @Override
     protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState blockIn) {
         this.playSound(AntsportationSounds.ANT_WALK.get(), 0.12f, 1);
+    }
+
+    public void aggroAtNearest(Class<? extends LivingEntity> type) {
+        getLevel().getEntitiesOfClass(type, new AABB(blockPosition()).inflate(5))
+                .stream().findFirst().ifPresent(this::setTarget);
     }
 
     @Override
