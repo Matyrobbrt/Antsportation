@@ -43,7 +43,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "You can dye the markers with vanilla dyes.<br>If you want to split where a colored marker is, you first have to merge it with a white marker.",
+      "text": "You can dye the markers with vanilla dyes.<br>If you want to split where a colored marker is, you first have to merge it with a white marker.<br>Make sure that the 2 colors that are next to the white marker are opposite of each other. Diagonal won't work!",
       "title": "Splitting"
     },
     {
