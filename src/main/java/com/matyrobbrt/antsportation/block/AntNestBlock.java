@@ -2,6 +2,7 @@ package com.matyrobbrt.antsportation.block;
 
 import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
+import com.matyrobbrt.antsportation.data.HasRecipe;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.util.Translations;
@@ -30,7 +31,7 @@ import java.util.List;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class AntNestBlock extends BaseEntityBlock implements JEIInfoProvider {
+public class AntNestBlock extends BaseEntityBlock implements JEIInfoProvider, HasRecipe {
     public static final BooleanProperty PLACEDBYPLAYER = BooleanProperty.create("placedbyplayer");
     public AntNestBlock(Properties p_49224_) {
         super(p_49224_);

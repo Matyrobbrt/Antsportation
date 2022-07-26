@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -74,10 +75,13 @@ public class UnboxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoP
     @Override
     public void generateRecipes(DatagenHelper helper) {
         helper.emptyNBT(this)
-                .setEmptyNBTSlots(1, 4, 7)
-                .pattern("CBC")
+                .setEmptyNBTSlots(4, 7)
+                .pattern("CBC",
+                        "SHS")
                 .define('C', Tags.Items.CHESTS)
-                .define('B', AntsportationTags.Items.BOXES);
+                .define('B', AntsportationTags.Items.BOXES)
+                .define('S', Tags.Items.STONE)
+                .define('H', Items.HOPPER);
     }
 
     @Override
