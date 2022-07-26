@@ -55,7 +55,8 @@ public class AntHillBlock extends BaseEntityBlock {
     @Override
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext pContext) {
         return this.defaultBlockState()
-                .setValue(PLACEDBYPLAYER, true);
+                .setValue(PLACEDBYPLAYER, true)
+                .setValue(IS_GRASSY, pContext.getLevel().getBiome(pContext.getClickedPos()).is(Tags.Biomes.IS_PLAINS));
     }
 
     @Override
@@ -148,6 +149,7 @@ public class AntHillBlock extends BaseEntityBlock {
                     if (RANDOM.nextBoolean() && (antHill.hasQueen || !pState.getValue(PLACEDBYPLAYER))) {
                         AntSoldierEntity entity = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), pLevel);
                         entity.setPos(pPos.getX(), pPos.getY(), pPos.getZ());
+                        entity.aggroAtNearest(Player.class);
                         pLevel.addFreshEntity(entity);
                     }
                 }

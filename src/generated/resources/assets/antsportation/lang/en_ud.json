@@ -15,6 +15,7 @@
   "entity.antsportation.ant_queen": "u\u01DD\u01DDn\u1F49 \u0287u\u2C6F",
   "entity.antsportation.ant_soldier": "\u0279\u01DD\u0131p\u05DFoS \u0287u\u2C6F",
   "entity.antsportation.ant_worker": "\u0279\u01DD\u029E\u0279oM \u0287u\u2C6F",
+  "entity.antsportation.hill_ant_soldier": "\u0279\u01DD\u0131p\u05DFoS \u0287u\u2C6F \u05DF\u05DF\u0131H",
   "gui.antsportation.boxer": "\u0279\u01DDxo\u15FA",
   "gui.antsportation.configuration": "%s :uo\u0131\u0287\u0250\u0279nb\u0131\u025Fuo\u0186",
   "gui.antsportation.unboxer": "\u0279\u01DDxoqu\u2229",

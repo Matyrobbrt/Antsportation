@@ -4,6 +4,7 @@ import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.entity.HillAntSoldierEntity;
 import net.minecraft.core.Registry;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -24,6 +25,11 @@ public class AntsportationEntities {
                     .fireImmune()
                     .sized(1f, 0.4f)
                     .build(Antsportation.rlStr("ant_soldier")));
+    public static final RegistryObject<EntityType<HillAntSoldierEntity>> HILL_ANT_SOLDIER = ENTITIES.register("hill_ant_soldier",
+            () -> EntityType.Builder.of(HillAntSoldierEntity::new, MobCategory.CREATURE)
+                    .fireImmune()
+                    .sized(1f, 0.4f)
+                    .build(Antsportation.rlStr("hill_ant_soldier")));
 
     public static final RegistryObject<EntityType<AntWorkerEntity>> ANT_WORKER = ENTITIES.register("ant_worker",
             () -> EntityType.Builder.of(AntWorkerEntity::new, MobCategory.CREATURE)

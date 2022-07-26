@@ -93,6 +93,7 @@ public class Antsportation {
     private static void entityAttributeEvent(EntityAttributeCreationEvent event) {
         event.put(AntsportationEntities.ANT_QUEEN.get(), AntQueenEntity.setAttributes());
         event.put(AntsportationEntities.ANT_SOLDIER.get(), AntSoldierEntity.setAttributes());
+        event.put(AntsportationEntities.HILL_ANT_SOLDIER.get(), AntSoldierEntity.setAttributes());
         event.put(AntsportationEntities.ANT_WORKER.get(), AntWorkerEntity.setAttributes());
     }
 

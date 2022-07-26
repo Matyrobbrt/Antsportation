@@ -4,6 +4,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.minecraftforge.fml.ModList;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -23,7 +24,7 @@ public record ServerConfig(Boxing boxing, Ants ants) {
         {
             boxing = new Boxing(
                     builder.comment("If boxing machines should use energy (Forge Energy)")
-                            .define("useEnergy", true),
+                            .define("useEnergy", ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("thermal")),
                     builder.comment("The amount of energy boxing machines can store.")
                             .defineInRange("energyCapacity", 100_000, 1, Integer.MAX_VALUE),
                     builder.comment("How many ticks each speed upgrade will reduce from the needed progress of boxing machines.")

@@ -22,7 +22,7 @@ public enum Translations {
     SPEED_UPGRADE_TOOLTIP3("tooltip.item", "speed_upgrade_3", "Increases energy usage: %s more FE / tick"),
     TRANSPORTABLE_ITEM("tooltip.item", "transportable", "This item can be transported directly by ants."),
 
-    HAS_ANT_TOOLTIP("tooltip.item", "has_ant", "This jar contains an ant"),
+    HAS_ANT_TOOLTIP("tooltip.item", "has_ant", "This jar contains an Ant Queen"),
 
     EJECT_WHEN("button", "eject_when", "Eject when:"),
     REDSTONE_CONTROL("button", "redstone_control", "Redstone control:"),

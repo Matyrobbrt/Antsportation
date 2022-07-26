@@ -3,6 +3,8 @@ package com.matyrobbrt.antsportation.block;
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
+import com.matyrobbrt.antsportation.data.DatagenHelper;
+import com.matyrobbrt.antsportation.data.HasRecipe;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.Utils;
@@ -24,7 +26,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,12 +47,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
+public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, HasRecipe {
 
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
@@ -60,6 +70,8 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
     private static final VoxelShape SOUTH_SHAPE = Shapes.box(0.1875, 0.1875, 0.015625, 0.8125, 0.8125, 0.015635);
     private static final VoxelShape WEST_SHAPE = Shapes.box(0.984365, 0.1875, 0.1875, 0.984375, 0.8125, 0.8125);
     private static final VoxelShape EAST_SHAPE = Shapes.box(0.015625, 0.1875, 0.1875, 0.015635, 0.8125, 0.8125);
+
+    private static final boolean USE_DYE = false;
 
     public MarkerBlock() {
         super(BlockBehaviour.Properties.of(Material.WOOL)
@@ -99,13 +111,13 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
             return;
         }
         marker.checkMarker(ant);
-        if (marker.nextMarker == null || ant.nodeHistory.contains(marker.nextMarker)) {
+        final var next = marker.nextMarker == null ? null : marker.nextMarker.immutable();
+        if (next == null || ant.nodeHistory.contains(next)) {
             return;
         }
-        ant.setNextMarker(marker.nextMarker);
+        ant.setNextMarker(next);
 
         marker.ants.add(ant.getUUID());
-
     }
 
     @Override
@@ -237,7 +249,7 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
     }
 
     private void shrinkHandItem(Player pPlayer, ItemStack inHand) {
-        if (!pPlayer.isCreative()) {
+        if (!pPlayer.isCreative() && USE_DYE) {
             inHand.shrink(1);
         }
     }
@@ -251,5 +263,17 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider {
     @Override
     public List<Component> getInfo() {
         return List.of(Translations.JEI_MARKER.translate());
+    }
+
+    @Override
+    public void generateRecipes(DatagenHelper helper) {
+        helper.shaped(this)
+                .pattern(
+                        "SSS",
+                        "SHS",
+                        "SSS"
+                )
+                .define('S', Items.SUGAR)
+                .define('H', Items.HONEY_BOTTLE);
     }
 }
