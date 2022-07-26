@@ -40,6 +40,8 @@ configurations {
     groovyDeps
     dataImplementation.extendsFrom groovyDeps
     extensionImplementation.extendsFrom dataImplementation
+
+    dataImplementation.extendsFrom implementation
 }
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
@@ -95,6 +97,8 @@ repositories {
     maven { url 'https://maven.k-4u.nl' }
 }
 
+jarJar.enable()
+
 dependencies {
     groovyDeps("org.apache.groovy:groovy-all:$groovy_version") {
         exclude module: 'groovy-cli-picocli'
@@ -109,11 +113,14 @@ dependencies {
 
     runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")
 
-    def patchouli = fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}") {
+    implementation fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}") {
         transitive = false
     }
-    implementation patchouli
-    dataImplementation patchouli
+
+    jarJar("vazkii.patchouli:Patchouli:[${patchouli_version},1.19)") {
+        jarJar.pin(it, patchouli_version)
+        transitive = false
+    }
 
     implementation fg.deobf("mcjty.theoneprobe:theoneprobe:${top_version}") {
         transitive = false
@@ -149,20 +156,34 @@ final var props = [
         'forge_ver'    : forge_version,
         'patchouli_ver': patchouli_version,
         'jei_ver'      : jei_version,
-        'top_ver'      : top_version
+        'top_ver'      : top_version,
+        'version'      : project.version
 ]
 
 processResources {
     inputs.properties props
-    from('META-INF/mods.toml') {
+    exclude 'META-INF/mods.toml'
+    from('src/main/resources/META-INF/mods.toml') {
         expand props
+        into 'META-INF'
     }
 }
 
 jar {
     configureJarTask(jar)
+    classifier 'slim'
+    finalizedBy('reobfJar')
 }
-tasks.jar.finalizedBy('reobfJar')
+
+reobf {
+    jarJar {}
+}
+
+tasks.named('jarJar', net.minecraftforge.gradle.userdev.tasks.JarJar).configure {
+    configureJarTask(it)
+    it.classifier ''
+    it.finalizedBy('reobfJarJar')
+}
 
 tasks.create('extensionNoPropsJar', org.gradle.jvm.tasks.Jar) {
     it.from(sourceSets.extension.output)
