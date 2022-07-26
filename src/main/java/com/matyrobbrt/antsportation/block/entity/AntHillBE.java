@@ -4,6 +4,7 @@ import com.matyrobbrt.antsportation.compat.top.TOPContext;
 import com.matyrobbrt.antsportation.compat.top.TOPInfoDriver;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.entity.HillAntSoldierEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.util.Translations;
@@ -46,16 +47,7 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
     }
 
     public void tick() {
-        if (getLevel().getGameTime() % SUMMON_SOLDIER_INTERVAL == 0) {
-            final var soldiersNearby = getLevel().getEntitiesOfClass(AntSoldierEntity.class, new AABB(worldPosition).inflate(7));
-            final var toSpawn = PREFERRED_SOLDIER_AMOUNT - soldiersNearby.size();
-            for (int i = 0; i < toSpawn; i++) {
-                final var solider = new AntSoldierEntity(AntsportationEntities.ANT_SOLDIER.get(), level);
-                final var blockpos = worldPosition.offset(-2 + solider.getRandom().nextInt(5), 1, -2 + solider.getRandom().nextInt(5));
-                solider.moveTo(blockpos, 0.0F, 0.0F);
-                getLevel().addFreshEntity(solider);
-            }
-        }
+        passivelySoliderSpawn();
 
         if (hasQueen) {
             progressTicks++;
@@ -86,6 +78,22 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    private void passivelySoliderSpawn() {
+        if (getLevel().getGameTime() % SUMMON_SOLDIER_INTERVAL == 0) {
+            final var soldiersNearby = getLevel().getEntitiesOfClass(AntSoldierEntity.class, new AABB(worldPosition).inflate(7));
+            final var toSpawn = PREFERRED_SOLDIER_AMOUNT - soldiersNearby.size();
+            for (int i = 0; i < toSpawn; i++) {
+                final var solider = new HillAntSoldierEntity(AntsportationEntities.HILL_ANT_SOLDIER.get(), getLevel());
+                final var blockpos = worldPosition.offset(-2 + solider.getRandom().nextInt(5), 1, -2 + solider.getRandom().nextInt(5));
+                if (!getLevel().getBlockState(blockpos).isAir()) continue;
+                solider.setTargetPos(blockpos);
+                solider.moveTo(blockpos, 0.0F, 0.0F);
+                getLevel().addFreshEntity(solider);
             }
         }
     }

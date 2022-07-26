@@ -8,6 +8,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -67,6 +68,18 @@ public class Utils {
             case 3 -> "rd";
             default -> "th";
         };
+    }
+
+    public static CompoundTag writeVec3(Vec3 vec3) {
+        CompoundTag compoundtag = new CompoundTag();
+        compoundtag.putDouble("X", vec3.x);
+        compoundtag.putDouble("Y", vec3.y);
+        compoundtag.putDouble("Z", vec3.z);
+        return compoundtag;
+    }
+
+    public static Vec3 readVec3(CompoundTag tag) {
+        return new Vec3(tag.getDouble("X"), tag.getDouble("Y"), tag.getDouble("Z"));
     }
 
     // Automatic en_ud generation

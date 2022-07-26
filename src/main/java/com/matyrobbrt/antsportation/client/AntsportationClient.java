@@ -108,8 +108,10 @@ public class AntsportationClient {
     @SubscribeEvent
     static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(AntsportationEntities.ANT_QUEEN.get(), AntQueenRenderer::new);
-        event.registerEntityRenderer(AntsportationEntities.ANT_SOLDIER.get(), AntSoldierRenderer::new);
         event.registerEntityRenderer(AntsportationEntities.ANT_WORKER.get(), AntWorkerRenderer::new);
+
+        event.registerEntityRenderer(AntsportationEntities.ANT_SOLDIER.get(), AntSoldierRenderer::new);
+        event.registerEntityRenderer(AntsportationEntities.HILL_ANT_SOLDIER.get(), AntSoldierRenderer::new);
     }
 
     static void onTooltip(final ItemTooltipEvent event) {

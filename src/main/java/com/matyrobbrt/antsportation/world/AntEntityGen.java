@@ -23,7 +23,7 @@ public class AntEntityGen {
         // Goes through each entry in the biomes and sees if it matches the current biome we are loading
         boolean isBiomeSelected = event.getCategory().compareTo(Biome.BiomeCategory.FOREST) == 0;
 
-        if(isBiomeSelected) {
+        if (isBiomeSelected) {
             addEntityToAllBiomes(event, type, weight, minCount, maxCount);
         }
     }
@@ -31,7 +31,7 @@ public class AntEntityGen {
     private static void addEntityToAllBiomes(BiomeLoadingEvent event, EntityType<?> type,
                                              int weight, int minCount, int maxCount) {
         List<MobSpawnSettings.SpawnerData> base = event.getSpawns().getSpawner(type.getCategory());
-        base.add(new MobSpawnSettings.SpawnerData(type,weight, minCount, maxCount));
+        base.add(new MobSpawnSettings.SpawnerData(type, weight, minCount, maxCount));
     }
 
 }
