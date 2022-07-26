@@ -7,6 +7,7 @@ import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
+import com.matyrobbrt.antsportation.util.AntTarget;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -42,7 +43,7 @@ import java.util.stream.Stream;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class AntHillBlock extends BaseEntityBlock {
+public class AntHillBlock extends BaseEntityBlock implements AntTarget {
     public static final BooleanProperty PLACEDBYPLAYER = BooleanProperty.create("placedbyplayer");
     public static final BooleanProperty IS_GRASSY = BooleanProperty.create("grassy");
     public AntHillBlock(Properties p_49224_) {
@@ -161,5 +162,10 @@ public class AntHillBlock extends BaseEntityBlock {
             }
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+    }
+
+    @Override
+    public boolean isValidTarget(BlockState state, BlockPos pos, Level level) {
+        return level.getBlockEntity(pos) instanceof AntHillBE hillBe && !hillBe.hasQueen;
     }
 }

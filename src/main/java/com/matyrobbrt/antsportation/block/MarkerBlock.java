@@ -6,6 +6,7 @@ import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.HasRecipe;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.util.AntTarget;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.Utils;
 import net.minecraft.ChatFormatting;
@@ -56,7 +57,7 @@ import java.util.Map;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
-public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, HasRecipe {
+public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, HasRecipe, AntTarget {
 
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
@@ -124,9 +125,11 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, Has
     public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
         if (pPlacer instanceof Player player && !pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof MarkerBE marker) {
             final var near = MarkerBE.findNearestBlock(null, pLevel, pPos, e -> e instanceof MarkerBE marker2 && marker2.getColor() == marker.getColor(), 5);
-            near.ifPresent(blockPos -> Antsportation.informPlayer(player, Translations.MESSAGE_TOO_CLOSE_MARKER.translate(
-                    Utils.textComponent(pPos.toShortString()).withStyle(s -> s.withColor(ChatFormatting.AQUA)), Utils.textComponent(blockPos.toShortString()).withStyle(s -> s.withColor(ChatFormatting.GOLD))
-            )));
+            if (near != null) {
+                Antsportation.informPlayer(player, Translations.MESSAGE_TOO_CLOSE_MARKER.translate(
+                        Utils.textComponent(pPos.toShortString()).withStyle(s -> s.withColor(ChatFormatting.AQUA)), Utils.textComponent(near.toShortString()).withStyle(s -> s.withColor(ChatFormatting.GOLD))
+                ));
+            }
         }
     }
 
@@ -275,5 +278,10 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, Has
                 )
                 .define('S', Items.SUGAR)
                 .define('H', Items.HONEY_BOTTLE);
+    }
+
+    @Override
+    public boolean isValidTarget(BlockState state, BlockPos pos, Level level) {
+        return true;
     }
 }
