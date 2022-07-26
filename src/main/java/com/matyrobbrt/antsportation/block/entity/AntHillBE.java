@@ -85,7 +85,7 @@ public class AntHillBE extends BlockEntity implements TOPInfoDriver {
     @SuppressWarnings("unused")
     private void passivelySoliderSpawn() {
         if (getLevel().getGameTime() % SUMMON_SOLDIER_INTERVAL == 0) {
-            final var soldiersNearby = getLevel().getEntitiesOfClass(AntSoldierEntity.class, new AABB(worldPosition).inflate(7));
+            final var soldiersNearby = getLevel().getEntitiesOfClass(AntSoldierEntity.class, new AABB(worldPosition).inflate(10));
             final var toSpawn = PREFERRED_SOLDIER_AMOUNT - soldiersNearby.size();
             for (int i = 0; i < toSpawn; i++) {
                 final var solider = new HillAntSoldierEntity(AntsportationEntities.HILL_ANT_SOLDIER.get(), getLevel());
