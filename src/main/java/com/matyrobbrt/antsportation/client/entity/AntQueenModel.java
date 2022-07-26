@@ -104,12 +104,15 @@ public class AntQueenModel<T extends AntQueenEntity> extends EntityModel<T> {
     @Override
     public void setupAnim(@NotNull T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         all.y = 35;
-        this.head.yRot = pNetHeadYaw * ((float) Math.PI / 180F);
-        this.head.xRot = pHeadPitch * ((float) Math.PI / 180F);
-
-        head.xRot += Mth.sin(pAgeInTicks / 10f) / 30f - 0.02f;
-        thorax_all.xRot = -Mth.sin(pAgeInTicks / 3.5f) / 20f + 0.5f;
-        var f1 = -Mth.sin(pAgeInTicks / 10f) / 10f + 0.8f;
+        head.xRot = 0;
+        head.yRot = 0;
+        if(pEntity.tickCount > 0) {
+            this.head.yRot = pNetHeadYaw * ((float) Math.PI / 180F);
+            this.head.xRot = pHeadPitch * ((float) Math.PI / 180F);
+        }
+        head.xRot += Mth.sin(pEntity.tickCount / 10f) / 30f - 0.02f;
+        thorax_all.xRot = -Mth.sin(pEntity.tickCount / 3.5f) / 20f + 0.5f;
+        var f1 = -Mth.sin(pEntity.tickCount / 10f) / 10f + 0.8f;
         antenna1.xRot = f1;
         antenna2.xRot = f1;
 
