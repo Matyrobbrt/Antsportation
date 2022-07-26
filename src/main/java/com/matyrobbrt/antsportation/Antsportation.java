@@ -28,16 +28,27 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.IModBusEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Random;
 
 @Mod(Antsportation.MOD_ID)
 public class Antsportation {
@@ -51,6 +62,7 @@ public class Antsportation {
         LOGGER.debug("Initialising Antsportation");
 
         final var bus = FMLJavaModLoadingContext.get().getModEventBus();
+        final IEventBus forgeeventbus = MinecraftForge.EVENT_BUS;
         AntsportationBlocks.BLOCKS.register(bus);
         AntsportationBlocks.BLOCK_ENTITIES.register(bus);
         AntsportationItems.ITEMS.register(bus);
@@ -66,6 +78,8 @@ public class Antsportation {
         bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
         bus.addListener(Antsportation::entityAttributeEvent);
         bus.addListener((final RegisterCapabilitiesEvent event) -> event.register(OneTimeRewardCap.class));
+        forgeeventbus.addListener(EventPriority.LOW, Antsportation::whenTilled);
+
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, MOD_ID + "-server.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC, MOD_ID + "-client.toml");
@@ -104,5 +118,20 @@ public class Antsportation {
 
     public static void informPlayer(Player player, Component message) {
         player.sendMessage(Translations.MESSAGE_BASE.translate(message), Util.NIL_UUID);
+    }
+
+    public static void whenTilled(BlockEvent.BlockToolModificationEvent event){
+        if(event.isSimulated()){
+            return;
+        }
+        if(event.getContext() == null){
+            return;
+        }
+        Random random = new Random();
+        if(random.nextInt(100) > 95 &&(event.getState() != event.getFinalState() || event.getState() != event.getState().getBlock().getToolModifiedState(event.getState(), event.getContext(), ToolActions.HOE_TILL, false))){
+            AntWorkerEntity ant = new AntWorkerEntity(AntsportationEntities.ANT_WORKER.get(), event.getContext().getLevel());
+            ant.setPos(event.getPos().getX()+0.5, event.getPos().getY()+1, event.getPos().getZ()+0.5);
+            event.getContext().getLevel().addFreshEntity(ant);
+        }
     }
 }
