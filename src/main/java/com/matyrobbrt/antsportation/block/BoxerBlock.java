@@ -4,6 +4,7 @@ import com.matyrobbrt.antsportation.block.entity.boxing.BoxerBE;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.HasRecipe;
+import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.core.BlockPos;
@@ -12,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -75,9 +77,12 @@ public class BoxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoPro
     public void generateRecipes(DatagenHelper helper) {
         helper.emptyNBT(this)
                 .setEmptyNBTSlots(3, 4, 5)
-                .pattern("C", "B", "C")
+                .pattern("S", "P", "S",
+                        "C", "B", "C")
                 .define('C', Tags.Items.CHESTS)
-                .define('B', AntsportationTags.Items.BOXES);
+                .define('B', AntsportationTags.Items.BOXES)
+                .define('S', Tags.Items.STONE)
+                .define('P', Items.PISTON);
     }
 
     @Override
