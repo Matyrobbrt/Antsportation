@@ -1,4 +1,6 @@
 {
+  "advancement.antsportation.mod_for_ants": "\u00BFs\u0287u\u0250 \u0279o\u025F po\u026F \u2C6F \u00BFs\u0131\u0265\u0287 s\u0131 \u0287\u0250\u0265M",
+  "advancement.antsportation.mod_for_ants.desc": "\u00A1s\u01DD\u0279n\u0287u\u01DD\u028Cp\u0250 \u0287u\u0250 \u0279no\u028E \u0287\u0279\u0250\u0287s pu\u0250 \u0279\u0250\u017F \u0287u\u2C6F u\u0250 \u0287\u01DD\u2141",
   "block.antsportation.ant_hill": "\u05DF\u05DF\u0131H \u0287u\u2C6F",
   "block.antsportation.ant_jar": "\u0279\u0250\u017F \u0287u\u2C6F",
   "block.antsportation.ant_nest": "\u0287s\u01DDN \u0287u\u2C6F",

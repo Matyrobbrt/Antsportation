@@ -1,0 +1,40 @@
+{
+  "display": {
+    "icon": {
+      "item": "antsportation:ant_jar",
+      "nbt": "{BlockStateTag:{antinside:\"true\"}}"
+    },
+    "title": {
+      "translate": "advancement.antsportation.mod_for_ants"
+    },
+    "description": {
+      "translate": "advancement.antsportation.mod_for_ants.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "loot": [
+      "antsportation:advancement/ants/root"
+    ]
+  },
+  "criteria": {
+    "has_jar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "nbt": "{BlockStateTag:{antinside:\"true\"}}"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_jar"
+    ]
+  ]
+}

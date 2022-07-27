@@ -3,6 +3,7 @@ package com.matyrobbrt.antsportation.item;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
+import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
@@ -45,6 +46,12 @@ public class AntJarItem extends BaseBlockItem {
         } else {
             return false;
         }
+    }
+
+    public static ItemStack withAnt() {
+        final var stack = new ItemStack(AntsportationItems.ANT_JAR.get());
+        stack.getOrCreateTagElement("BlockStateTag").putString("antinside", String.valueOf(true));
+        return stack;
     }
 
     @Override

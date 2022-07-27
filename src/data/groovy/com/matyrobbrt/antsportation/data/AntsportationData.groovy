@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.data
 
 import com.matyrobbrt.antsportation.Antsportation
+import com.matyrobbrt.antsportation.data.advancement.AdvancementGenerator
 import com.matyrobbrt.antsportation.data.client.Lang
 import com.matyrobbrt.antsportation.data.client.Models
 import com.matyrobbrt.antsportation.data.client.Sounds
@@ -15,10 +16,10 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent
 
 @CompileStatic
+@SuppressWarnings('unused')
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Antsportation.MOD_ID)
 class AntsportationData {
     @SubscribeEvent
-    @SuppressWarnings("unused")
     static void gatherData(final GatherDataEvent event) {
         final var gen = event.generator
         final var existingFileHelper = event.existingFileHelper
@@ -36,8 +37,11 @@ class AntsportationData {
             gen.addProvider patchouli.@enUd
         }
         if (event.includeServer()) {
+            final var advancements = new AdvancementGenerator(gen, existingFileHelper)
+
             gen.addProvider new Recipes(gen)
-            gen.addProvider new LootProvider(gen)
+            gen.addProvider(advancements)
+            gen.addProvider new LootProvider(gen, advancements)
 
             final var blocks = new Tags.Blocks(gen, existingFileHelper)
             gen.addProvider new Tags.Items(gen, blocks, existingFileHelper)

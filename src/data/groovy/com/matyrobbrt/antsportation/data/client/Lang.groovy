@@ -1,6 +1,7 @@
 package com.matyrobbrt.antsportation.data.client
 
 import com.matyrobbrt.antsportation.Antsportation
+import com.matyrobbrt.antsportation.data.advancement.AdvancementLang
 import com.matyrobbrt.antsportation.item.BoxItem
 import com.matyrobbrt.antsportation.registration.AntsportationEntities
 import com.matyrobbrt.antsportation.registration.AntsportationItems
@@ -47,6 +48,9 @@ class Lang extends LanguageProvider {
 
         for (final value in Translations.values()) {
             add(value.key, value.englishTranslation)
+        }
+        for (final value in AdvancementLang.values()) {
+            add(value.key, value.englishText)
         }
 
         for (final tier in BoxItem.BoxTier.values()) {

@@ -1,9 +1,22 @@
 package com.matyrobbrt.antsportation.groovy.ext
 
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
+import net.minecraft.advancements.Advancement
+import net.minecraft.advancements.DisplayInfo
+import net.minecraft.advancements.FrameType
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.ItemLike
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 import net.minecraftforge.client.model.generators.*
 
+import javax.annotation.Nullable
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -44,5 +57,24 @@ class GroovyInstanceExtensions {
     }
     static <T> T[] selfArray(T self) {
         [self] as T[]
+    }
+
+    static Advancement.Builder display(Advancement.Builder self, ItemStack pStack, Object pTitle, Object pDescription, @Nullable ResourceLocation pBackground, FrameType pFrame, boolean pShowToast, boolean pAnnounceToChat, boolean pHidden) {
+        return self.display(pStack, new TranslatableComponent(pTitle.toString()), new TranslatableComponent(pDescription.toString()), pBackground, pFrame, pShowToast, pAnnounceToChat, pHidden);
+    }
+
+    static LootTable.Builder pool(LootTable.Builder self, @DelegatesTo(value = LootPool.Builder, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        final pool = LootPool.lootPool()
+        closure.resolveStrategy = Closure.DELEGATE_FIRST
+        closure.delegate = pool
+        closure.call(pool)
+        return self.withPool(pool)
+    }
+
+    static LootPool.Builder item(LootPool.Builder self, String name, ItemLike item, int count) {
+        return self
+            .name(name)
+            .setRolls(ConstantValue.exactly(count))
+            .add(LootItem.lootTableItem(item))
     }
 }

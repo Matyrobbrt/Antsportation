@@ -1,4 +1,6 @@
 {
+  "advancement.antsportation.mod_for_ants": "What is this? A mod for ants?",
+  "advancement.antsportation.mod_for_ants.desc": "Get an Ant Jar and start your ant adventures!",
   "block.antsportation.ant_hill": "Ant Hill",
   "block.antsportation.ant_jar": "Ant Jar",
   "block.antsportation.ant_nest": "Ant Nest",

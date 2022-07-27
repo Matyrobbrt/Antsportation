@@ -4,6 +4,7 @@ import com.matyrobbrt.antsportation.compat.AntsportationCompat;
 import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
+import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
 import com.matyrobbrt.antsportation.onetimejoin.OneTimeReward;
 import com.matyrobbrt.antsportation.onetimejoin.OneTimeRewardCap;
@@ -95,8 +96,7 @@ public class Antsportation {
         @Override
         public @NotNull ItemStack makeIcon() {
             if (icon == null) {
-                icon = new ItemStack(AntsportationItems.ANT_JAR.get());
-                icon.getOrCreateTagElement("BlockStateTag").putString("antinside", String.valueOf(true));
+                icon = AntJarItem.withAnt();
             }
             return icon;
         }

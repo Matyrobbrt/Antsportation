@@ -1,5 +1,6 @@
 package com.matyrobbrt.antsportation.data.loot
 
+import com.matyrobbrt.antsportation.data.advancement.AdvancementGenerator
 import com.mojang.datafixers.util.Pair
 import groovy.transform.CompileDynamic
 import net.minecraft.data.DataGenerator
@@ -12,16 +13,26 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets
 
 import javax.annotation.Nonnull
 import javax.annotation.ParametersAreNonnullByDefault
+import java.util.function.BiConsumer
+import java.util.function.Consumer
 import java.util.function.Supplier
 
 class LootProvider extends LootTableProvider {
     private final List subProviders
+
+    @SuppressWarnings('GroovyAssignabilityCheck')
     @CompileDynamic
-    LootProvider(DataGenerator pGenerator) {
+    LootProvider(DataGenerator pGenerator, AdvancementGenerator generator) {
         super(pGenerator)
         subProviders = List.of(
                 Pair.of(makeSupplier(EntityLoot.&new), LootContextParamSets.ENTITY),
-                Pair.of(makeSupplier(BlockLoot.&new), LootContextParamSets.BLOCK)
+                Pair.of(makeSupplier(BlockLoot.&new), LootContextParamSets.BLOCK),
+                Pair.of(new Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>() {
+                    @Override
+                    Consumer<BiConsumer<ResourceLocation, LootTable.Builder>> get() {
+                        return new AdvancementLoot(generator)
+                    }
+                }, LootContextParamSets.ADVANCEMENT_REWARD)
         )
     }
 
