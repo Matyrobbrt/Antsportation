@@ -45,6 +45,7 @@ class AntsportationData {
 
             final var blocks = new Tags.Blocks(gen, existingFileHelper)
             gen.addProvider new Tags.Items(gen, blocks, existingFileHelper)
+            gen.addProvider new Tags.Entities(gen, existingFileHelper)
             gen.addProvider blocks
 
             gen.addProvider new OneTimeJoins(gen, existingFileHelper)

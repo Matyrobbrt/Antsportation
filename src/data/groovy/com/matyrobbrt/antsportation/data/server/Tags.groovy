@@ -3,9 +3,11 @@ package com.matyrobbrt.antsportation.data.server
 import com.matyrobbrt.antsportation.Antsportation
 import com.matyrobbrt.antsportation.item.BoxItem
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks
+import com.matyrobbrt.antsportation.registration.AntsportationEntities
 import com.matyrobbrt.antsportation.registration.AntsportationTags
 import net.minecraft.data.DataGenerator
 import net.minecraft.data.tags.BlockTagsProvider
+import net.minecraft.data.tags.EntityTypeTagsProvider
 import net.minecraft.data.tags.ItemTagsProvider
 import net.minecraftforge.common.data.ExistingFileHelper
 import org.jetbrains.annotations.Nullable
@@ -41,6 +43,22 @@ class Tags {
 
             tag(AntsportationTags.Items.ANT_TRANSPORTABLE)
                     .addTag(AntsportationTags.Items.BOXES)
+        }
+    }
+
+    static class Entities extends EntityTypeTagsProvider {
+
+        Entities(DataGenerator pGenerator, @Nullable ExistingFileHelper existingFileHelper) {
+            super(pGenerator, Antsportation.MOD_ID, existingFileHelper)
+        }
+
+        @Override
+        protected void addTags() {
+            tag(AntsportationTags.Entities.ANTS)
+                .add(AntsportationEntities.ANT_QUEEN.get())
+                .add(AntsportationEntities.ANT_WORKER.get())
+                .add(AntsportationEntities.ANT_SOLDIER.get())
+                .add(AntsportationEntities.HILL_ANT_SOLDIER.get())
         }
     }
 }

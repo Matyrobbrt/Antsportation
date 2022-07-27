@@ -62,6 +62,9 @@ class GroovyInstanceExtensions {
     static Advancement.Builder display(Advancement.Builder self, ItemStack pStack, Object pTitle, Object pDescription, @Nullable ResourceLocation pBackground, FrameType pFrame, boolean pShowToast, boolean pAnnounceToChat, boolean pHidden) {
         return self.display(pStack, new TranslatableComponent(pTitle.toString()), new TranslatableComponent(pDescription.toString()), pBackground, pFrame, pShowToast, pAnnounceToChat, pHidden);
     }
+    static Advancement.Builder display(Advancement.Builder self, ItemLike pIcon, Object pTitle, Object pDescription, @Nullable ResourceLocation pBackground, FrameType pFrame, boolean pShowToast, boolean pAnnounceToChat, boolean pHidden) {
+        return self.display(pIcon, new TranslatableComponent(pTitle.toString()), new TranslatableComponent(pDescription.toString()), pBackground, pFrame, pShowToast, pAnnounceToChat, pHidden);
+    }
 
     static LootTable.Builder pool(LootTable.Builder self, @DelegatesTo(value = LootPool.Builder, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         final pool = LootPool.lootPool()
@@ -76,5 +79,12 @@ class GroovyInstanceExtensions {
             .name(name)
             .setRolls(ConstantValue.exactly(count))
             .add(LootItem.lootTableItem(item))
+    }
+    static LootPool.Builder items(LootPool.Builder self, String name, ItemLike... items) {
+        self
+            .name(name)
+            .setRolls(ConstantValue.exactly(1))
+        items.each {self.add(LootItem.lootTableItem(it))}
+        return self
     }
 }

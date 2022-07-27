@@ -2,17 +2,23 @@ package com.matyrobbrt.antsportation.data.advancement
 
 import com.matyrobbrt.antsportation.Antsportation
 import com.matyrobbrt.antsportation.item.AntJarItem
+import com.matyrobbrt.antsportation.item.BoxItem
+import com.matyrobbrt.antsportation.registration.AntsportationBlocks
 import com.matyrobbrt.antsportation.registration.AntsportationItems
+import com.matyrobbrt.antsportation.registration.AntsportationTags
 import groovy.transform.PackageScope
 import net.minecraft.advancements.Advancement
 import net.minecraft.advancements.AdvancementRewards
 import net.minecraft.advancements.CriterionTriggerInstance
 import net.minecraft.advancements.FrameType
+import net.minecraft.advancements.critereon.EntityPredicate
 import net.minecraft.advancements.critereon.InventoryChangeTrigger
 import net.minecraft.advancements.critereon.ItemPredicate
 import net.minecraft.advancements.critereon.MinMaxBounds
+import net.minecraft.advancements.critereon.PlayerHurtEntityTrigger
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
@@ -21,6 +27,12 @@ import java.util.function.Consumer
 
 import static com.matyrobbrt.antsportation.data.advancement.AdvancementLang.A_MOD_FOR_ANTS
 import static com.matyrobbrt.antsportation.data.advancement.AdvancementLang.A_MOD_FOR_ANTS_DESC
+import static com.matyrobbrt.antsportation.data.advancement.AdvancementLang.GRANT_CANYON
+import static com.matyrobbrt.antsportation.data.advancement.AdvancementLang.GRANT_CANYON_DESC
+import static com.matyrobbrt.antsportation.data.advancement.AdvancementLang.SMALL_INFANTRY
+import static com.matyrobbrt.antsportation.data.advancement.AdvancementLang.SMALL_INFANTRY_DESC
+import static com.matyrobbrt.antsportation.data.advancement.AdvancementLang.WRAPPING_UP
+import static com.matyrobbrt.antsportation.data.advancement.AdvancementLang.WRAPPING_UP_DESC
 
 @PackageScope
 class AntAdvancements implements AdvancementProvider {
@@ -31,7 +43,7 @@ class AntAdvancements implements AdvancementProvider {
     void register(Consumer<Advancement> creator) {
         this.creator = creator
         final var root = advancement('root') {
-            display(AntJarItem.withAnt(), A_MOD_FOR_ANTS, A_MOD_FOR_ANTS_DESC, null,
+            display(AntJarItem.withAnt(), A_MOD_FOR_ANTS, A_MOD_FOR_ANTS_DESC, new ResourceLocation('textures/block/dirt.png'),
                     FrameType.TASK, true, true, false)
             addCriterion('has_jar', hasItems(AntJarItem.withAnt()))
             rewards(reward('root') {
@@ -39,6 +51,39 @@ class AntAdvancements implements AdvancementProvider {
                     item('markers', AntsportationItems.MARKER.get(), 8)
                     setBonusRolls(UniformGenerator.between(0, 24))
                 }
+            })
+        }
+
+        final var grantCanyon = advancement('grant_canyon') {
+            display(AntsportationBlocks.ANT_HILL.get(), GRANT_CANYON, GRANT_CANYON_DESC, null,
+                    FrameType.TASK, true, true, false)
+            parent(root)
+            addCriterion('has_hill', hasItems(AntsportationBlocks.ANT_HILL.get()))
+            rewards(reward('grant_canyon') {
+                pool { item('hill', AntsportationBlocks.ANT_HILL.get(), 1) }
+                pool { item('nests', AntsportationBlocks.ANT_NEST.get(), 2) }
+            })
+        }
+
+        advancement('small_infantry') {
+            display(AntsportationItems.ANT_SOLDIER_SPAWN_EGG.get(), SMALL_INFANTRY, SMALL_INFANTRY_DESC, null,
+                    FrameType.TASK, true, true, false)
+            parent(grantCanyon)
+            addCriterion('hit_ant', PlayerHurtEntityTrigger.TriggerInstance
+                    .playerHurtEntity(EntityPredicate.Builder.entity()
+                        .of(AntsportationTags.Entities.ANTS)
+                        .build()))
+        }
+
+        final var wrappingUp = advancement('wrapping_it_up') {
+            display(BoxItem.BoxTier.BASIC, WRAPPING_UP, WRAPPING_UP_DESC, null,
+                    FrameType.TASK, true, true, false)
+            parent(root)
+            addCriterion('has_box', InventoryChangeTrigger.TriggerInstance.hasItems(
+                    ItemPredicate.Builder.item().of(AntsportationTags.Items.BOXES).build()
+            ))
+            rewards(reward('wrapping_it_up') {
+                pool { item('box', BoxItem.BoxTier.ADVANCED, 1) }
             })
         }
     }
@@ -59,6 +104,16 @@ class AntAdvancements implements AdvancementProvider {
             if (it.count > 1)
                 builder.withCount(MinMaxBounds.Ints.atLeast(it.count))
 
+            predicates.add builder.build()
+        }
+        return InventoryChangeTrigger.TriggerInstance.hasItems(predicates.array())
+    }
+
+    private static CriterionTriggerInstance hasItems(ItemLike... items) {
+        final List<ItemPredicate> predicates = []
+        items.each {
+            final builder = ItemPredicate.Builder.item()
+                .of(it)
             predicates.add builder.build()
         }
         return InventoryChangeTrigger.TriggerInstance.hasItems(predicates.array())

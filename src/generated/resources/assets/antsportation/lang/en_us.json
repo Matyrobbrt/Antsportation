@@ -1,6 +1,12 @@
 {
+  "advancement.antsportation.grant_canyon": "grANT Canyon",
+  "advancement.antsportation.grant_canyon.desc": "Get an Ant Hill.",
   "advancement.antsportation.mod_for_ants": "What is this? A mod for ants?",
   "advancement.antsportation.mod_for_ants.desc": "Get an Ant Jar and start your ant adventures!",
+  "advancement.antsportation.small_infantry": "Small Infantry",
+  "advancement.antsportation.small_infantry.desc": "How can you dare hit an ant.",
+  "advancement.antsportation.wrapping_up": "Wrapping it up",
+  "advancement.antsportation.wrapping_up.desc": "Make a box and start packing items.",
   "block.antsportation.ant_hill": "Ant Hill",
   "block.antsportation.ant_jar": "Ant Jar",
   "block.antsportation.ant_nest": "Ant Nest",

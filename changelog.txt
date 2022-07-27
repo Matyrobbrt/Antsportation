@@ -1,0 +1,4 @@
+- Add Chunk Loading markers
+- Fix the rendering of items inside boxes
+- Add loot tables for markers
+- Add advancements

@@ -1,0 +1,42 @@
+{
+  "parent": "antsportation:ants/root",
+  "display": {
+    "icon": {
+      "item": "antsportation:ant_hill"
+    },
+    "title": {
+      "translate": "advancement.antsportation.grant_canyon"
+    },
+    "description": {
+      "translate": "advancement.antsportation.grant_canyon.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "loot": [
+      "antsportation:advancement/ants/grant_canyon"
+    ]
+  },
+  "criteria": {
+    "has_hill": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "antsportation:ant_hill"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_hill"
+    ]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "antsportation:ant_queen",
+    "antsportation:ant_worker",
+    "antsportation:ant_soldier",
+    "antsportation:hill_ant_soldier"
+  ]
+}

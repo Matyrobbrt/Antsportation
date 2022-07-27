@@ -1,4 +1,5 @@
 import com.matyrobbrt.gradle.pngoptimiser.task.OptimisePNGTask
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 buildscript {
     dependencies {
@@ -13,6 +14,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'com.matyrobbrt.pngoptimiser' version '0.2.0'
+    id 'net.darkhax.curseforgegradle' version '1.0.11'
 }
 
 // Patchouli has mixins...
@@ -171,7 +173,6 @@ processResources {
 
 jar {
     configureJarTask(jar)
-    classifier 'slim'
     finalizedBy('reobfJar')
 }
 
@@ -181,8 +182,27 @@ reobf {
 
 tasks.named('jarJar', net.minecraftforge.gradle.userdev.tasks.JarJar).configure {
     configureJarTask(it)
-    it.classifier ''
+    it.classifier 'fat'
     it.finalizedBy('reobfJarJar')
+}
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    it.apiToken = findProperty('curseforgeKey')
+    it.group = 'publish-all'
+    it.disableVersionDetection()
+
+    var projectId = findProperty('curseforge_project')
+    var modFile = it.upload(projectId, tasks.getByName('jar'))
+    modFile.changelog = rootProject.file('changelog.txt')
+    modFile.releaseType = findProperty('release_type')
+    modFile.displayName = "$archivesBaseName-$version" as String
+    modFile.addJavaVersion 'Java 17'
+
+    modFile.addRequirement('patchouli') // We don't actually depend on patchouli, but this assures that launchers will install it as well
+    modFile.addOptional('jei')
+    modFile.addOptional('the-one-probe')
+
+    dependsOn(jar)
 }
 
 tasks.create('extensionNoPropsJar', org.gradle.jvm.tasks.Jar) {

@@ -1,0 +1,40 @@
+{
+  "parent": "antsportation:ants/root",
+  "display": {
+    "icon": {
+      "item": "antsportation:basic_box"
+    },
+    "title": {
+      "translate": "advancement.antsportation.wrapping_up"
+    },
+    "description": {
+      "translate": "advancement.antsportation.wrapping_up.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "loot": [
+      "antsportation:advancement/ants/wrapping_it_up"
+    ]
+  },
+  "criteria": {
+    "has_box": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "antsportation:boxes"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_box"
+    ]
+  ]
+}
