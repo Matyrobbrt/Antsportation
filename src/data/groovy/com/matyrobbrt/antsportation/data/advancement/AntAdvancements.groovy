@@ -6,10 +6,13 @@ import com.matyrobbrt.antsportation.registration.AntsportationItems
 import groovy.transform.PackageScope
 import net.minecraft.advancements.Advancement
 import net.minecraft.advancements.AdvancementRewards
+import net.minecraft.advancements.CriterionTriggerInstance
 import net.minecraft.advancements.FrameType
 import net.minecraft.advancements.critereon.InventoryChangeTrigger
 import net.minecraft.advancements.critereon.ItemPredicate
+import net.minecraft.advancements.critereon.MinMaxBounds
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
@@ -30,11 +33,7 @@ class AntAdvancements implements AdvancementProvider {
         final var root = advancement('root') {
             display(AntJarItem.withAnt(), A_MOD_FOR_ANTS, A_MOD_FOR_ANTS_DESC, null,
                     FrameType.TASK, true, true, false)
-            addCriterion('has_jar', InventoryChangeTrigger.TriggerInstance.hasItems(
-                    ItemPredicate.Builder.item()
-                            .hasNbt(AntJarItem.withAnt().getTag())
-                            .build()
-            ))
+            addCriterion('has_jar', hasItems(AntJarItem.withAnt()))
             rewards(reward('root') {
                 pool {
                     item('markers', AntsportationItems.MARKER.get(), 8)
@@ -47,6 +46,22 @@ class AntAdvancements implements AdvancementProvider {
     @Override
     void generateRewards(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
         rewardsMap.forEach consumer
+    }
+
+    private static CriterionTriggerInstance hasItems(ItemStack... items) {
+        final List<ItemPredicate> predicates = []
+        items.each {
+            final builder = ItemPredicate.Builder.item()
+                .of(it.item)
+
+            if (it.tag)
+                builder.hasNbt(it.tag)
+            if (it.count > 1)
+                builder.withCount(MinMaxBounds.Ints.atLeast(it.count))
+
+            predicates.add builder.build()
+        }
+        return InventoryChangeTrigger.TriggerInstance.hasItems(predicates.array())
     }
 
     private AdvancementRewards reward(String name, @DelegatesTo(value = LootTable.Builder, strategy = Closure.DELEGATE_FIRST) Closure table) {

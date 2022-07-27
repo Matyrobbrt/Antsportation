@@ -26,6 +26,9 @@
       "conditions": {
         "items": [
           {
+            "items": [
+              "antsportation:ant_jar"
+            ],
             "nbt": "{BlockStateTag:{antinside:\"true\"}}"
           }
         ]
