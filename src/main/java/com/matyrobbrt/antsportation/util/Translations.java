@@ -22,6 +22,8 @@ public enum Translations {
     SPEED_UPGRADE_TOOLTIP3("tooltip.item", "speed_upgrade_3", "Increases energy usage: %s more FE / tick"),
     TRANSPORTABLE_ITEM("tooltip.item", "transportable", "This item can be transported directly by ants."),
 
+    CHUNK_LOADING_DISABLED("tooltip.item", "chunk_loading", "This server has disabled Chunk Loading Markers!"),
+
     HAS_ANT_TOOLTIP("tooltip.item", "has_ant", "This jar contains an Ant Queen"),
 
     EJECT_WHEN("button", "eject_when", "Eject when:"),
@@ -52,6 +54,7 @@ public enum Translations {
     JEI_UNBOXER("jei", "unboxer", "Machine used to unpack items from boxes."),
     JEI_MARKER("jei", "marker", "Used to create a path for ants to follow."),
     JEI_BOX("jei", "box", "Used to package items for ant transportation. Use Boxers / Unboxers for inserting and extracting items."),
+    JEI_CHUNK_LOADING_MARKER("jei", "chunkloading_marker", "A special type of marker that chunk loads the chunk it is in."),
 
     MESSAGE_BASE("message", "base", "[\u00a76" + Antsportation.MOD_NAME + "\u00a7r] %s"),
     MESSAGE_TOO_CLOSE_MARKER("message", "too_close_marker", "The marker placed at %s is too close to the marker at %s. Consider spreading the markers for optimal results."),

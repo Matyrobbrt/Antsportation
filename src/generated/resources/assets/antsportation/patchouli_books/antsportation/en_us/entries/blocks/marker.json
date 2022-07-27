@@ -11,6 +11,15 @@
     {
       "type": "patchouli:crafting",
       "recipe": "antsportation:marker"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "antsportation:chunk_loading_marker",
+      "text": "<item>Chunk Loading Markers</> are a type of <item>Markers</> which chunk loads the chunk it is placed it, allowing ants to properly go through that chunk when the player is not nearby.<br>Enabled: <gold>$(scfg/ants.chunkloadingMarkers)</>"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "antsportation:chunk_loading_marker"
     }
   ]
 }

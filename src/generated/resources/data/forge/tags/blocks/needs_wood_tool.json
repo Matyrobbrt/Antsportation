@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "antsportation:chunk_loading_marker",
     "antsportation:ant_nest",
     "antsportation:ant_jar",
     "antsportation:marker",

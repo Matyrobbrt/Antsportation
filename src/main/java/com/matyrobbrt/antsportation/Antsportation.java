@@ -17,6 +17,7 @@ import com.matyrobbrt.antsportation.registration.AntsportationMenus;
 import com.matyrobbrt.antsportation.registration.AntsportationPlacedFeatures;
 import com.matyrobbrt.antsportation.registration.AntsportationRecipes;
 import com.matyrobbrt.antsportation.registration.AntsportationSounds;
+import com.matyrobbrt.antsportation.util.ChunkValidationCallback;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.config.ClientConfig;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
@@ -31,6 +32,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.world.ForgeChunkManager;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -69,7 +71,10 @@ public class Antsportation {
         AntsportationPlacedFeatures.PLACED_FEATURES.register(bus);
         OneTimeReward.ONE_TIME_REWARDS.register(bus);
 
-        bus.addListener((final FMLCommonSetupEvent event) -> AntsportationNetwork.register());
+        bus.addListener((final FMLCommonSetupEvent event) -> {
+            AntsportationNetwork.register();
+            event.enqueueWork(() -> ForgeChunkManager.setForcedChunkLoadingCallback(MOD_ID, new ChunkValidationCallback()));
+        });
         bus.addListener(Antsportation::entityAttributeEvent);
         bus.addListener((final RegisterCapabilitiesEvent event) -> event.register(OneTimeRewardCap.class));
 

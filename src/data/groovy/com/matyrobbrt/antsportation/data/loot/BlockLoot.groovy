@@ -21,6 +21,9 @@ class BlockLoot extends net.minecraft.data.loot.BlockLoot {
 
         dropWhenSilkTouch(ANT_HILL.get())
         dropWhenSilkTouch(ANT_JAR.get())
+
+        dropSelf(MARKER)
+        dropSelf(CHUNK_LOADING_MARKER)
     }
 
     private void dropSelf(Supplier<? extends Block> block) {

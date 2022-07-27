@@ -50,7 +50,9 @@ public record ServerConfig(Boxing boxing, Ants ants) {
                             .defineInRange("nestIORate", 5, 1, 100_000),
                     builder.comment("If the only items that can be transported directly by ants are the ones in the '" + AntsportationTags.Items.ANT_TRANSPORTABLE.location() + "' tag.",
                                     "If 'false', all items can be transported directly by ants.")
-                            .define("onlyTransportableItems", true)
+                            .define("onlyTransportableItems", true),
+                    builder.comment("If Chunk Loading Markers should be enabled.")
+                            .define("chunkloadingMarkers", true)
             );
         }
         builder.pop();
@@ -67,7 +69,8 @@ public record ServerConfig(Boxing boxing, Ants ants) {
             return (int) ((AntsportationItems.SPEED_UPGRADE.get().getDefaultInstance().getMaxStackSize() * upgradeEnergyUsage.get()) * 1.50);
         }
     }
-    public record Ants(IntValue hillSummonRate, IntValue nestIORate, ForgeConfigSpec.BooleanValue onlyTransportableItems) {}
+    public record Ants(IntValue hillSummonRate, IntValue nestIORate,
+                       ForgeConfigSpec.BooleanValue onlyTransportableItems, ForgeConfigSpec.BooleanValue chunkLoadingMarkers) {}
 
     public static int getBoxing(Function<Boxing, IntValue> getter) {
         return getter.apply(CONFIG.boxing()).get();

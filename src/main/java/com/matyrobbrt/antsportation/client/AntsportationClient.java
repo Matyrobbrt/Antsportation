@@ -79,15 +79,14 @@ public class AntsportationClient {
     @SubscribeEvent
     static void registerBlockColours(ColorHandlerEvent.Block event) {
         var blockColors = event.getBlockColors();
-        blockColors.register((blockState, tintGetter, blockPos, index) -> {
-            var level = Minecraft.getInstance().level;
+        blockColors.register((blockState, level, blockPos, index) -> {
             if (level == null || blockPos == null) return -1;
             final var blockEntity = level.getBlockEntity(blockPos);
             if (blockEntity instanceof MarkerBE marker) {
                 return marker.getColor().getMaterialColor().col;
             }
             return -1;
-        }, AntsportationBlocks.MARKER.get());
+        }, AntsportationBlocks.MARKER.get(), AntsportationBlocks.CHUNK_LOADING_MARKER.get());
     }
 
     @SubscribeEvent
@@ -131,6 +130,7 @@ public class AntsportationClient {
 
     private static void setRenderLayer() {
         ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.MARKER.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.CHUNK_LOADING_MARKER.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.ANT_JAR.get(), RenderType.translucent());
     }
 

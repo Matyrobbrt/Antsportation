@@ -2,30 +2,32 @@ package com.matyrobbrt.antsportation.registration;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
+import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BaseBlockItem;
 import com.matyrobbrt.antsportation.item.BaseItem;
-import com.matyrobbrt.antsportation.item.AntJarItem;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.Utils;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
-
-import net.minecraftforge.common.ForgeSpawnEggItem;
 
 @SuppressWarnings("unused")
 public class AntsportationItems {
@@ -52,7 +54,31 @@ public class AntsportationItems {
             () -> new ForgeSpawnEggItem(AntsportationEntities.ANT_WORKER, 0x431c04, 0x290d03,
                     new Item.Properties().tab(Antsportation.TAB)));
 
-    public static final RegistryObject<Item> MARKER = ITEMS.register("marker", () -> new BaseBlockItem(AntsportationBlocks.MARKER.get(), new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MARKER = ITEMS.register("marker", () -> new BaseBlockItem(AntsportationBlocks.MARKER.get(),
+            new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> CHUNK_LOADING_MARKER = ITEMS.register("chunk_loading_marker", () -> new BaseBlockItem(AntsportationBlocks.CHUNK_LOADING_MARKER,
+            new Item.Properties().rarity(Rarity.UNCOMMON)) {
+        @Override
+        @ParametersAreNonnullByDefault
+        public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+            if (!ServerConfig.CONFIG.ants().chunkLoadingMarkers().get()) {
+                pTooltip.add(Translations.CHUNK_LOADING_DISABLED.translate().withStyle(ChatFormatting.RED));
+            }
+        }
+
+        @Override
+        public @NotNull List<Component> getInfo() {
+            return List.of(Translations.JEI_CHUNK_LOADING_MARKER.translate());
+        }
+
+        @Override
+        @ParametersAreNonnullByDefault
+        public void fillItemCategory(CreativeModeTab pGroup, NonNullList<ItemStack> pItems) {
+            if (ServerConfig.CONFIG.ants().chunkLoadingMarkers().get()) {
+                super.fillItemCategory(pGroup, pItems);
+            }
+        }
+    });
 
     static {
         for (final BoxItem.BoxTier tier : BoxItem.BoxTier.values()) {

@@ -60,6 +60,7 @@ class Models extends BlockStateProvider {
 
         simpleItem(AntsportationItems.SPEED_UPGRADE)
         simpleItem(AntsportationItems.MARKER)
+        simpleItem(AntsportationItems.CHUNK_LOADING_MARKER)
 
         block(AntsportationBlocks.ANT_HILL) {
             final var base = modLoc('block/ant_hill_base')

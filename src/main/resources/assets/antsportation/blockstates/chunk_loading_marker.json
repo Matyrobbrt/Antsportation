@@ -1,0 +1,382 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "facing=up,north=false,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_none"
+    },
+    "facing=up,north=false,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_one",
+      "y": -90
+    },
+    "facing=up,north=false,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_one",
+      "y": 90
+    },
+    "facing=up,north=false,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_two_straight",
+      "y": 90
+    },
+    "facing=up,north=false,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_one",
+      "y": 180
+    },
+    "facing=up,north=false,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner",
+      "y": 270
+    },
+    "facing=up,north=false,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner",
+      "y": 180
+    },
+    "facing=up,north=false,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_three",
+      "y": 270
+    },
+    "facing=up,north=true,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_one"
+    },
+    "facing=up,north=true,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner",
+      "y": 0
+    },
+    "facing=up,north=true,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner",
+      "y": 90
+    },
+    "facing=up,north=true,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_three",
+      "y": 90
+    },
+    "facing=up,north=true,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_two_straight"
+    },
+    "facing=up,north=true,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_three",
+      "y": 0
+    },
+    "facing=up,north=true,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_three",
+      "y": 180
+    },
+    "facing=up,north=true,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_all"
+    },
+    "facing=down,north=false,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_none",
+      "x": 180
+    },
+    "facing=down,north=false,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_one",
+      "y": -270,
+      "x": 180
+    },
+    "facing=down,north=false,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_one",
+      "y": 270,
+      "x": 180
+    },
+    "facing=down,north=false,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_two_straight",
+      "y": 90,
+      "x": 180
+    },
+    "facing=down,north=false,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_one",
+      "y": 0,
+      "x": 180
+    },
+    "facing=down,north=false,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner",
+      "y": 0,
+      "x": 180
+    },
+    "facing=down,north=false,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner",
+      "y": 270,
+      "x": 180
+    },
+    "facing=down,north=false,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_three",
+      "y": 270,
+      "x": 180
+    },
+    "facing=down,north=true,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_one",
+      "x": 180,
+      "y": 180
+    },
+    "facing=down,north=true,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner",
+      "y": 90,
+      "x": 180
+    },
+    "facing=down,north=true,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner",
+      "y": 180,
+      "x": 180
+    },
+    "facing=down,north=true,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_three",
+      "y": 90,
+      "x": 180
+    },
+    "facing=down,north=true,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_two_straight",
+      "x": 180
+    },
+    "facing=down,north=true,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_three",
+      "y": 0,
+      "x": 180
+    },
+    "facing=down,north=true,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_three",
+      "y": 180,
+      "x": 180
+    },
+    "facing=down,north=true,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_all",
+      "x": 180
+    },
+    "facing=east,north=false,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_none_wall",
+      "y": 270
+    },
+    "facing=east,north=false,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_one_wall_l",
+      "y": 270
+    },
+    "facing=east,north=false,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_one_wall_r",
+      "y": 270
+    },
+    "facing=east,north=false,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_two_straight_wall_l_r",
+      "y": 270
+    },
+    "facing=east,north=false,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_one_wall_d",
+      "y": 270
+    },
+    "facing=east,north=false,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner_wall_d_l",
+      "y": 270
+    },
+    "facing=east,north=false,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner_wall_d_r",
+      "y": 270
+    },
+    "facing=east,north=false,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_three_wall_d",
+      "y": 270
+    },
+    "facing=east,north=true,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_one_wall_u",
+      "y": 270
+    },
+    "facing=east,north=true,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner_wall_u_l",
+      "y": 270
+    },
+    "facing=east,north=true,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner_wall_u_r",
+      "y": 270
+    },
+    "facing=east,north=true,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_three_wall_u",
+      "y": 270
+    },
+    "facing=east,north=true,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_two_straight_wall_u_d",
+      "y": 270
+    },
+    "facing=east,north=true,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_three_wall_l",
+      "y": 270
+    },
+    "facing=east,north=true,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_three_wall_r",
+      "y": 270
+    },
+    "facing=east,north=true,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_all_wall",
+      "y": 270
+    },
+    "facing=west,north=false,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_none_wall",
+      "y": 90
+    },
+    "facing=west,north=false,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_one_wall_l",
+      "y": 90
+    },
+    "facing=west,north=false,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_one_wall_r",
+      "y": 90
+    },
+    "facing=west,north=false,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_two_straight_wall_l_r",
+      "y": 90
+    },
+    "facing=west,north=false,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_one_wall_d",
+      "y": 90
+    },
+    "facing=west,north=false,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner_wall_d_l",
+      "y": 90
+    },
+    "facing=west,north=false,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner_wall_d_r",
+      "y": 90
+    },
+    "facing=west,north=false,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_three_wall_d",
+      "y": 90
+    },
+    "facing=west,north=true,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_one_wall_u",
+      "y": 90
+    },
+    "facing=west,north=true,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner_wall_u_l",
+      "y": 90
+    },
+    "facing=west,north=true,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner_wall_u_r",
+      "y": 90
+    },
+    "facing=west,north=true,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_three_wall_u",
+      "y": 90
+    },
+    "facing=west,north=true,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_two_straight_wall_u_d",
+      "y": 90
+    },
+    "facing=west,north=true,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_three_wall_l",
+      "y": 90
+    },
+    "facing=west,north=true,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_three_wall_r",
+      "y": 90
+    },
+    "facing=west,north=true,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_all_wall",
+      "y": 90
+    },
+    "facing=north,north=false,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_none_wall",
+      "y": 180
+    },
+    "facing=north,north=false,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_one_wall_l",
+      "y": 180
+    },
+    "facing=north,north=false,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_one_wall_r",
+      "y": 180
+    },
+    "facing=north,north=false,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_two_straight_wall_l_r",
+      "y": 180
+    },
+    "facing=north,north=false,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_one_wall_d",
+      "y": 180
+    },
+    "facing=north,north=false,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner_wall_d_l",
+      "y": 180
+    },
+    "facing=north,north=false,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner_wall_d_r",
+      "y": 180
+    },
+    "facing=north,north=false,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_three_wall_d",
+      "y": 180
+    },
+    "facing=north,north=true,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_one_wall_u",
+      "y": 180
+    },
+    "facing=north,north=true,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner_wall_u_l",
+      "y": 180
+    },
+    "facing=north,north=true,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner_wall_u_r",
+      "y": 180
+    },
+    "facing=north,north=true,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_three_wall_u",
+      "y": 180
+    },
+    "facing=north,north=true,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_two_straight_wall_u_d",
+      "y": 180
+    },
+    "facing=north,north=true,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_three_wall_l",
+      "y": 180
+    },
+    "facing=north,north=true,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_three_wall_r",
+      "y": 180
+    },
+    "facing=north,north=true,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_all_wall",
+      "y": 180
+    },
+    "facing=south,north=false,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_none_wall"
+    },
+    "facing=south,north=false,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_one_wall_l"
+    },
+    "facing=south,north=false,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_one_wall_r"
+    },
+    "facing=south,north=false,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_two_straight_wall_l_r"
+    },
+    "facing=south,north=false,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_one_wall_d"
+    },
+    "facing=south,north=false,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner_wall_d_l"
+    },
+    "facing=south,north=false,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner_wall_d_r"
+    },
+    "facing=south,north=false,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_three_wall_d"
+    },
+    "facing=south,north=true,south=false,east=false,west=false": {
+      "model": "antsportation:block/marker_one_wall_u"
+    },
+    "facing=south,north=true,south=false,east=false,west=true": {
+      "model": "antsportation:block/marker_two_corner_wall_u_l"
+    },
+    "facing=south,north=true,south=false,east=true,west=false": {
+      "model": "antsportation:block/marker_two_corner_wall_u_r"
+    },
+    "facing=south,north=true,south=false,east=true,west=true": {
+      "model": "antsportation:block/marker_three_wall_u"
+    },
+    "facing=south,north=true,south=true,east=false,west=false": {
+      "model": "antsportation:block/marker_two_straight_wall_u_d"
+    },
+    "facing=south,north=true,south=true,east=false,west=true": {
+      "model": "antsportation:block/marker_three_wall_l"
+    },
+    "facing=south,north=true,south=true,east=true,west=false": {
+      "model": "antsportation:block/marker_three_wall_r"
+    },
+    "facing=south,north=true,south=true,east=true,west=true": {
+      "model": "antsportation:block/marker_all_wall"
+    }
+  }
+}

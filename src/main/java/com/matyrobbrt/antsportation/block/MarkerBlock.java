@@ -74,12 +74,8 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, Has
 
     private static final boolean USE_DYE = false;
 
-    public MarkerBlock() {
-        super(BlockBehaviour.Properties.of(Material.WOOL)
-                .instabreak()
-                .sound(SoundType.SAND)
-                .noCollission()
-                .color(MaterialColor.COLOR_BROWN));
+    public MarkerBlock(Properties properties) {
+        super(properties);
         registerDefaultState(getStateDefinition().any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(NORTH, false)

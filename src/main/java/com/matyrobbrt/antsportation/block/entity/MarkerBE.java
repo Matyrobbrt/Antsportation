@@ -214,7 +214,7 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
         BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
         for (Direction dir : Direction.values()) {
             blockPos.setWithOffset(searchPos, dir);
-            if (level.getBlockEntity(blockPos) != null && level.getBlockEntity(blockPos).getBlockState().is(AntsportationBlocks.MARKER.get())) {
+            if (level.getBlockEntity(blockPos) != null && level.getBlockEntity(blockPos) instanceof MarkerBE) {
                 blocks.add(dir);
             }
         }

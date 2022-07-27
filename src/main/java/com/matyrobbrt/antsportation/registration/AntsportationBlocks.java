@@ -5,6 +5,7 @@ import com.matyrobbrt.antsportation.block.AntHillBlock;
 import com.matyrobbrt.antsportation.block.AntJarBlock;
 import com.matyrobbrt.antsportation.block.AntNestBlock;
 import com.matyrobbrt.antsportation.block.BoxerBlock;
+import com.matyrobbrt.antsportation.block.ChunkLoadingMarkerBlock;
 import com.matyrobbrt.antsportation.block.MarkerBlock;
 import com.matyrobbrt.antsportation.block.UnboxerBlock;
 import com.matyrobbrt.antsportation.block.entity.AntHillBE;
@@ -58,7 +59,17 @@ public class AntsportationBlocks {
     public static final RegistryObject<AntJarBlock> ANT_JAR = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
             () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));
 
-    public static final RegistryObject<MarkerBlock> MARKER = register("marker", Mineable.SHOVEL, ToolTier.WOODEN, MarkerBlock::new);
+    public static final RegistryObject<MarkerBlock> MARKER = register("marker", Mineable.SHOVEL, ToolTier.WOODEN, () -> new MarkerBlock(BlockBehaviour.Properties.of(Material.WOOL)
+            .instabreak()
+            .sound(SoundType.SAND)
+            .noCollission()
+            .color(MaterialColor.COLOR_BROWN)));
+    public static final RegistryObject<ChunkLoadingMarkerBlock> CHUNK_LOADING_MARKER = register("chunk_loading_marker", Mineable.SHOVEL, ToolTier.WOODEN, () -> new ChunkLoadingMarkerBlock(BlockBehaviour.Properties.of(Material.WOOL)
+            .instabreak()
+            .sound(SoundType.SAND)
+            .noCollission()
+            .color(MaterialColor.COLOR_GREEN)));
+
     public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () ->
             BlockEntityType.Builder.of(BoxerBE::new, BOXER.get()).build(null));
     public static final RegistryObject<BlockEntityType<UnboxerBE>> UNBOXER_BE = BLOCK_ENTITIES.register("unboxer", () ->
@@ -73,6 +84,7 @@ public class AntsportationBlocks {
             BlockEntityType.Builder.of(AntJarBE::new, ANT_JAR.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<MarkerBE>> MARKER_BE = BLOCK_ENTITIES.register("marker", () -> BlockEntityType.Builder.of(MarkerBE::new, MARKER.get()).build(null));
+
     private static <T extends Block> RegistryObject<T> register(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {
         final var reg = BLOCKS.register(name, factory);
         MINE_DATA.put(reg, new MineData(mineable, tier));

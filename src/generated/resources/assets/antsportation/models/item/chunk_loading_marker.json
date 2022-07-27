@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "antsportation:item/chunk_loading_marker"
+  }
+}
