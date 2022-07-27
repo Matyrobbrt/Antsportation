@@ -47,13 +47,13 @@ public class BoxModel extends Model {
         return LayerDefinition.create(meshdefinition, 32, 32);
     }
 
-    public void render(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float r, float g, float b, float a, float flap1Anim, float flap2Anim) {
+    public void render(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float r, float g, float b, float a) {
         all.render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, r, g, b, a);
 
     }
 
     @Override
     public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
-        render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, 0, 0);
+        render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
     }
 }

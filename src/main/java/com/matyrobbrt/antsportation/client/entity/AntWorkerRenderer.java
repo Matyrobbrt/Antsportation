@@ -2,15 +2,11 @@ package com.matyrobbrt.antsportation.client.entity;
 
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.BoxModel;
-import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationTags;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultedVertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -19,8 +15,8 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 
@@ -44,17 +40,20 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
     }
 
     @Override
-    public void render(AntWorkerEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
-        super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
-        VertexConsumer buffer = pBuffer.getBuffer(RENDER_TYPE);
+    public void render(AntWorkerEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+        super.render(pEntity, pEntityYaw, pPartialTicks, pPoseStack, pBuffer, pPackedLight);
+        var buffer = pBuffer.getBuffer(RENDER_TYPE);
         if (!pEntity.getOffhandItem().isEmpty()) {
-            ItemStack boxitem = pEntity.getOffhandItem();
+            var boxitem = pEntity.getOffhandItem();
+            var itemStack = pEntity.getOffhandItem();
+            var f1 = 0.0275f;
             if (boxitem.is(AntsportationTags.Items.BOXES)) {
-                pMatrixStack.pushPose();
-                pMatrixStack.translate(0, 0.51, 0);
-                pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
+                pPoseStack.pushPose();
+                pPoseStack.translate(0, 0.51, 0);
+                pPoseStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw + 90));
+                box.all.xRot = Mth.sin(pEntity.tickCount / 10f) / 30f;
                 box.all.zRot = (float) Math.PI;
-                box.all.y = -3.7f + -(float) Math.sin(0.1f * pEntity.tickCount) * 0.1f;
+                box.all.y = -3.7f + -(float) Math.sin(0.1f * pEntity.tickCount) * 0.05f;
                 box.all.x = 1.35f;
                 box.all.z = 0f;
                 box.all.yRot = (float) Math.PI / 2;
@@ -64,28 +63,25 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
                 box.flap2.y = -3;
                 box.flap1.zRot = (float) Math.cos(pEntity.tickCount / 10f + 15) * 0.2f + 400;
                 box.flap2.zRot = -(float) Math.cos(pEntity.tickCount / 10f + 20) * 0.2f - 400;
-                box.render(pMatrixStack, buffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1, pEntity.tickCount, pEntity.tickCount);
-                pMatrixStack.popPose();
-                final var stackInBox = BoxItem.getStoredItems(boxitem).findFirst().map(BoxItem.ItemStackInstance::getStack).orElse(ItemStack.EMPTY);
-                pMatrixStack.pushPose();
-                pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
-                pMatrixStack.scale(0.25f, 0.25f, 0.25f);
-                pMatrixStack.translate(0.45f, 1.3, 0);
-                if(!(stackInBox.getItem() instanceof BlockItem)){
-                    pMatrixStack.mulPose(Vector3f.XN.rotationDegrees(90));
-                    pMatrixStack.mulPose(Vector3f.ZN.rotationDegrees(90));
-                    pMatrixStack.scale(0.6f, 0.6f, 0.6f);
-                }
-                itemRenderer.renderStatic(null, stackInBox, ItemTransforms.TransformType.FIXED, false, pMatrixStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);
-                pMatrixStack.popPose();
+                box.render(pPoseStack, buffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+                pPoseStack.popPose();
+                itemStack = BoxItem.getStoredItems(boxitem).findFirst().map(BoxItem.ItemStackInstance::getStack).orElse(ItemStack.EMPTY);
+                f1 = 0;
             } else {
-                pMatrixStack.pushPose();
-                pMatrixStack.scale(0.28f, 0.28f, 0.28f);
-                pMatrixStack.translate(0.4f, 1.1+-(float) Math.sin(0.1f * pEntity.tickCount) * 0.01f+0.05f, 0);
-                pMatrixStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw+90));
-                itemRenderer.renderStatic(null, pEntity.getOffhandItem(), ItemTransforms.TransformType.FIXED, false, pMatrixStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);
-                pMatrixStack.popPose();
+                if (!(itemStack.getItem() instanceof BlockItem)) {
+                    f1 = 0f;
+                }
             }
+            pPoseStack.pushPose();
+            pPoseStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw));
+            pPoseStack.translate(0.0f, f1 + 0.29f - Math.sin(0.1f * pEntity.tickCount) * 0.005f, 0f);
+            pPoseStack.mulPose(Vector3f.XP.rotationDegrees(90));
+            pPoseStack.mulPose(Vector3f.XP.rotation(Mth.sin(pEntity.tickCount / 10f) / 80f));
+            pPoseStack.translate(0.0f, (f1 + 0.29f - Math.sin(0.1f * pEntity.tickCount) * 0.005f) * 0.275f, 0f);
+            pPoseStack.scale(0.275f, 0.275f, 0.275f);
+            itemRenderer.renderStatic(null, itemStack, ItemTransforms.TransformType.GROUND, false, pPoseStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);
+            pPoseStack.popPose();
+
         }
 
     }
