@@ -197,6 +197,8 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     modFile.releaseType = findProperty('release_type')
     modFile.displayName = "$archivesBaseName-$version" as String
     modFile.addJavaVersion 'Java 17'
+    modFile.addModLoader 'Forge'
+    modFile.addGameVersion "$mc_version"
 
     modFile.addRequirement('patchouli') // We don't actually depend on patchouli, but this assures that launchers will install it as well
     modFile.addOptional('jei')

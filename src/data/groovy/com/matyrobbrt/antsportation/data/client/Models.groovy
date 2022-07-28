@@ -53,6 +53,9 @@ class Models extends BlockStateProvider {
 
             layer0(modLoc('item/glass_jar'))
         }
+        item('antcylopedia') {
+            texture('layer0', modLoc('item/antcylopedia'))
+        }
 
         spawnEgg(AntsportationItems.ANT_QUEEN_SPAWN_EGG)
         spawnEgg(AntsportationItems.ANT_SOLDIER_SPAWN_EGG)

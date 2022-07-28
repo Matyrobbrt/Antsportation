@@ -44,7 +44,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
     public static final PatchouliBook BOOK = new PatchouliBook(Translations.GUIDE_BOOK.key, Translations.GUIDE_BOOK_LANDING_TEXT.key)
             .setTab(Antsportation.TAB.getRecipeFolderName())
             .setBookTexture(new ResourceLocation('patchouli', 'textures/gui/book_red.png'))
-            .setModel(new ResourceLocation('patchouli', 'book_red'))
+            .setModel(Antsportation.rl('antcylopedia'))
             .setIndexIcon(Items.WRITABLE_BOOK).showProgress(false)
             .setVersion(1)
             .addDefaultMacros()
