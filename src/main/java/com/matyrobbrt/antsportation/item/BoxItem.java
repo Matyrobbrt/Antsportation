@@ -4,7 +4,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
-import com.matyrobbrt.antsportation.data.ShapedRecipe;
+import com.matyrobbrt.antsportation.data.EmptyNBTRequiredRecipe;
 import com.matyrobbrt.antsportation.menu.BoxMenu;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.Translations;
@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
@@ -26,6 +27,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
@@ -174,7 +176,7 @@ public class BoxItem extends BaseItem implements JEIInfoProvider {
 
     @Override
     public void generateRecipes(DatagenHelper helper) {
-        tier.recipe.accept(helper.shaped(this));
+        tier.recipe.accept(helper.emptyNBT(this));
     }
 
     @Override
@@ -185,31 +187,33 @@ public class BoxItem extends BaseItem implements JEIInfoProvider {
     public enum BoxTier implements ItemLike {
         BASIC(256, 16, 0xffffff, Rarity.COMMON, recipe -> recipe
                 .pattern(
-                        "SSS",
+                        "WPW",
                         "CIC",
-                        "SSS"
+                        "WPW"
                 )
-                .define('S', Tags.Items.STONE)
+                .define('W', ItemTags.PLANKS)
                 .define('C', Tags.Items.CHESTS)
-                .define('I', Tags.Items.INGOTS_IRON)),
+                .define('I', Tags.Items.INGOTS_IRON)
+                .define('P', Items.PAPER)),
         ADVANCED(2048, 36, 0xFF0000, Antsportation.ADVANCED, recipe -> recipe
+                .setEmptyNBTSlots(4)
                 .pattern(
                         "III",
-                        "CRC",
+                        "BbB",
                         "III"
                 )
                 .define('I', Tags.Items.INGOTS_IRON)
-                .define('C', Tags.Items.CHESTS)
-                .define('R', Tags.Items.DUSTS_REDSTONE)),
+                .define('B', Tags.Items.STORAGE_BLOCKS_IRON)
+                .define('b', BASIC)),
         @SuppressWarnings({"ConstantConditions", "deprecation"})
         EPIC(16384, 64, Rarity.EPIC.color.getColor(), Rarity.EPIC, recipe -> recipe
                 .pattern(
-                        "IDI",
-                        "CCC",
-                        "IDI"
+                        "OOO",
+                        "DBD",
+                        "OOO"
                 )
-                .define('I', Tags.Items.INGOTS_IRON)
-                .define('C', Tags.Items.CHESTS)
+                .define('O', Tags.Items.OBSIDIAN)
+                .define('B', ADVANCED)
                 .define('D', Tags.Items.GEMS_DIAMOND))
         ;
 
@@ -218,9 +222,9 @@ public class BoxItem extends BaseItem implements JEIInfoProvider {
         public final int colour;
         public final Rarity rarity;
         private RegistryObject<BoxItem> item;
-        private final Consumer<ShapedRecipe> recipe;
+        private final Consumer<EmptyNBTRequiredRecipe> recipe;
 
-        BoxTier(int space, int types, int colour, Rarity rarity, Consumer<ShapedRecipe> recipe) {
+        BoxTier(int space, int types, int colour, Rarity rarity, Consumer<EmptyNBTRequiredRecipe> recipe) {
             this.space = space;
             this.types = types;
             this.colour = colour;

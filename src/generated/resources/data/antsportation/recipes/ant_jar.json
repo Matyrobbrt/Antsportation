@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "WWW",
-    "GBG",
+    "G G",
     "GGG"
   ],
   "key": {
@@ -11,9 +11,6 @@
     },
     "G": {
       "tag": "forge:glass"
-    },
-    "B": {
-      "item": "minecraft:glass_bottle"
     }
   },
   "result": {

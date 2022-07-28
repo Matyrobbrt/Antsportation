@@ -4,8 +4,6 @@ import com.matyrobbrt.antsportation.block.entity.boxing.BoxerBE;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.HasRecipe;
-import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
-import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -97,14 +95,16 @@ public class BoxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoPro
 
     @Override
     public void generateRecipes(DatagenHelper helper) {
-        helper.emptyNBT(this)
-                .setEmptyNBTSlots(4, 7)
-                .pattern("SPS",
-                         "CBC")
+        helper.shaped(this)
+                .pattern(
+                        "IPI",
+                        "ICI",
+                        "SSS"
+                )
+                .define('I', Tags.Items.INGOTS_IRON)
+                .define('P', Items.PISTON)
                 .define('C', Tags.Items.CHESTS)
-                .define('B', AntsportationTags.Items.BOXES)
-                .define('S', Tags.Items.STONE)
-                .define('P', Items.PISTON);
+                .define('S', Items.SMOOTH_STONE);
     }
 
     @Override

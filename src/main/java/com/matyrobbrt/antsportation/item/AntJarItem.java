@@ -95,12 +95,11 @@ public class AntJarItem extends BaseBlockItem {
         helper.shaped(this)
                 .pattern(
                         "WWW",
-                        "GBG",
+                        "G G",
                         "GGG"
                 )
                 .define('W', ItemTags.PLANKS)
-                .define('G', Tags.Items.GLASS)
-                .define('B', Items.GLASS_BOTTLE);
+                .define('G', Tags.Items.GLASS);
     }
 
     @Override

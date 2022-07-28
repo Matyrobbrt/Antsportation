@@ -1,22 +1,26 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "antsportation:empty_nbt_required",
   "pattern": [
-    "SSS",
+    "WPW",
     "CIC",
-    "SSS"
+    "WPW"
   ],
   "key": {
-    "S": {
-      "tag": "forge:stone"
+    "W": {
+      "tag": "minecraft:planks"
     },
     "C": {
       "tag": "forge:chests"
     },
     "I": {
       "tag": "forge:ingots/iron"
+    },
+    "P": {
+      "item": "minecraft:paper"
     }
   },
   "result": {
     "item": "antsportation:basic_box"
-  }
+  },
+  "emptyNbtSlots": []
 }

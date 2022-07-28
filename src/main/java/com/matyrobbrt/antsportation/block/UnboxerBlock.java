@@ -4,7 +4,6 @@ import com.matyrobbrt.antsportation.block.entity.boxing.UnboxerBE;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.data.HasRecipe;
-import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -94,13 +93,15 @@ public class UnboxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoP
 
     @Override
     public void generateRecipes(DatagenHelper helper) {
-        helper.emptyNBT(this)
-                .setEmptyNBTSlots(1, 4)
-                .pattern("CBC",
-                         "SHS")
+        helper.shaped(this)
+                .pattern(
+                        "III",
+                        "ICI",
+                        "SHS"
+                )
+                .define('I', Tags.Items.INGOTS_IRON)
                 .define('C', Tags.Items.CHESTS)
-                .define('B', AntsportationTags.Items.BOXES)
-                .define('S', Tags.Items.STONE)
+                .define('S', Items.SMOOTH_STONE)
                 .define('H', Items.HOPPER);
     }
 

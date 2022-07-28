@@ -270,7 +270,7 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, Has
 
     @Override
     public void generateRecipes(DatagenHelper helper) {
-        helper.shaped(this)
+        helper.shaped(this, 4)
                 .pattern(
                         "SSS",
                         "SHS",

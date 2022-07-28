@@ -1,18 +1,19 @@
 {
-  "type": "antsportation:empty_nbt_required",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
-    "CBC",
+    "III",
+    "ICI",
     "SHS"
   ],
   "key": {
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
     "C": {
       "tag": "forge:chests"
     },
-    "B": {
-      "tag": "antsportation:boxes"
-    },
     "S": {
-      "tag": "forge:stone"
+      "item": "minecraft:smooth_stone"
     },
     "H": {
       "item": "minecraft:hopper"
@@ -20,9 +21,5 @@
   },
   "result": {
     "item": "antsportation:unboxer"
-  },
-  "emptyNbtSlots": [
-    1,
-    4
-  ]
+  }
 }

@@ -1,16 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "antsportation:empty_nbt_required",
   "pattern": [
-    "IDI",
-    "CCC",
-    "IDI"
+    "OOO",
+    "DBD",
+    "OOO"
   ],
   "key": {
-    "I": {
-      "tag": "forge:ingots/iron"
+    "O": {
+      "tag": "forge:obsidian"
     },
-    "C": {
-      "tag": "forge:chests"
+    "B": {
+      "item": "antsportation:advanced_box"
     },
     "D": {
       "tag": "forge:gems/diamond"
@@ -18,5 +18,6 @@
   },
   "result": {
     "item": "antsportation:epic_box"
-  }
+  },
+  "emptyNbtSlots": []
 }

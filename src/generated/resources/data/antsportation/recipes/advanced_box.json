@@ -1,22 +1,25 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "antsportation:empty_nbt_required",
   "pattern": [
     "III",
-    "CRC",
+    "BbB",
     "III"
   ],
   "key": {
     "I": {
       "tag": "forge:ingots/iron"
     },
-    "C": {
-      "tag": "forge:chests"
+    "B": {
+      "tag": "forge:storage_blocks/iron"
     },
-    "R": {
-      "tag": "forge:dusts/redstone"
+    "b": {
+      "item": "antsportation:basic_box"
     }
   },
   "result": {
     "item": "antsportation:advanced_box"
-  }
+  },
+  "emptyNbtSlots": [
+    4
+  ]
 }

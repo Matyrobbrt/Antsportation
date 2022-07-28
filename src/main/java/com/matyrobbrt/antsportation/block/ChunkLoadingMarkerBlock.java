@@ -5,7 +5,6 @@ import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -46,16 +45,16 @@ public class ChunkLoadingMarkerBlock extends MarkerBlock {
 
     @Override
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRandom) {
-        for(int i = 0; i < pRandom.nextInt(1) + 1; ++i) {
-            pLevel.addParticle(ParticleTypes.END_ROD, (double)pPos.getX() - 0.5D, pPos.getY(), pPos.getZ() + 0.5D, pRandom.nextFloat() / 2.0F, 5.0E-5D, pRandom.nextFloat() / 2.0F);
+        for (int i = 0; i < pRandom.nextInt(1) + 1; ++i) {
+            pLevel.addParticle(ParticleTypes.END_ROD, pPos.getX() + 0.5, pPos.getY(), pPos.getZ()  + 0.5,
+                    0, 0, 0);
         }
     }
 
     @Override
     public void generateRecipes(DatagenHelper helper) {
-        helper.shaped(this)
-                .pattern("MMM", " E ")
-                .define('M', AntsportationItems.MARKER.get())
-                .define('E', Items.ENDER_EYE);
+        helper.shapeless(this)
+                .requires(Items.ENDER_EYE, 3)
+                .requires(AntsportationItems.MARKER.get(), 1);
     }
 }

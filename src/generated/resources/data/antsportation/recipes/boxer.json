@@ -1,28 +1,25 @@
 {
-  "type": "antsportation:empty_nbt_required",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
-    "SPS",
-    "CBC"
+    "IPI",
+    "ICI",
+    "SSS"
   ],
   "key": {
-    "C": {
-      "tag": "forge:chests"
-    },
-    "B": {
-      "tag": "antsportation:boxes"
-    },
-    "S": {
-      "tag": "forge:stone"
+    "I": {
+      "tag": "forge:ingots/iron"
     },
     "P": {
       "item": "minecraft:piston"
+    },
+    "C": {
+      "tag": "forge:chests"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
     }
   },
   "result": {
     "item": "antsportation:boxer"
-  },
-  "emptyNbtSlots": [
-    4,
-    7
-  ]
+  }
 }

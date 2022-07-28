@@ -1,17 +1,19 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "MMM",
-    " E "
-  ],
-  "key": {
-    "M": {
-      "item": "antsportation:marker"
-    },
-    "E": {
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
       "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "antsportation:marker"
     }
-  },
+  ],
   "result": {
     "item": "antsportation:chunk_loading_marker"
   }

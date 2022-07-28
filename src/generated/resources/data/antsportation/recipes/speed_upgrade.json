@@ -1,16 +1,19 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "RIR"
-  ],
-  "key": {
-    "R": {
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
       "tag": "forge:dusts/redstone"
     },
-    "I": {
+    {
       "tag": "forge:ingots/iron"
+    },
+    {
+      "item": "minecraft:paper"
     }
-  },
+  ],
   "result": {
     "item": "antsportation:speed_upgrade"
   }

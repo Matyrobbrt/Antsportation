@@ -7,14 +7,12 @@ import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.item.AntJarItem;
-import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
 import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
 import com.matyrobbrt.antsportation.util.AntTarget;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -67,10 +65,15 @@ public class AntHillBlock extends BaseEntityBlock implements AntTarget, HasRecip
 
     @Override
     public void generateRecipes(DatagenHelper helper) {
-        helper.shapeless(AntsportationBlocks.ANT_HILL.get(), 1)
-                .requires(Items.ROOTED_DIRT, 4)
-                .requires(AntsportationItems.MARKER.get(), 1)
-                .requires(ItemTags.DIRT, 1);
+        helper.shaped(this)
+                .pattern(
+                        " D ",
+                        "RMR",
+                        "RRR"
+                )
+                .define('R', Items.ROOTED_DIRT)
+                .define('M', AntsportationItems.MARKER.get())
+                .define('D', Items.GRASS);
     }
 
     @Override

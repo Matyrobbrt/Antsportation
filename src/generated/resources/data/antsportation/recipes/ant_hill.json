@@ -1,25 +1,21 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "RMR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
       "item": "minecraft:rooted_dirt"
     },
-    {
-      "item": "minecraft:rooted_dirt"
-    },
-    {
-      "item": "minecraft:rooted_dirt"
-    },
-    {
-      "item": "minecraft:rooted_dirt"
-    },
-    {
+    "M": {
       "item": "antsportation:marker"
     },
-    {
-      "tag": "minecraft:dirt"
+    "D": {
+      "item": "minecraft:grass"
     }
-  ],
+  },
   "result": {
     "item": "antsportation:ant_hill"
   }

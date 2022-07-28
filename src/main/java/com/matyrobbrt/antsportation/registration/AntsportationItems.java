@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -90,10 +91,11 @@ public class AntsportationItems {
             .tab(Antsportation.TAB).stacksTo(6)) {
         @Override
         public void generateRecipes(DatagenHelper helper) {
-            helper.shaped(SPEED_UPGRADE.get())
-                    .pattern("RIR")
-                    .define('R', Tags.Items.DUSTS_REDSTONE)
-                    .define('I', Tags.Items.INGOTS_IRON);
+            helper.shapeless(this)
+                    .requires(Items.SUGAR, 1)
+                    .requires(Tags.Items.DUSTS_REDSTONE, 1)
+                    .requires(Tags.Items.INGOTS_IRON, 1)
+                    .requires(Items.PAPER, 1);
         }
 
         @Override
