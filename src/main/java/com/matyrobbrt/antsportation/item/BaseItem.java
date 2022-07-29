@@ -1,12 +1,22 @@
 package com.matyrobbrt.antsportation.item;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.HasRecipe;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class BaseItem extends Item implements HasRecipe {
+import java.util.List;
+
+public abstract class BaseItem extends Item implements HasRecipe, JEIInfoProvider {
 
     public BaseItem(Properties pProperties) {
         super(pProperties.tab(Antsportation.TAB));
+    }
+
+    @Override
+    public @NotNull List<Component> getInfo() {
+        return List.of();
     }
 }

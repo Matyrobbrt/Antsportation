@@ -43,6 +43,7 @@
   "jei.antsportation.boxer": "Machine used to pack items into boxes.",
   "jei.antsportation.chunkloading_marker": "A special type of marker that chunk loads the chunk it is in.",
   "jei.antsportation.marker": "Used to create a path for ants to follow.",
+  "jei.antsportation.speed_upgrade": "A special item which speeds up boxing machines at the cost of energy usage.",
   "jei.antsportation.unboxer": "Machine used to unpack items from boxes.",
   "message.antsportation.base": "[\u00A76Antsportation\u00A7r] %s",
   "message.antsportation.too_close_marker": "The marker placed at %s is too close to the marker at %s. Consider spreading the markers for optimal results.",

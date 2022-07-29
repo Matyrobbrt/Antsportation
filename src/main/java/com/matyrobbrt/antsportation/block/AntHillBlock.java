@@ -73,7 +73,7 @@ public class AntHillBlock extends BaseEntityBlock implements AntTarget, HasRecip
                 )
                 .define('R', Items.ROOTED_DIRT)
                 .define('M', AntsportationItems.MARKER.get())
-                .define('D', Items.GRASS);
+                .define('D', Items.GRASS_BLOCK);
     }
 
     @Override

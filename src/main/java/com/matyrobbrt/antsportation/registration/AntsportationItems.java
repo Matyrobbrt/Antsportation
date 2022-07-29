@@ -58,18 +58,13 @@ public class AntsportationItems {
     public static final RegistryObject<Item> MARKER = ITEMS.register("marker", () -> new BaseBlockItem(AntsportationBlocks.MARKER.get(),
             new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> CHUNK_LOADING_MARKER = ITEMS.register("chunk_loading_marker", () -> new BaseBlockItem(AntsportationBlocks.CHUNK_LOADING_MARKER,
-            new Item.Properties().rarity(Rarity.UNCOMMON)) {
+            new Item.Properties().rarity(Rarity.RARE)) {
         @Override
         @ParametersAreNonnullByDefault
         public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
             if (!ServerConfig.CONFIG.ants().chunkLoadingMarkers().get()) {
                 pTooltip.add(Translations.CHUNK_LOADING_DISABLED.translate().withStyle(ChatFormatting.RED));
             }
-        }
-
-        @Override
-        public @NotNull List<Component> getInfo() {
-            return List.of(Translations.JEI_CHUNK_LOADING_MARKER.translate());
         }
 
         @Override
@@ -108,6 +103,11 @@ public class AntsportationItems {
             pTooltipComponents.add(Translations.SPEED_UPGRADE_TOOLTIP3.translate(
                     Utils.textComponent(ServerConfig.getBoxing(ServerConfig.Boxing::upgradeEnergyUsage)).withStyle(ChatFormatting.GREEN)
             ));
+        }
+
+        @Override
+        public @NotNull List<Component> getInfo() {
+            return List.of(Translations.JEI_SPEED_UPGRADE.translate());
         }
     });
 }

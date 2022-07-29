@@ -35,6 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -180,7 +181,7 @@ public class BoxItem extends BaseItem implements JEIInfoProvider {
     }
 
     @Override
-    public List<Component> getInfo() {
+    public @NotNull List<Component> getInfo() {
         return List.of(Translations.JEI_BOX.translate());
     }
 

@@ -4,9 +4,11 @@ import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
 import com.matyrobbrt.antsportation.data.DatagenHelper;
 import com.matyrobbrt.antsportation.registration.AntsportationItems;
+import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeColor;
@@ -20,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 import java.util.Random;
 
 @ParametersAreNonnullByDefault
@@ -65,5 +68,10 @@ public class ChunkLoadingMarkerBlock extends MarkerBlock {
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         return new MarkerBE(pPos, pState).withDefaultColor(DyeColor.GREEN);
+    }
+
+    @Override
+    public @NotNull List<Component> getInfo() {
+        return List.of(Translations.JEI_CHUNK_LOADING_MARKER.translate());
     }
 }
