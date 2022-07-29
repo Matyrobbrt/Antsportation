@@ -1,0 +1,37 @@
+{
+  "name": "Config Options",
+  "category": "antsportation:mechanics",
+  "icon": "minecraft:comparator",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Config",
+      "text": "Here is a list of all config options found in the mod.<br><br>Note: Most config options are found in saves/WorldName/serverconfig/antsportation-server.toml"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Server Config",
+      "text": "#Note: boxing machines refers to boxers / unboxers<br>[boxing]<br>#If boxing machines should use energy (Forge Energy)<br>useEnergy = $(scfg/boxing.useEnergy)<br>#The amount of energy boxing machines can store.<br>#Range: > 1<br>energyCapacity = $(scfg/boxing.energyCapacity)"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Server Config",
+      "text": "#How many ticks each speed upgrade will reduce from the needed progress of boxing machines.<br>#Range: > 1<br>upgradeReduction = $(scfg/boxing.upgradeReduction)<br>#How much speed upgrades will increase the energy usage of boxing machines.<br>#Range: > 1<br>upgradeEnergyUsage = $(scfg/boxing.upgradeEnergyUsage)"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Server Config",
+      "text": "#How much ticks boxing machines will need per process.<br>#Range: > 1<br>baseNeededTicks = $(scfg/boxing.baseNeededTicks)<br>#How much energy boxing machines will use per tick, by default.<br>#Range: > 1<br>baseUsedEnergy = $(scfg/boxing.baseUsedEnergy)<br>"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Server Config: Ants",
+      "text": "[ants]<br>#The delay in ticks until Ant Hills will spawn a new Worker Ant.<br>#Range: 1 ~ 100000<br>hillSpawnDelay = $(scfg/ants.hillSpawnDelay)<br>#The delay in ticks before an Ant Nest will attempt to push / pull into a hill.<br>#Range: 1 ~ 100000<br>nestIORate = $(scfg/ants.nestIORate)<br>#If the only items that can be transported directly by ants are the ones in the 'antsportation:ant_transportable' tag."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Server Config: Ants",
+      "text": "#If 'false', all items can be transported directly by ants.<br>onlyTransportableItems = $(scfg/ants.onlyTransportableItems)<br>#If Chunk Loading Markers should be enabled.<br>chunkloadingMarkers = $(scfg/ants.chunkloadingMarkers)"
+    }
+  ]
+}

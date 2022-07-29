@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "<item>Boxes</> are used to package items for ant transportation. There are 3 tiers of boxes.<br>All of them can hold different amounts of items and types of items. You can put items in and get items out of boxes with the $(l:antsportation:machines/boxer)Boxer$() and $(l:antsportation:machines/unboxer)Unboxer$() machine respectively.",
+      "text": "<item>Boxes</> are used to package items for ant transportation. There are 3 tiers of boxes.<br>All of them can hold different amounts of items and types of items. You can put items in and get items out of boxes with the $(l:antsportation:machines/boxer)Boxer$() and $(l:antsportation:machines/unboxer)Unboxer$() machine respectively.<br>Boxes can only be upgraded into the next tier when empty.",
       "title": "Boxes"
     },
     {

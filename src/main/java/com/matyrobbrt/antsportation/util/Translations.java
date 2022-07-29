@@ -15,7 +15,7 @@ public enum Translations {
     TOOLTIP_ITEMS("tooltip", "items", "%s / %s items"),
 
     GUIDE_BOOK("item", "guide_book", "Antcyclopedia"),
-    GUIDE_BOOK_LANDING_TEXT("patchouli", "landing_text", "$(#800080)Welcome to Antsportation, <player>! <br2>This book will guide you through the mod and show you how to use ants to make cool item transportation systems!<br>Check out $(l:antsportation:other/setup_item_transport)Setting up item transportation$()$(#800080) on how to get started!"),
+    GUIDE_BOOK_LANDING_TEXT("patchouli", "landing_text", "$(#800080)Welcome to Antsportation, <player>! <br2>This book will guide you through the mod and show you how to use ants to make cool item transportation systems!<br>Check out $(l:antsportation:mechanics/setup_item_transport)Setting up item transportation$()$(#800080) on how to get started!"),
 
     SPEED_UPGRADE_TOOLTIP("tooltip.item", "speed_upgrade", "Insert in a Boxer in order to make it faster."),
     SPEED_UPGRADE_TOOLTIP2("tooltip.item", "speed_upgrade_2", "Decreases process duration by %s ticks."),

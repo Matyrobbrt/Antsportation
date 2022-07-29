@@ -1,0 +1,72 @@
+{
+  "name": "Item Transport Paths",
+  "category": "antsportation:mechanics",
+  "icon": "antsportation:marker",
+  "pages": [
+    {"type": "patchouli:text",
+      "title": "Path Components",
+      "text":"Paths consist of 3 parts; an Input Nest, Markers and an Output Nest.<br>Input Nests, which have a queen, are nests where the Worker Ants will originate from.<br>Markers are points, placed in the world, which the Worker Ants will follow.<br>Output Nests, which have no queen, are nests which Worker Ants will deposit items into."
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Path Components",
+      "border": false,
+      "text": "A Worker Ant will not pathfind to an Ant Nest with a Queen.",
+      "images": [
+        "antsportation:patchouli/images/path_explanation.png"
+      ]
+    },
+    {
+      "type": "patchouli:text",
+      "text": "<gold>$(l:antsportation:blocks/ant_nest)Ant Nests$()</> are the storage interfaces for the path network.<br><br>Firstly, place down an <gold>$(l:antsportation:blocks/ant_nest)Ant Nest</> with an <gold>$(l:antsportation:blocks/ant_hill)Ant Hill</> on top of it.<br><br>You can input or output items into the Nest, not the Hill, from any side except the top.<br>Only the Ant Nest immediately below the Ant Hill will be considered part of the network.",
+      "title": "Input & Output"
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Input & Output",
+      "text": "Note: Ants carry any item in the <gold>antsportation:ant_transportable</> tag.",
+      "border": true,
+      "images": [
+        "antsportation:patchouli/images/input.png",
+        "antsportation:patchouli/images/output.png"
+      ]
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Setting up a path",
+      "text": "To set up a path for your Worker Ants to follow you have to use $(l:antsportation:blocks/marker)Markers$().<br><br>Place a marker down once every 8-10 blocks (Any lower is less reliable).<br><br>You can also place the markers on the sides of blocks to have them climb up walls like spiders!<br>(Don't make the path too small, because they might fall off)."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Setting up a path",
+      "text": "Make sure that the distance between any Ant Hill and marker block is more than 3 blocks, else, ants might get stuck.<br><br>Note: If you prefer to transport items without boxes, a $(l:antsportation:mechanics/config)config$() option is available"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Splitting",
+      "text": "Since markers can be dyed, it's possible to split a path into 2.<br><br>Place 2 differently dyed markers adjacent to the marker you want to split.<br><br>If you want to split a colored marker for an additional time, you first have to merge it with a default coloured marker."
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Splitting",
+      "text":"Make sure that the 2 branching colours are opposite of each other. No diagonals!",
+      "border": false,
+      "images": [
+        "antsportation:patchouli/images/split.png"
+      ]
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Merging",
+      "text": "When there is no colored marker within a 10 block radius, the Worker Ant will instead try to pathfind to a default coloured marker.<br><br>Multiple coloured paths will merge into a single default coloured path."
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Merging",
+      "border": true,
+      "images": [
+        "antsportation:patchouli/images/merge.png"
+      ]
+    }
+  ]
+}

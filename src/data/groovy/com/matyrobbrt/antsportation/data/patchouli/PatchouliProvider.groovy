@@ -63,7 +63,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
     @PatchouliCategoryGen
     public static final PatchouliCategory WORLD_CATEGORY = new PatchouliCategory('World', 'world','Information about Antsportation world generation', AntsportationBlocks.ANT_HILL.get())
     @PatchouliCategoryGen
-    public static final PatchouliCategory OTHER_CATEGORY = new PatchouliCategory('Other', 'other', 'Information about things that dont fit in the other categories', AntsportationItems.MARKER.get())
+    public static final PatchouliCategory MECHANICS_CATEGORY = new PatchouliCategory('Mechanics', 'mechanics', 'Information about how to use the mod in a step-by-step way', AntsportationItems.MARKER.get())
     @PatchouliCategoryGen
     public static final PatchouliCategory ENTITY_CATEGORY = new PatchouliCategory('Entity', 'entities', 'Information about the entities in Antsportation', AntsportationItems.ANT_QUEEN_SPAWN_EGG.get())
 
@@ -106,7 +106,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             addPage(getCraftingRecipe(AntsportationBlocks.BOXER))
         }
         entry(MACHINES_CATEGORY) {
-            displayName 'Unboxers'
+            displayName 'Unboxer'
             icon AntsportationBlocks.UNBOXER
             addPage(new SpotlightPage(AntsportationBlocks.UNBOXER.get(), multiline(
                     '<item>Unboxers</> are special machines which unpack item from boxes.',
@@ -116,24 +116,24 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             addPage(boxingStatsPage)
             addPage(getCraftingRecipe(AntsportationBlocks.UNBOXER))
         }
-        entry(BLOCKS_CATEGORY){
+        entry(BLOCKS_CATEGORY) {
             displayName 'Ant Hill'
             icon AntsportationBlocks.ANT_HILL
             addPage(new SpotlightPage(AntsportationBlocks.ANT_HILL.get(), multiline(
-                    '<item>Ant Hills</> are blocks you can find generating in the world.',
+                    '<item>Ant Hills</> are blocks you can find generating in forest biomes.',
                     'Upon breaking it there is a chance a queen will pop out.',
-                    '$(l:antsportation:other/setup_item_transport)You can use Ant hills to set up the input and output for your ants.$()',
-                    'A Hill will attempt to spawn a Worker Ant every <gold>$(scfg/ants.hillSpawnDelay)</> ticks.',
+                    '$(l:antsportation:mechanics/setup_item_transport)You can use Ant hills to set up the input and output for your ants.$()',
+                    'An Ant Hill with a Queen inside it will attempt to spawn a Worker Ant every <gold>$(scfg/ants.hillSpawnDelay)</> ticks.',
                     'Break the Hills with a shovel!'
             )))
         }
 
-        entry(BLOCKS_CATEGORY){
+        entry(BLOCKS_CATEGORY) {
             displayName 'Ant Nest'
             icon AntsportationBlocks.ANT_NEST
             addPage(new SpotlightPage(AntsportationBlocks.ANT_NEST.get(), multiline(
                     '<item>Ant Nests</> are blocks generated in the world.',
-                    'Ant Nests are used in combination with the $(l:antsportation:blocks/ant_hill)Ant Hill$() as an $(l:antsportation:other/setup_item_transport)input and/or output point for your ants.$()',
+                    'Ant Nests are used in combination with the $(l:antsportation:blocks/ant_hill)Ant Hill$() as an $(l:antsportation:mechanics/setup_item_transport)input and/or output point for your ants.$()',
                     'You can input and output on all sides by using something such as a hopper or a pipe from any other mod.',
                     '$(bold)Note that you cannot input/output items directly in $(l:antsportation:blocks/ant_hill)Ant Hills$().'
             )))
@@ -142,7 +142,8 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             displayName 'Marker'
             icon AntsportationItems.MARKER
             addPage(new SpotlightPage(AntsportationItems.MARKER.get(), multiline(
-                    '<item>Markers</> are used to create a path for the ants to follow.<br>See how this is done in $(l:antsportation:other/setup_item_transport)setup item transport.$()'
+                    '<item>Markers</> are used to create a path for the ants to follow.',
+                    'See how this is done in $(l:antsportation:mechanics/setup_item_transport)setup item transport.$()'
             )))
             addPage getCraftingRecipe(AntsportationBlocks.MARKER)
 
@@ -152,13 +153,29 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             )))
             addPage getCraftingRecipe(AntsportationItems.CHUNK_LOADING_MARKER)
         }
+        entry(BLOCKS_CATEGORY) {
+            displayName 'Ant Jar Block'
+            icon AntsportationBlocks.ANT_JAR
+            addPage(ImagePage.image {
+                title = 'Ant Jar Block'
+                text = '$(bold)$(#ff0000)The jar will only drop with Silk Touch!</>'
+                border = true
+                image('antsportation:patchouli/images/emptyantjar.png', 'antsportation:patchouli/images/antjar.png')
+            })
+            addPage(new TextPage('Ant Jar Block', multiline(
+                    'This block is for decoration and for storing Ant Queens.',
+                    'Place this block down by sneak right-clicking with an $(l:antsportation:items/ant_jar)ant jar.$()<br>',
+                    'If the ant jar is broken while there is an ant inside, the ant will pop out and the jar will break.'
+            )))
+        }
 
         entry(ITEMS_CATEGORY) {
             displayName 'Boxes'
             icon = BoxItem.BoxTier.BASIC.asItem()
             addPage(new TextPage('Boxes', multiline(
                     "<item>Boxes</> are used to package items for ant transportation. There are ${BoxItem.BoxTier.values().length} tiers of boxes.",
-                    'All of them can hold different amounts of items and types of items. You can put items in and get items out of boxes with the $(l:antsportation:machines/boxer)Boxer$() and $(l:antsportation:machines/unboxer)Unboxer$() machine respectively.'
+                    'All of them can hold different amounts of items and types of items. You can put items in and get items out of boxes with the $(l:antsportation:machines/boxer)Boxer$() and $(l:antsportation:machines/unboxer)Unboxer$() machine respectively.',
+                    'Boxes can only be upgraded into the next tier when empty.'
             )))
             addPage(new TextPage('Displaying contents', multiline(
                     'The contents of boxes can be displayed in multiple ways:',
