@@ -67,7 +67,7 @@ public class ChunkLoadingMarkerBlock extends MarkerBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        return new MarkerBE(pPos, pState).withDefaultColor(DyeColor.GREEN);
+        return new MarkerBE(pPos, pState).withDefaultColor(DyeColor.LIME);
     }
 
     @Override
