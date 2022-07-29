@@ -7,16 +7,19 @@ import com.matyrobbrt.antsportation.registration.AntsportationEntities;
 import com.matyrobbrt.antsportation.util.Translations;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -26,27 +29,28 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Stream;
 
 @SuppressWarnings("deprecation")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class AntJarBlock extends Block implements EntityBlock, JEIInfoProvider {
+
     public static final BooleanProperty ANTINSIDE = BooleanProperty.create("antinside");
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public AntJarBlock(Properties p_49795_) {
         super(p_49795_);
-        this.registerDefaultState(this.stateDefinition.any().setValue(ANTINSIDE, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ANTINSIDE, false).setValue(FACING, Direction.NORTH));
     }
 
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(ANTINSIDE, false);
+        return this.defaultBlockState().setValue(ANTINSIDE, false).setValue(FACING, pContext.getHorizontalDirection());
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(ANTINSIDE);
+        pBuilder.add(ANTINSIDE, FACING);
     }
 
     @Override
