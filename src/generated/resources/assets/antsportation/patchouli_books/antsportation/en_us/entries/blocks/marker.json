@@ -6,7 +6,7 @@
     {
       "type": "patchouli:spotlight",
       "item": "antsportation:marker",
-      "text": "<item>Markers</> are used to create a path for the ants to follow.<br>See how this is done in $(l:antsportation:mechanics/setup_item_transport)setup item transport.$()"
+      "text": "<item>Markers</> are used to create a path for the ants to follow.<br>See how this is done in $(l:antsportation:mechanics/setup_item_transport)setup item transport.$()<br>The default colour of normal Markers is <gold>orange</>."
     },
     {
       "type": "patchouli:crafting",
@@ -15,7 +15,7 @@
     {
       "type": "patchouli:spotlight",
       "item": "antsportation:chunk_loading_marker",
-      "text": "<item>Chunk Loading Markers</> are a type of <item>Markers</> which chunk loads the chunk it is placed it, allowing ants to properly go through that chunk when the player is not nearby.<br>Enabled: <gold>$(scfg/ants.chunkloadingMarkers)</>"
+      "text": "<item>Chunk Loading Markers</> are a type of <item>Markers</> which chunk loads the chunk it is placed it, allowing ants to properly go through that chunk when the player is not nearby.<br>The default colour of Chunk Loading Markers is <gold>green</>.<br>Enabled: <gold>$(scfg/ants.chunkloadingMarkers)</>"
     },
     {
       "type": "patchouli:crafting",

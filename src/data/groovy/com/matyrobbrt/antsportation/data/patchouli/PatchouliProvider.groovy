@@ -143,12 +143,14 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             icon AntsportationItems.MARKER
             addPage(new SpotlightPage(AntsportationItems.MARKER.get(), multiline(
                     '<item>Markers</> are used to create a path for the ants to follow.',
-                    'See how this is done in $(l:antsportation:mechanics/setup_item_transport)setup item transport.$()'
+                    'See how this is done in $(l:antsportation:mechanics/setup_item_transport)setup item transport.$()',
+                    'The default colour of normal Markers is <gold>orange</>.'
             )))
             addPage getCraftingRecipe(AntsportationBlocks.MARKER)
 
             addPage(new SpotlightPage(AntsportationItems.CHUNK_LOADING_MARKER.get(), multiline(
                     '<item>Chunk Loading Markers</> are a type of <item>Markers</> which chunk loads the chunk it is placed it, allowing ants to properly go through that chunk when the player is not nearby.',
+                    'The default colour of Chunk Loading Markers is <gold>green</>.',
                     'Enabled: <gold>$(scfg/ants.chunkloadingMarkers)</>'
             )))
             addPage getCraftingRecipe(AntsportationItems.CHUNK_LOADING_MARKER)

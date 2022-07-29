@@ -4,6 +4,7 @@
   "icon": "antsportation:ant_jar",
   "pages": [
     {
+      "type": "patchouli:image",
       "images": [
         "antsportation:patchouli/images/emptyantjar.png",
         "antsportation:patchouli/images/antjar.png"

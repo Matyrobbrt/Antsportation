@@ -26,6 +26,7 @@ class ImagePage implements IPatchouliPage {
 	@Override
 	JsonElement serialize() {
 		JsonObject object = new JsonObject()
+		object.addProperty('type', getType())
 		
 		object.add('images', GSON.toJsonTree(images))
 		if (title)

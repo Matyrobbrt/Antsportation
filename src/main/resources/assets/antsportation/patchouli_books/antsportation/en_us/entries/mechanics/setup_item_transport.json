@@ -3,9 +3,10 @@
   "category": "antsportation:mechanics",
   "icon": "antsportation:marker",
   "pages": [
-    {"type": "patchouli:text",
+    {
+      "type": "patchouli:text",
       "title": "Path Components",
-      "text":"Paths consist of 3 parts; an Input Nest, Markers and an Output Nest.<br>Input Nests, which have a queen, are nests where the Worker Ants will originate from.<br>Markers are points, placed in the world, which the Worker Ants will follow.<br>Output Nests, which have no queen, are nests which Worker Ants will deposit items into."
+      "text": "Paths consist of 3 parts; an Input Nest, Markers and an Output Nest.<br>Input Nests, which have a queen, are nests where the Worker Ants will originate from.<br>Markers are points, placed in the world, which the Worker Ants will follow.<br>Output Nests, which have no queen, are nests which Worker Ants will deposit items into."
     },
     {
       "type": "patchouli:image",
@@ -49,7 +50,7 @@
     {
       "type": "patchouli:image",
       "title": "Splitting",
-      "text":"Make sure that the 2 branching colours are opposite of each other. No diagonals!",
+      "text": "Make sure that the 2 branching colours are opposite of each other. No diagonals!",
       "border": false,
       "images": [
         "antsportation:patchouli/images/split.png"

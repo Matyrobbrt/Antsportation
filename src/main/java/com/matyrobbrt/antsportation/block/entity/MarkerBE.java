@@ -32,11 +32,18 @@ import java.util.function.Predicate;
 public class MarkerBE extends BlockEntity implements TOPInfoDriver {
 
     private static final int SUGARAMOUNT = 10;
+    private DyeColor defaultColor = DyeColor.WHITE;
     private DyeColor color = DyeColor.WHITE;
     private static final String COLOR_NBT_KEY = "dye_color";
     public BlockPos nextMarker;
     private int antCount = 0;
     public final List<UUID> ants = new ArrayList<>();
+
+    public MarkerBE withDefaultColor(DyeColor defaultColor) {
+        this.defaultColor = defaultColor;
+        this.color = defaultColor;
+        return this;
+    }
 
     public static final Predicate<BlockEntity> IS_O_HILL = (entity) -> entity instanceof AntHillBE antHillBE && !antHillBE.hasQueen;
 
@@ -44,6 +51,7 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
     public void load(CompoundTag nbt) {
         super.load(nbt);
         color = DyeColor.byName(nbt.getString(COLOR_NBT_KEY), DyeColor.WHITE);
+        defaultColor = DyeColor.byName(nbt.getString(COLOR_NBT_KEY + "_default"), DyeColor.WHITE);
         nextMarker = NbtUtils.readBlockPos(nbt.getCompound("nextMarker"));
         antCount = nbt.getInt("antCount");
 
@@ -57,6 +65,7 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
         pTag.putString(COLOR_NBT_KEY, color.getName());
+        pTag.putString(COLOR_NBT_KEY + "_default", defaultColor.getName());
         if (nextMarker != null) {
             pTag.put("nextMarker", NbtUtils.writeBlockPos(nextMarker));
         }
@@ -106,7 +115,7 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
     }
 
     public boolean isColored() {
-        return color != DyeColor.WHITE;
+        return color != defaultColor;
     }
 
     @Override
@@ -153,10 +162,10 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
         // No output hill? let's try a marker of the same colour
         if (nextMarker == null) {
             nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
-                            entity instanceof MarkerBE marker &&
-                                    marker.getColor() == getColor(), 10);
+                    entity instanceof MarkerBE marker &&
+                            marker.getColor() == getColor(), 10);
         }
-        // None of the above conditions match? then we go and try to find white markers
+        // None of the above conditions match? then we go and try to find default coloured markers
         if (nextMarker == null) {
             nextMarker = findNearestBlock(pEntity, level, this.getBlockPos(), (entity) ->
                             entity instanceof MarkerBE marker &&
@@ -228,6 +237,10 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
     public void addInfo(TOPContext context) {
         context.text(Translations.TOP_MARKER_COLOUR.translate(
                 Utils.textComponent(getColor().getName().replace('_', ' '))
+                        .withStyle(s -> s.withColor(getColor().getTextColor()))
+        ));
+        context.text(Translations.TOP_MARKER_DEFAULT_COLOUR.translate(
+                Utils.textComponent(defaultColor.getName().replace('_', ' '))
                         .withStyle(s -> s.withColor(getColor().getTextColor()))
         ));
     }

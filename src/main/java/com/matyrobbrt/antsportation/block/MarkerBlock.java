@@ -19,6 +19,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -260,7 +261,7 @@ public class MarkerBlock extends BaseEntityBlock implements JEIInfoProvider, Has
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        return new MarkerBE(pPos, pState);
+        return new MarkerBE(pPos, pState).withDefaultColor(DyeColor.ORANGE);
     }
 
     @Override
