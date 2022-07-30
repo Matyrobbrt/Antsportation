@@ -1,4 +1,4 @@
-- Add Chunk Loading markers
-- Fix the rendering of items inside boxes
-- Add loot tables for markers
-- Add advancements
+- Made Chunk Loading Marker Lime by default
+- Made ant queen in jar rotate
+- Fix crash with TOP installed
+- Patchouli book upgrades
