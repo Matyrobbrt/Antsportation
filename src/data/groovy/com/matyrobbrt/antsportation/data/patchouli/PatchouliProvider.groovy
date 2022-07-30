@@ -17,13 +17,11 @@ import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliCategory
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliEntry
 import com.matyrobbrt.lib.datagen.patchouli.type.PatchouliMacro
 import groovy.transform.CompileStatic
-import net.minecraft.client.Minecraft
 import net.minecraft.core.Registry
 import net.minecraft.data.DataGenerator
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.ItemLike
-import net.minecraftforge.registries.ForgeRegistries
 import org.jetbrains.annotations.Nullable
 
 import javax.annotation.ParametersAreNonnullByDefault
@@ -73,7 +71,7 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             displayName 'Speed Upgrade'
             icon AntsportationItems.SPEED_UPGRADE
             addPage(new SpotlightPage(AntsportationItems.SPEED_UPGRADE.get(), multiline(
-                    '<item>Speed Upgrades</> can be put in boxing machines (<item>Boxers</> or <item>Unboxers</>) in <br>order to make them faster at the cost of energy usage.',
+                    '<item>Speed Upgrades</> can be put in boxing machines (<item>Boxers</> or <item>Unboxers</>) in <br>order to make them faster at the cost of increased energy usage.',
                     '<br>Stats:',
                     '\u2022 <gold>Energy usage per upgrade</>: $(scfg/boxing.upgradeEnergyUsage) FE',
                     '\u2022 <gold>Process duration decrease per upgrade</>: $(scfg/boxing.upgradeReduction) ticks'
@@ -149,8 +147,8 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
             addPage getCraftingRecipe(AntsportationBlocks.MARKER)
 
             addPage(new SpotlightPage(AntsportationItems.CHUNK_LOADING_MARKER.get(), multiline(
-                    '<item>Chunk Loading Markers</> are a type of <item>Markers</> which chunk loads the chunk it is placed it, allowing ants to properly go through that chunk when the player is not nearby.',
-                    'The default colour of Chunk Loading Markers is <gold>green</>.',
+                    '<item>Chunk Loading Markers</> are a type of <item>Markers</> that load the chunk in which they are put, allowing ants to properly navigate that chunk while the player is not around.',
+                    'The default colour of Chunk Loading Markers is <gold>lime</>.',
                     'Enabled: <gold>$(scfg/ants.chunkloadingMarkers)</>'
             )))
             addPage getCraftingRecipe(AntsportationItems.CHUNK_LOADING_MARKER)
@@ -184,24 +182,13 @@ class PatchouliProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliPr
                     'One of the ways is using the tooltip. Pressing shift will display the advanced tooltip which, unlike the normal tooltip, shows the name of the items as well.',
                     'The other way is using the GUI which can be accessed by right-clicking the box in air.'
             )))
-            final var recipes = new ArrayList<List<ItemLike>>()
             for (int i = 0; i < BoxItem.BoxTier.values().size(); i++) {
                 final box = BoxItem.BoxTier.values()[i]
                 addPage(new SpotlightPage(box, multiline(
                         "${box.name().toLowerCase().capitalize()} boxes are the ${i + 1}${Utils.calculateNumeralType(i + 1)} tier of boxes.",
                         "They can store <blue>${box.space}</> items and <blue>${box.types}</> types."
                 )))
-                if (recipes.size() < 1 || recipes.get(recipes.size() - 1).size() >= 2) {
-                    recipes.add([(ItemLike) box])
-                } else {
-                    recipes.get(recipes.size() - 1).add(box)
-                }
-            }
-            recipes.each {
-                final var page = new CraftingRecipePage(Registry.ITEM.getKey(it.get(0).asItem()).toString())
-                if (it.size() > 1)
-                    page.addSecondRecipe(Registry.ITEM.getKey(it.get(1).asItem()).toString())
-                addPage(page)
+                addPage(getCraftingRecipe(() -> box))
             }
         }
     }

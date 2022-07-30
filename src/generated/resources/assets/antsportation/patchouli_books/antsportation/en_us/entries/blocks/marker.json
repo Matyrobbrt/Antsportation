@@ -15,7 +15,7 @@
     {
       "type": "patchouli:spotlight",
       "item": "antsportation:chunk_loading_marker",
-      "text": "<item>Chunk Loading Markers</> are a type of <item>Markers</> which chunk loads the chunk it is placed it, allowing ants to properly go through that chunk when the player is not nearby.<br>The default colour of Chunk Loading Markers is <gold>green</>.<br>Enabled: <gold>$(scfg/ants.chunkloadingMarkers)</>"
+      "text": "<item>Chunk Loading Markers</> are a type of <item>Markers</> that load the chunk in which they are put, allowing ants to properly navigate that chunk while the player is not around.<br>The default colour of Chunk Loading Markers is <gold>lime</>.<br>Enabled: <gold>$(scfg/ants.chunkloadingMarkers)</>"
     },
     {
       "type": "patchouli:crafting",

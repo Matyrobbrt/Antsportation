@@ -5,13 +5,26 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "title": "Two close streams",
-      "text": "If you want to have 2 different streams of ants close to each other e.g. (two-way traffic), you can have them in different colours (like red and blue).<br>This will keep them separated, however at the ends you'll have to space them further apart to fuse them with a white one again."
+      "title": "Invisible Markers",
+      "text": "Colored markers can be dyed to appear nearly invisible on certain block types.<br>Green dyed markers, for example, will almost perfectly blend in with grass blocks, moss or azalea."
+    },
+    {
+      "type": "patchouli:image",
+      "title": "Colour Comparison",
+      "border": true,
+      "images": [
+        "antsportation:patchouli/images/colour_comparison.png"
+      ]
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Intersecting Streams",
+      "text": "If you want two different ant paths to intersect, it is best to divide them into two different colors.<br>Remember that in order to merge the pathways' ends with the default color again, they must be more than 10 blocks apart."
     },
     {
       "type": "patchouli:text",
       "title": "Automation",
-      "text": "To fully automate an ant stream you need a couple of things.<br>First of all you need a self sufficient boxer and unboxer in terms of energy usage.<br>Second of all you will need 2 streams of ants. One for transporting your items, and another one for transporting the empty boxes from the unboxer back to the boxer on the other side. If you have both of these things, you'll be able to fully automate it!"
+      "text": "A few things are required to fully automate an ant stream.<br>To begin, you must have a self-sufficient boxer and unboxer in terms of energy consumption.<br>Second, you'll need two streams of ants. One for moving your items, and another for moving empty boxes from the unboxer to the boxer on the other side. You'll be able to fully automate it if you have both of these things!"
     }
   ]
 }
