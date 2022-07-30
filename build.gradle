@@ -124,7 +124,7 @@ dependencies {
         transitive = false
     }
 
-    implementation fg.deobf("mcjty.theoneprobe:theoneprobe:${top_version}") {
+    implementation fg.deobf("mcjty.theoneprobe:theoneprobe:${top_version_maven}") {
         transitive = false
     }
 
