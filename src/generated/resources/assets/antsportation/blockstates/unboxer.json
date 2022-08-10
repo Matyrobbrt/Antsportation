@@ -1,5 +1,9 @@
 {
   "variants": {
+    "facing=east": {
+      "model": "antsportation:block/unboxer",
+      "y": 90
+    },
     "facing=north": {
       "model": "antsportation:block/unboxer"
     },
@@ -10,10 +14,6 @@
     "facing=west": {
       "model": "antsportation:block/unboxer",
       "y": 270
-    },
-    "facing=east": {
-      "model": "antsportation:block/unboxer",
-      "y": 90
     }
   }
 }

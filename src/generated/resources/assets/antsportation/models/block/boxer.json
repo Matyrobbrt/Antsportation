@@ -1,9 +1,9 @@
 {
   "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
-    "side": "antsportation:block/boxer_side",
-    "front": "antsportation:block/boxer_front",
     "bottom": "minecraft:block/stone",
+    "front": "antsportation:block/boxer_front",
+    "side": "antsportation:block/boxer_side",
     "top": "antsportation:block/boxer_top"
   }
 }

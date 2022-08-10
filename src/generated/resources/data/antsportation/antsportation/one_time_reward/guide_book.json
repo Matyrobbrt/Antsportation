@@ -1,12 +1,12 @@
 {
-  "requiredMod": "patchouli",
   "items": [
     {
-      "id": "patchouli:guide_book",
       "Count": 1,
+      "id": "patchouli:guide_book",
       "tag": {
         "patchouli:book": "antsportation:antsportation"
       }
     }
-  ]
+  ],
+  "requiredMod": "patchouli"
 }

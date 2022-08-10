@@ -1,34 +1,34 @@
 {
   "parent": "antsportation:ants/grant_canyon",
-  "display": {
-    "icon": {
-      "item": "antsportation:soldier_ant_spawn_egg"
-    },
-    "title": {
-      "translate": "advancement.antsportation.small_infantry"
-    },
-    "description": {
-      "translate": "advancement.antsportation.small_infantry.desc"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
   "criteria": {
     "hit_ant": {
-      "trigger": "minecraft:player_hurt_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
+            "entity": "this",
             "predicate": {
               "type": "#antsportation:ants"
-            },
-            "entity": "this"
+            }
           }
         ]
-      }
+      },
+      "trigger": "minecraft:player_hurt_entity"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.antsportation.small_infantry.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "antsportation:soldier_ant_spawn_egg"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.antsportation.small_infantry"
     }
   },
   "requirements": [

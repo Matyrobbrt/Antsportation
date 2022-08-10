@@ -1,5 +1,5 @@
 {
-  "name": "Mechanics",
   "description": "Information about how to use the mod in a step-by-step way",
-  "icon": "antsportation:marker"
+  "icon": "antsportation:marker",
+  "name": "Mechanics"
 }

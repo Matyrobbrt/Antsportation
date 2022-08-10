@@ -1,5 +1,5 @@
 {
-  "name": "Blocks",
   "description": "Information about Antsportation blocks",
-  "icon": "antsportation:ant_nest"
+  "icon": "antsportation:ant_nest",
+  "name": "Blocks"
 }

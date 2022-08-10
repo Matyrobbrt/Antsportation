@@ -1,23 +1,23 @@
 {
   "type": "antsportation:empty_nbt_required",
-  "pattern": [
-    "OOO",
-    "DBD",
-    "OOO"
-  ],
+  "emptyNbtSlots": [],
   "key": {
-    "O": {
-      "tag": "forge:obsidian"
-    },
     "B": {
       "item": "antsportation:advanced_box"
     },
     "D": {
       "tag": "forge:gems/diamond"
+    },
+    "O": {
+      "tag": "forge:obsidian"
     }
   },
+  "pattern": [
+    "OOO",
+    "DBD",
+    "OOO"
+  ],
   "result": {
     "item": "antsportation:epic_box"
-  },
-  "emptyNbtSlots": []
+  }
 }

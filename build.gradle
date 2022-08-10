@@ -97,6 +97,7 @@ repositories {
     maven { url 'https://dl.cloudsmith.io/public/matyrobbrt/matylib/maven/' }
     maven { url 'https://maven.blamejared.com' }
     maven { url 'https://maven.k-4u.nl' }
+    maven { url 'https://maven.moddinginquisition.org/snapshots' }
 }
 
 //jarJar.enable()
@@ -105,6 +106,7 @@ dependencies {
     groovyDeps("org.apache.groovy:groovy-all:$groovy_version") {
         exclude module: 'groovy-cli-picocli'
         exclude module: 'groovy-groovysh'
+        exclude module: 'org.abego.treelayout.core'
     }
     groovyDeps("org.apache.groovy:groovy-contracts:$groovy_version")
 

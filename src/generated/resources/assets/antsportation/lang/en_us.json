@@ -45,7 +45,7 @@
   "jei.antsportation.marker": "Used to create a path for ants to follow.",
   "jei.antsportation.speed_upgrade": "A special item which speeds up boxing machines at the cost of energy usage.",
   "jei.antsportation.unboxer": "Machine used to unpack items from boxes.",
-  "message.antsportation.base": "[\u00A76Antsportation\u00A7r] %s",
+  "message.antsportation.base": "[§6Antsportation§r] %s",
   "message.antsportation.too_close_marker": "The marker placed at %s is too close to the marker at %s. Consider spreading the markers for optimal results.",
   "patchouli.antsportation.landing_text": "$(#800080)Welcome to Antsportation, <player>! <br2>This book will guide you through the mod and show you how to use ants to make cool item transportation systems!<br>Check out $(l:antsportation:mechanics/setup_item_transport)Setting up item transportation$()$(#800080) on how to get started!",
   "redstone.antsportation.disabled": "Disabled",

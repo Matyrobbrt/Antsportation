@@ -1,7 +1,7 @@
 {
-  "name": "Boxes",
   "category": "antsportation:items",
   "icon": "antsportation:basic_box",
+  "name": "Boxes",
   "pages": [
     {
       "type": "patchouli:text",

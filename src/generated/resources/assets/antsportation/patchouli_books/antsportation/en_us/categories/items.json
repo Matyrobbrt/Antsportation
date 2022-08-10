@@ -1,5 +1,5 @@
 {
-  "name": "Items",
   "description": "Information about Antsportation items",
-  "icon": "antsportation:ant_jar"
+  "icon": "antsportation:ant_jar",
+  "name": "Items"
 }

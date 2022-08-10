@@ -1,32 +1,32 @@
 {
   "be.packing": {
-    "subtitle": "subtitle.antsportation.packing",
     "sounds": [
       "antsportation:packing"
-    ]
-  },
-  "entity.ant_hurt": {
-    "subtitle": "subtitle.antsportation.ant_hurt",
-    "sounds": [
-      "antsportation:ant_hurt"
-    ]
-  },
-  "entity.ant_death": {
-    "subtitle": "subtitle.antsportation.ant_death",
-    "sounds": [
-      "antsportation:ant_death"
-    ]
-  },
-  "entity.ant_walk": {
-    "subtitle": "subtitle.antsportation.ant_walk",
-    "sounds": [
-      "antsportation:ant_walk"
-    ]
+    ],
+    "subtitle": "subtitle.antsportation.packing"
   },
   "entity.ant_attack": {
-    "subtitle": "subtitle.antsportation.ant_attack",
     "sounds": [
       "antsportation:ant_attack"
-    ]
+    ],
+    "subtitle": "subtitle.antsportation.ant_attack"
+  },
+  "entity.ant_death": {
+    "sounds": [
+      "antsportation:ant_death"
+    ],
+    "subtitle": "subtitle.antsportation.ant_death"
+  },
+  "entity.ant_hurt": {
+    "sounds": [
+      "antsportation:ant_hurt"
+    ],
+    "subtitle": "subtitle.antsportation.ant_hurt"
+  },
+  "entity.ant_walk": {
+    "sounds": [
+      "antsportation:ant_walk"
+    ],
+    "subtitle": "subtitle.antsportation.ant_walk"
   }
 }

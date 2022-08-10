@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "forge:chests"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
+    }
+  },
   "pattern": [
     "III",
     "ICI",
     "SHS"
   ],
-  "key": {
-    "I": {
-      "tag": "forge:ingots/iron"
-    },
-    "C": {
-      "tag": "forge:chests"
-    },
-    "S": {
-      "item": "minecraft:smooth_stone"
-    },
-    "H": {
-      "item": "minecraft:hopper"
-    }
-  },
   "result": {
     "item": "antsportation:unboxer"
   }

@@ -1,0 +1,11 @@
+// 1.19.2	2022-08-10T18:18:44.7956244	LootTables
+7b07c9ae3b2991cb6c0133bbb939c0c5fc42ba76 data/antsportation/loot_tables/advancement/ants/grant_canyon.json
+b6a99f263f831863e746e942a9fabbf1484b2073 data/antsportation/loot_tables/advancement/ants/root.json
+269038a4dfc06c43059096eb03cf78f7ca187d6c data/antsportation/loot_tables/advancement/ants/wrapping_it_up.json
+26de57ba206d8157a6b6581d9921e0b0329ce746 data/antsportation/loot_tables/blocks/ant_hill.json
+df4bc779f80931e22d9f6b4ccb7df3a9f96b8d64 data/antsportation/loot_tables/blocks/ant_jar.json
+0533338744708b534bf5ea79bea392fbfac2b8a2 data/antsportation/loot_tables/blocks/ant_nest.json
+77c9cd838503160bd49fc9bed20d6179b213e0cb data/antsportation/loot_tables/blocks/boxer.json
+8e8f9f6cb57f19bc43b1b5378d58874ec08c830c data/antsportation/loot_tables/blocks/chunk_loading_marker.json
+31c8e10b4d76768ae0726de184837e82b4ea586b data/antsportation/loot_tables/blocks/marker.json
+5d2118de52d90ba9214ceb1275f883f3d834e966 data/antsportation/loot_tables/blocks/unboxer.json

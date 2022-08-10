@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": {
+      "tag": "forge:glass"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
   "pattern": [
     "WWW",
     "G G",
     "GGG"
   ],
-  "key": {
-    "W": {
-      "tag": "minecraft:planks"
-    },
-    "G": {
-      "tag": "forge:glass"
-    }
-  },
   "result": {
     "item": "antsportation:ant_jar"
   }

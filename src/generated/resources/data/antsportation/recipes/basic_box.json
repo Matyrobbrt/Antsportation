@@ -1,14 +1,7 @@
 {
   "type": "antsportation:empty_nbt_required",
-  "pattern": [
-    "WPW",
-    "CIC",
-    "WPW"
-  ],
+  "emptyNbtSlots": [],
   "key": {
-    "W": {
-      "tag": "minecraft:planks"
-    },
     "C": {
       "tag": "forge:chests"
     },
@@ -17,10 +10,17 @@
     },
     "P": {
       "item": "minecraft:paper"
+    },
+    "W": {
+      "tag": "minecraft:planks"
     }
   },
+  "pattern": [
+    "WPW",
+    "CIC",
+    "WPW"
+  ],
   "result": {
     "item": "antsportation:basic_box"
-  },
-  "emptyNbtSlots": []
+  }
 }

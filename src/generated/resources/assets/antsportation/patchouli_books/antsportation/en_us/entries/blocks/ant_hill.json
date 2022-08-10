@@ -1,7 +1,7 @@
 {
-  "name": "Ant Hill",
   "category": "antsportation:blocks",
   "icon": "antsportation:ant_hill",
+  "name": "Ant Hill",
   "pages": [
     {
       "type": "patchouli:spotlight",

@@ -1,25 +1,25 @@
 {
   "type": "antsportation:empty_nbt_required",
-  "pattern": [
-    "III",
-    "BbB",
-    "III"
+  "emptyNbtSlots": [
+    4
   ],
   "key": {
-    "I": {
-      "tag": "forge:ingots/iron"
-    },
     "B": {
       "tag": "forge:storage_blocks/iron"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
     },
     "b": {
       "item": "antsportation:basic_box"
     }
   },
+  "pattern": [
+    "III",
+    "BbB",
+    "III"
+  ],
   "result": {
     "item": "antsportation:advanced_box"
-  },
-  "emptyNbtSlots": [
-    4
-  ]
+  }
 }

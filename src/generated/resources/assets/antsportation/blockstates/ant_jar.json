@@ -1,27 +1,27 @@
 {
   "variants": {
-    "antinside=false,facing=north": {
+    "antinside=false,facing=east": {
       "model": "antsportation:block/ant_jar"
     },
-    "antinside=true,facing=north": {
+    "antinside=false,facing=north": {
       "model": "antsportation:block/ant_jar"
     },
     "antinside=false,facing=south": {
       "model": "antsportation:block/ant_jar"
     },
-    "antinside=true,facing=south": {
-      "model": "antsportation:block/ant_jar"
-    },
     "antinside=false,facing=west": {
       "model": "antsportation:block/ant_jar"
     },
-    "antinside=true,facing=west": {
-      "model": "antsportation:block/ant_jar"
-    },
-    "antinside=false,facing=east": {
-      "model": "antsportation:block/ant_jar"
-    },
     "antinside=true,facing=east": {
+      "model": "antsportation:block/ant_jar"
+    },
+    "antinside=true,facing=north": {
+      "model": "antsportation:block/ant_jar"
+    },
+    "antinside=true,facing=south": {
+      "model": "antsportation:block/ant_jar"
+    },
+    "antinside=true,facing=west": {
       "model": "antsportation:block/ant_jar"
     }
   }

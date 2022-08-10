@@ -1,29 +1,6 @@
 {
-  "display": {
-    "icon": {
-      "item": "antsportation:ant_jar",
-      "nbt": "{BlockStateTag:{antinside:\"true\"}}"
-    },
-    "title": {
-      "translate": "advancement.antsportation.mod_for_ants"
-    },
-    "description": {
-      "translate": "advancement.antsportation.mod_for_ants.desc"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false,
-    "background": "minecraft:textures/block/dirt.png"
-  },
-  "rewards": {
-    "loot": [
-      "antsportation:advancement/ants/root"
-    ]
-  },
   "criteria": {
     "has_jar": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -33,12 +10,35 @@
             "nbt": "{BlockStateTag:{antinside:\"true\"}}"
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/block/dirt.png",
+    "description": {
+      "translate": "advancement.antsportation.mod_for_ants.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "antsportation:ant_jar",
+      "nbt": "{BlockStateTag:{antinside:\"true\"}}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.antsportation.mod_for_ants"
     }
   },
   "requirements": [
     [
       "has_jar"
     ]
-  ]
+  ],
+  "rewards": {
+    "loot": [
+      "antsportation:advancement/ants/root"
+    ]
+  }
 }

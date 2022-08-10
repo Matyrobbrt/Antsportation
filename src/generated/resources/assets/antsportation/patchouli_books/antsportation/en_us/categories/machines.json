@@ -1,5 +1,5 @@
 {
-  "name": "Machines",
   "description": "Information about Antsportation machines",
-  "icon": "antsportation:boxer"
+  "icon": "antsportation:boxer",
+  "name": "Machines"
 }

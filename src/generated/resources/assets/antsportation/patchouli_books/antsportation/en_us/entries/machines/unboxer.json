@@ -1,7 +1,7 @@
 {
-  "name": "Unboxer",
   "category": "antsportation:machines",
   "icon": "antsportation:unboxer",
+  "name": "Unboxer",
   "pages": [
     {
       "type": "patchouli:spotlight",

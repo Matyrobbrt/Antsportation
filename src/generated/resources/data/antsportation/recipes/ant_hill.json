@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "minecraft:grass_block"
+    },
+    "M": {
+      "item": "antsportation:marker"
+    },
+    "R": {
+      "item": "minecraft:rooted_dirt"
+    }
+  },
   "pattern": [
     " D ",
     "RMR",
     "RRR"
   ],
-  "key": {
-    "R": {
-      "item": "minecraft:rooted_dirt"
-    },
-    "M": {
-      "item": "antsportation:marker"
-    },
-    "D": {
-      "item": "minecraft:grass_block"
-    }
-  },
   "result": {
     "item": "antsportation:ant_hill"
   }

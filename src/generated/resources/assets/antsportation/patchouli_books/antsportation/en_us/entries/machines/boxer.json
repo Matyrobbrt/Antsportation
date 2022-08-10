@@ -1,7 +1,7 @@
 {
-  "name": "Boxer",
   "category": "antsportation:machines",
   "icon": "antsportation:boxer",
+  "name": "Boxer",
   "pages": [
     {
       "type": "patchouli:spotlight",

@@ -20,5 +20,6 @@ public class AntsportationConfiguredFeatures {
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES =
             DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, Antsportation.MOD_ID);
 
-    public static final RegistryObject<ConfiguredFeature<?, ?>> ANT_NEST = CONFIGURED_FEATURES.register("ant_nest", () -> new ConfiguredFeature<>(Feature.BLOCK_COLUMN, new BlockColumnConfiguration(List.of(BlockColumnConfiguration.layer(ConstantInt.of(1), BlockStateProvider.simple(AntsportationBlocks.ANT_HILL.get())),BlockColumnConfiguration.layer(ConstantInt.of(1), BlockStateProvider.simple(AntsportationBlocks.ANT_NEST.get()))), Direction.DOWN, BlockPredicate.anyOf(BlockPredicate.matchesBlocks(List.of(Blocks.AIR)), BlockPredicate.matchesTag(BlockTags.DIRT)), false)));
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ANT_NEST = CONFIGURED_FEATURES.register("ant_nest", () -> new ConfiguredFeature<>(Feature.BLOCK_COLUMN, new BlockColumnConfiguration(List.of(BlockColumnConfiguration.layer(ConstantInt.of(1), BlockStateProvider.simple(AntsportationBlocks.ANT_HILL.get())),
+            BlockColumnConfiguration.layer(ConstantInt.of(1), BlockStateProvider.simple(AntsportationBlocks.ANT_NEST.get()))), Direction.DOWN, BlockPredicate.anyOf(BlockPredicate.matchesBlocks(List.of(Blocks.AIR)), BlockPredicate.matchesTag(BlockTags.DIRT)), false)));
 }

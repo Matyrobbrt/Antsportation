@@ -1,17 +1,17 @@
 {
-  "name": "Ant Jar Block",
   "category": "antsportation:blocks",
   "icon": "antsportation:ant_jar",
+  "name": "Ant Jar Block",
   "pages": [
     {
       "type": "patchouli:image",
+      "border": true,
       "images": [
         "antsportation:patchouli/images/emptyantjar.png",
         "antsportation:patchouli/images/antjar.png"
       ],
-      "title": "Ant Jar Block",
       "text": "$(bold)$(#ff0000)The jar will only drop with Silk Touch!</>",
-      "border": true
+      "title": "Ant Jar Block"
     },
     {
       "type": "patchouli:text",

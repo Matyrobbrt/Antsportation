@@ -1,7 +1,7 @@
 {
-  "name": "Marker",
   "category": "antsportation:blocks",
   "icon": "antsportation:marker",
+  "name": "Marker",
   "pages": [
     {
       "type": "patchouli:spotlight",

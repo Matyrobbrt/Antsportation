@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "H": {
+      "item": "minecraft:honey_bottle"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    }
+  },
   "pattern": [
     "SSS",
     "SHS",
     "SSS"
   ],
-  "key": {
-    "S": {
-      "item": "minecraft:sugar"
-    },
-    "H": {
-      "item": "minecraft:honey_bottle"
-    }
-  },
   "result": {
-    "item": "antsportation:marker",
-    "count": 4
+    "count": 4,
+    "item": "antsportation:marker"
   }
 }

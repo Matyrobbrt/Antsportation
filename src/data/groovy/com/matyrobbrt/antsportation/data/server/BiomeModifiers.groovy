@@ -24,7 +24,7 @@ class BiomeModifiers  {
         final forest = new HolderSet.Named<Biome>(ops.registry(Registry.BIOME_REGISTRY).orElseThrow(), BiomeTags.IS_FOREST)
         consumer.accept('ant_nests', new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 forest,
-                HolderSet.direct(AntsportationPlacedFeatures.ANT_NEST_PLACED.getHolder().orElseThrow()),
+                HolderSet.direct(ops.registry(Registry.PLACED_FEATURE_REGISTRY).orElseThrow().getHolder(AntsportationPlacedFeatures.ANT_NEST_PLACED.getKey()).orElseThrow()),
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION
         ))
         consumer.accept('ant_queens', new ForgeBiomeModifiers.AddSpawnsBiomeModifier(

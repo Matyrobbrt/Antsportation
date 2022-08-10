@@ -1,7 +1,7 @@
 {
-  "name": "Ant Nest",
   "category": "antsportation:blocks",
   "icon": "antsportation:ant_nest",
+  "name": "Ant Nest",
   "pages": [
     {
       "type": "patchouli:spotlight",
