@@ -11,7 +11,7 @@ enum AdvancementLang {
     GRANT_CANYON('grant_canyon', 'grANT Canyon'),
     GRANT_CANYON_DESC('grant_canyon.desc', 'Get an Ant Hill.'),
 
-    SMALL_INFANTRY('small_infantry', 'Small Infantry'),
+    SMALL_INFANTRY('small_infantry', 'Small InfANTry'),
     SMALL_INFANTRY_DESC('small_infantry.desc', 'How can you dare hit an ant.'),
 
     WRAPPING_UP('wrapping_up', 'Wrapping it up'),
