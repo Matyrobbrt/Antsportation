@@ -72,7 +72,7 @@ public class UnboxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoP
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             if (pLevel.getBlockEntity(pPos) instanceof UnboxerBE boxer && pPlayer instanceof ServerPlayer serverPlayer) {
-                NetworkHooks.openGui(serverPlayer, boxer, pPos);
+                NetworkHooks.openScreen(serverPlayer, boxer, pPos);
             }
         }
         return InteractionResult.SUCCESS;

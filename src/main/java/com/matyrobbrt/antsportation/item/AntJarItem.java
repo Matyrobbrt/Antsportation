@@ -129,7 +129,7 @@ public class AntJarItem extends BaseBlockItem {
 
     @Override
     public void fillItemCategory(CreativeModeTab pGroup, NonNullList<ItemStack> pItems) {
-        if (this.allowdedIn(pGroup)) {
+        if (this.allowedIn(pGroup)) {
             this.getBlock().fillItemCategory(pGroup, pItems);
             final var withAnt = getDefaultInstance();
             withAnt.getOrCreateTagElement("BlockStateTag").putString("antinside", String.valueOf(true));

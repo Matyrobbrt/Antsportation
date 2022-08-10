@@ -1,8 +1,8 @@
 package com.matyrobbrt.antsportation.util;
 
 import com.matyrobbrt.antsportation.Antsportation;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public enum Translations {
     EMPTY("tooltip", "empty", "Empty"),
@@ -74,6 +74,6 @@ public enum Translations {
     }
 
     public MutableComponent translate(Object... args) {
-        return new TranslatableComponent(key, args);
+        return Component.translatable(key, args);
     }
 }

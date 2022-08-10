@@ -24,13 +24,13 @@ import java.util.ArrayList;
 public class OneTimeRewardListener {
     @SubscribeEvent
     static void onJoin(final PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getPlayer().level.isClientSide())
+        if (event.getEntity().level.isClientSide())
             return;
-        final var pPlayer = event.getPlayer();
-        event.getPlayer().getCapability(OneTimeRewardCap.CAPABILITY).ifPresent(cap -> {
-            final var rewards = event.getPlayer().level.registryAccess().registryOrThrow(OneTimeReward.RESOURCE_KEY);
+        final var pPlayer = event.getEntity();
+        event.getEntity().getCapability(OneTimeRewardCap.CAPABILITY).ifPresent(cap -> {
+            final var rewards = event.getEntity().level.registryAccess().registryOrThrow(OneTimeReward.RESOURCE_KEY);
             rewards.entrySet().forEach(entry -> {
-                if (!cap.getAwardedItems().contains(entry.getKey().location()) && (entry.getValue().requiredMod.isBlank() || ModList.get().isLoaded(entry.getValue().requiredMod))) {
+                if (!cap.getAwardedItems().contains(entry.getKey().location()) && (entry.getValue().requiredMod().isBlank() || ModList.get().isLoaded(entry.getValue().requiredMod()))) {
                     boolean flag = false;
                     for (ItemStack itemstack : entry.getValue().stacks()) {
                         if (pPlayer.addItem(itemstack)) {

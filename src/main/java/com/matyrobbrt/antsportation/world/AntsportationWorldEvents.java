@@ -5,6 +5,7 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+// TODO biome modifier
 @Mod.EventBusSubscriber(modid = Antsportation.MOD_ID)
 public class AntsportationWorldEvents {
     @SubscribeEvent

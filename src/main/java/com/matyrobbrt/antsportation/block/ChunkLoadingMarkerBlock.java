@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +24,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
-import java.util.Random;
 
 @ParametersAreNonnullByDefault
 public class ChunkLoadingMarkerBlock extends MarkerBlock {
@@ -51,7 +51,7 @@ public class ChunkLoadingMarkerBlock extends MarkerBlock {
     }
 
     @Override
-    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRandom) {
+    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
         for (int i = 0; i < pRandom.nextInt(1) + 1; ++i) {
             pLevel.addParticle(ParticleTypes.END_ROD, pPos.getX() + 0.5, pPos.getY(), pPos.getZ()  + 0.5,
                     0, 0, 0);

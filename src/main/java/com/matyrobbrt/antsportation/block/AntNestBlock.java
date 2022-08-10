@@ -33,10 +33,12 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Random;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
 public class AntNestBlock extends BaseEntityBlock implements JEIInfoProvider, HasRecipe {
+    private static final Random RANDOM = new Random();
     public static final BooleanProperty PLACEDBYPLAYER = BooleanProperty.create("placedbyplayer");
     public AntNestBlock(Properties p_49224_) {
         super(p_49224_);

@@ -5,6 +5,7 @@
 		"2": "minecraft:block/spruce_planks",
 		"particle": "minecraft:block/glass"
 	},
+	"render_type": "translucent",
 	"elements": [
 		{
 			"name": "west_face",

@@ -74,7 +74,7 @@ public class BoxerBlock extends BaseEntityBlock implements HasRecipe, JEIInfoPro
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             if (pLevel.getBlockEntity(pPos) instanceof BoxerBE boxer && pPlayer instanceof ServerPlayer serverPlayer) {
-                NetworkHooks.openGui(serverPlayer, boxer, pPos);
+                NetworkHooks.openScreen(serverPlayer, boxer, pPos);
             }
         }
         return InteractionResult.SUCCESS;

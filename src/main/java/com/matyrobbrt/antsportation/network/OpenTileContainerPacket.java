@@ -27,12 +27,12 @@ public record OpenTileContainerPacket(BlockPos pos, @Nullable Byte index) implem
             return;
         if (index == null) {
             if (context.getSender().getLevel().getBlockEntity(pos) instanceof MenuProvider menuProvider)
-                NetworkHooks.openGui(context.getSender(), menuProvider, pos);
+                NetworkHooks.openScreen(context.getSender(), menuProvider, pos);
         } else {
             if (context.getSender().getLevel().getBlockEntity(pos) instanceof HasMultipleMenus multiple) {
                 final var menu = multiple.getMenu(index);
                 if (menu != null)
-                    NetworkHooks.openGui(context.getSender(), menu, pos);
+                    NetworkHooks.openScreen(context.getSender(), menu, pos);
             }
         }
     }

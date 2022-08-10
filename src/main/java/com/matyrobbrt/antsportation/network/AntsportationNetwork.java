@@ -26,11 +26,7 @@ public class AntsportationNetwork {
                 CHANNEL.messageBuilder(clazz, id++, direction)
                         .encoder(Packet::encode)
                         .decoder(decoder)
-                        .consumer((t, contextSupplier) -> {
-                            final var ctx = contextSupplier.get();
-                            ctx.enqueueWork(() -> t.handle(ctx));
-                            return true;
-                        })
+                        .consumerMainThread((t, contextSupplier) -> t.handle(contextSupplier.get()))
                         .add();
             }
         }

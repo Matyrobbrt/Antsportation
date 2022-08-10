@@ -48,7 +48,7 @@ configurations {
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'parchment', version: '2022.07.10-1.18.2'
+    mappings channel: 'parchment', version: '1.18.2-2022.07.10-1.19.2'
 
     accessTransformers.from file('src/data/resources/accesstransformer.cfg')
     accessTransformers.from file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -99,7 +99,7 @@ repositories {
     maven { url 'https://maven.k-4u.nl' }
 }
 
-jarJar.enable()
+//jarJar.enable()
 
 dependencies {
     groovyDeps("org.apache.groovy:groovy-all:$groovy_version") {
@@ -110,8 +110,12 @@ dependencies {
 
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 
-    compileOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}")
+    // compile against the JEI API but do not include it at runtime
+    final jeiMc = '1.19.1'
+    compileOnly(fg.deobf("mezz.jei:jei-${jeiMc}-common-api:${jei_version}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${jeiMc}-forge-api:${jei_version}"))
+    // at runtime, use the full JEI jar for Forge
+    runtimeOnly(fg.deobf("mezz.jei:jei-${jeiMc}-forge:${jei_version}"))
 
     runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")
 
@@ -120,7 +124,7 @@ dependencies {
     }
 
     jarJar("vazkii.patchouli:Patchouli:[${patchouli_version},1.19)") {
-        jarJar.pin(it, patchouli_version)
+        // jarJar.pin(it, patchouli_version)
         transitive = false
     }
 
@@ -129,29 +133,27 @@ dependencies {
     }
 
     // ONLY used for patchouli datagen
-    dataImplementation fg.deobf('com.matyrobbrt:matylib-1.18.2:2.1.1')
+    dataImplementation fg.deobf('com.matyrobbrt:matylib-1.19.2:3.0.0')
     dataImplementation sourceSets.main.output
 }
 
-tasks.register('optimiseAssets', OptimisePNGTask) {
+tasks.register('optimiseAssets', OptimisePNGTask).configure {
     file(fileTree(dir: sourceSets.main.resources.srcDirs[0], includes: ['**/*.png']))
     option 'i', 0
     option 'strip', 'safe'
     backupOldFiles()
 }
 
-static void configureJarTask(Jar jar) {
-    jar.configure {
-        jar.manifest.attributes([
-                "Specification-Title"     : "Antsportation",
-                "Specification-Vendor"    : "Matyrobbrt, Learwin, Itskillerluc",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.version,
-                "Implementation-Vendor"   : 'Matyrobbrt, Learwin, Itskillerluc',
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
+void configureJarTask(Jar jar) {
+    jar.manifest.attributes([
+            "Specification-Title"     : "Antsportation",
+            "Specification-Vendor"    : "Matyrobbrt, Learwin, Itskillerluc",
+            "Specification-Version"   : "1", // We are version 1 of ourselves
+            "Implementation-Title"    : project.name,
+            "Implementation-Version"  : project.version,
+            "Implementation-Vendor"   : 'Matyrobbrt, Learwin, Itskillerluc',
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+    ])
 }
 
 final var props = [
@@ -177,14 +179,14 @@ jar {
 }
 
 reobf {
-    jarJar {}
+//    jarJar {}
 }
 
-tasks.named('jarJar', net.minecraftforge.gradle.userdev.tasks.JarJar).configure {
-    configureJarTask(it)
-    it.classifier 'fat'
-    it.finalizedBy('reobfJarJar')
-}
+//tasks.named('jarJar', net.minecraftforge.gradle.userdev.tasks.JarJar).configure {
+//    configureJarTask(it)
+//    it.classifier 'fat'
+//    it.finalizedBy('reobfJarJar')
+//}
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
     it.apiToken = findProperty('curseforgeKey')

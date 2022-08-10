@@ -27,7 +27,6 @@ import com.matyrobbrt.antsportation.util.config.ClientConfig;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -36,9 +35,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -51,14 +50,17 @@ public class AntsportationClient {
 
     @SubscribeEvent
     static void clientSetup(final FMLClientSetupEvent event) {
-        MinecraftForgeClient.registerTooltipComponentFactory(BoxItem.Tooltip.class, BoxTooltipClient::new);
-
         registerMenus();
         addCustomItemProperties();
         setRenderLayer();
         registerBlockEntityRenderer();
 
         MinecraftForge.EVENT_BUS.addListener(AntsportationClient::onTooltip);
+    }
+
+    @SubscribeEvent
+    static void registerTooltipComponentFactory(final RegisterClientTooltipComponentFactoriesEvent event) {
+        event.register(BoxItem.Tooltip.class, BoxTooltipClient::new);
     }
 
     private static void registerBlockEntityRenderer() {
@@ -77,9 +79,8 @@ public class AntsportationClient {
     }
 
     @SubscribeEvent
-    static void registerBlockColours(ColorHandlerEvent.Block event) {
-        var blockColors = event.getBlockColors();
-        blockColors.register((blockState, level, blockPos, index) -> {
+    static void registerBlockColours(RegisterColorHandlersEvent.Block event) {
+        event.register((blockState, level, blockPos, index) -> {
             if (level == null || blockPos == null) return -1;
             final var blockEntity = level.getBlockEntity(blockPos);
             if (blockEntity instanceof MarkerBE marker) {
@@ -90,9 +91,9 @@ public class AntsportationClient {
     }
 
     @SubscribeEvent
-    static void registerItemColours(final ColorHandlerEvent.Item event) {
+    static void registerItemColours(final RegisterColorHandlersEvent.Item event) {
         for (final var tier : BoxItem.BoxTier.values()) {
-            event.getItemColors().register((pStack, pTintIndex) -> pTintIndex == 1 ? tier.colour : -1, tier);
+            event.register((pStack, pTintIndex) -> pTintIndex == 1 ? tier.colour : -1, tier);
         }
     }
 
@@ -129,9 +130,9 @@ public class AntsportationClient {
     }
 
     private static void setRenderLayer() {
+        // TODO render layer in json
         ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.MARKER.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.CHUNK_LOADING_MARKER.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(AntsportationBlocks.ANT_JAR.get(), RenderType.translucent());
     }
 
 }

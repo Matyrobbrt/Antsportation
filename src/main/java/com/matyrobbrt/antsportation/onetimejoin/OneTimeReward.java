@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class OneTimeReward extends ForgeRegistryEntry<OneTimeReward> {
+public record OneTimeReward(String requiredMod, List<ItemStack> stacks) {
     public static final Codec<OneTimeReward> CODEC = new Codec<>() {
         final Codec<List<ItemStack>> item = ItemStack.CODEC.listOf();
         @Override
@@ -49,21 +48,14 @@ public class OneTimeReward extends ForgeRegistryEntry<OneTimeReward> {
     public static final ResourceKey<Registry<OneTimeReward>> RESOURCE_KEY = ResourceKey.createRegistryKey(Antsportation
             .rl("one_time_reward"));
     public static final DeferredRegister<OneTimeReward> ONE_TIME_REWARDS = DeferredRegister.create(RESOURCE_KEY, Antsportation.MOD_ID);
-    public static final Supplier<IForgeRegistry<OneTimeReward>> REGISTRY = ONE_TIME_REWARDS.makeRegistry(OneTimeReward.class, () -> new RegistryBuilder<OneTimeReward>()
+    public static final Supplier<IForgeRegistry<OneTimeReward>> REGISTRY = ONE_TIME_REWARDS.makeRegistry(() -> new RegistryBuilder<OneTimeReward>()
             .dataPackRegistry(CODEC));
-
-    final String requiredMod;
-    private final List<ItemStack> stacks;
-
-    public OneTimeReward(String requiredMod, List<ItemStack> stacks) {
-        this.requiredMod = requiredMod;
-        this.stacks = stacks;
-    }
 
     public OneTimeReward(String requiredMod, ItemStack... stacks) {
         this(requiredMod, List.of(stacks));
     }
 
+    @Override
     public List<ItemStack> stacks() {
         return stacks.stream().map(ItemStack::copy).collect(Collectors.toCollection(ArrayList::new));
     }

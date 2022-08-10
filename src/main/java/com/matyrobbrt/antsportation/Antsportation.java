@@ -22,7 +22,6 @@ import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.config.ClientConfig;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -34,7 +33,7 @@ import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.world.ForgeChunkManager;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -116,11 +115,11 @@ public class Antsportation {
     }
 
     public static void informPlayer(Player player, Component message) {
-        player.sendMessage(Translations.MESSAGE_BASE.translate(message), Util.NIL_UUID);
+        player.sendSystemMessage(Translations.MESSAGE_BASE.translate(message));
     }
 
     public static void whenTilled(BlockEvent.BlockToolModificationEvent event) {
-        if (event.isSimulated() || event.getContext() == null) {
+        if (event.isSimulated()) {
             return;
         }
         Random random = new Random();

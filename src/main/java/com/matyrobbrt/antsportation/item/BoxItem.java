@@ -15,7 +15,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
@@ -140,7 +139,7 @@ public class BoxItem extends BaseItem implements JEIInfoProvider {
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         if (!pLevel.isClientSide()) {
-            NetworkHooks.openGui((ServerPlayer) pPlayer, new MenuProvider() {
+            NetworkHooks.openScreen((ServerPlayer) pPlayer, new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
                     return pPlayer.getItemInHand(pUsedHand).getHoverName().copy().withStyle(s -> s.withColor(tier.colour));
@@ -242,7 +241,7 @@ public class BoxItem extends BaseItem implements JEIInfoProvider {
         }
 
         public MutableComponent translate() {
-            return new TranslatableComponent(getTranslationKey());
+            return Component.translatable(getTranslationKey());
         }
 
         @Override

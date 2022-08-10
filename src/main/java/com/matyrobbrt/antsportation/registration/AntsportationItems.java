@@ -37,8 +37,9 @@ public class AntsportationItems {
     public static final RegistryObject<AntJarItem> ANT_JAR = ITEMS.register("ant_jar",
             () -> new AntJarItem(AntsportationBlocks.ANT_JAR.get(),
                     new Item.Properties().stacksTo(1)) {
+
                 @Override
-                public ItemStack getContainerItem(ItemStack itemStack) {
+                public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
                     return ANT_JAR.get().getDefaultInstance();
                 }
             });

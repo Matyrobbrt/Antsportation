@@ -14,7 +14,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.antlr.v4.runtime.misc.IntegerList;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,7 +74,7 @@ public class EmptyNBTRequiredRecipe extends ShapedRecipe {
 
     @ParametersAreNonnullByDefault
     @MethodsReturnNonnullByDefault
-    public static final class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<EmptyNBTRequiredRecipe> {
+    public static final class Serializer implements RecipeSerializer<EmptyNBTRequiredRecipe> {
 
         @Override
         public EmptyNBTRequiredRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {

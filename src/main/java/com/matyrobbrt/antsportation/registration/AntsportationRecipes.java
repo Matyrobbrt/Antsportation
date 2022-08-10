@@ -19,12 +19,6 @@ public class AntsportationRecipes {
 
     @SuppressWarnings("SameParameterValue")
     private static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerType(String name) {
-        return TYPES.register(name, () -> new RecipeType<>() {
-            final String regName = Antsportation.rl(name).toString();
-            @Override
-            public String toString() {
-                return regName;
-            }
-        });
+        return TYPES.register(name, () -> RecipeType.simple(Antsportation.rl(name)));
     }
 }
