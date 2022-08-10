@@ -14,7 +14,7 @@ import com.matyrobbrt.antsportation.util.Utils;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.chat.NarratorChatListener;
+import net.minecraft.client.GameNarrator;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
@@ -87,7 +87,7 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
                     leftPos + imageWidth - 7 - 36, topPos + 83 - 15, 36, 15,
                     CommonComponents.GUI_BACK, e -> back()
             ));
-            final var releaseWhenBox = new EditBox(minecraft.font, leftPos + 97 + 9, topPos + 11 + 5, 50, 20, NarratorChatListener.NO_TITLE);
+            final var releaseWhenBox = new EditBox(minecraft.font, leftPos + 97 + 9, topPos + 11 + 5, 50, 20, GameNarrator.NO_TITLE);
             releaseWhenBox.setValue(String.valueOf(menu.tile.releasePercent));
             releaseWhenBox.setResponder(v -> {
                 try {
@@ -111,7 +111,7 @@ public class BoxerScreen extends BaseContainerScreen<BoxerMenu> {
                     .withValues(RedstoneControl.values())
                     .withInitialValue(menu.tile.redstoneControl)
                     .withTooltip(e -> font.split(Translations.BOXER_REDSTONE_CONTROL_TOOLTIP.translate(), 100))
-                    .create(leftPos + 97 + 9, topPos + 44, 50, 20, NarratorChatListener.NO_TITLE, (btn, val) -> {
+                    .create(leftPos + 97 + 9, topPos + 44, 50, 20, GameNarrator.NO_TITLE, (btn, val) -> {
                         AntsportationNetwork.CHANNEL.sendToServer(new UpdateBoxerPacket(
                                 menu.tile.getBlockPos(), 1, val.ordinal()
                         ));

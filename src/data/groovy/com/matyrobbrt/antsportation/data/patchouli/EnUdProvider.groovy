@@ -1,5 +1,7 @@
 package com.matyrobbrt.antsportation.data.patchouli
 
+import com.google.common.hash.Hashing
+import com.google.common.hash.HashingOutputStream
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
@@ -14,17 +16,15 @@ import com.mojang.datafixers.util.Pair
 import groovy.transform.CompileStatic
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam
+import net.minecraft.data.CachedOutput
 import net.minecraft.data.DataGenerator
-import net.minecraft.data.HashCache
 import net.minecraft.resources.ResourceLocation
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper
-import org.codehaus.groovy.reflection.ParameterTypes
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 
-import java.nio.file.Files
+import java.nio.charset.StandardCharsets
 import java.nio.file.Path
-import java.util.function.UnaryOperator
 import java.util.stream.Stream
 
 @CompileStatic
@@ -48,7 +48,7 @@ class EnUdProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliProvide
 
     @SuppressWarnings("unchecked")
     private <T extends IPatchouliPage> void registerConverter(Class<T> clazz, @ClosureParams(FirstParam.FirstGenericType) Closure<T> op) {
-        converters.put(clazz, {op.call((T) it)})
+        converters.put(clazz, { op.call((T) it) })
     }
 
     @Nullable
@@ -64,9 +64,9 @@ class EnUdProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliProvide
 
     private Stream<PatchouliCategory> resolveCategories() {
         return Stream.concat(Stream.of(sup.getClass().getDeclaredFields())
-                        .filter {it.isAnnotationPresent(PatchouliCategoryGen)}
-                        .filter {it.getType() == PatchouliCategory}
-                        .map {(PatchouliCategory) it.get(sup)},
+                .filter { it.isAnnotationPresent(PatchouliCategoryGen) }
+                .filter { it.getType() == PatchouliCategory }
+                .map { (PatchouliCategory) it.get(sup) },
                 sup.categories.stream())
     }
 
@@ -76,13 +76,13 @@ class EnUdProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliProvide
             final var newEntry = new PatchouliEntry(entry.category, convertUpsideDown(entry.displayName), entry.icon)
                     .setTurnin(entry.turnin)
             newEntry.fileName = entry.fileName
-            entry.pages.collect {convertPage(it)}
-                    .each {newEntry.addPage(it)}
+            entry.pages.collect { convertPage(it) }
+                    .each { newEntry.addPage(it) }
             this.entries.add(newEntry)
         }
     }
 
-    private static final List<String> STYLE_TAG = List.of("blue","gold", "aqua", "item")
+    private static final List<String> STYLE_TAG = List.of("blue", "gold", "aqua", "item")
     private static final List<Pair<String, String>> STYLES = List.of(Pair.of('$(%s)', '$()'), Pair.of("<%s>", "</>"))
 
     // TODO smart way of handling <br> and <x></>
@@ -140,11 +140,11 @@ class EnUdProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliProvide
     }
 
     IPatchouliPage convertPage(IPatchouliPage page) {
-        converters.getOrDefault(page.getClass(), {IPatchouliPage it -> it}).call(page)
+        converters.getOrDefault(page.getClass(), { IPatchouliPage it -> it }).call(page)
     }
 
     @Override
-    void run(@NotNull HashCache pCache) throws IOException {
+    void run(@NotNull CachedOutput pCache) throws IOException {
         addEntries()
         Path outputFolder = generator.getOutputFolder()
         for (final entry in entries) {
@@ -162,23 +162,21 @@ class EnUdProvider extends com.matyrobbrt.lib.datagen.patchouli.PatchouliProvide
     }
 
     @SuppressWarnings("deprecation")
-    private static void saveEscaped(HashCache cache, Path path, JsonElement value) throws IOException {
+    private static void saveEscaped(CachedOutput cache, Path path, JsonElement value) throws IOException {
         var data = GSON.toJson(value)
-        data = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(data) // Escape unicode after the fact so that it's not double escaped by GSON
-        String hash = SHA1.hashUnencodedChars(data).toString()
-        if (cache.getHash(path) != hash || !path) {
-            path.createParentDirectories()
-
-            try (final var writer = Files.newBufferedWriter(path)) {
-                writer.write(data)
-            }
-        }
-
-        cache.putNew(path, hash)
+        data = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(data)
+        // Escape unicode after the fact so that it's not double escaped by GSON
+        ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+        HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha1(), bytearrayoutputstream);
+        Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8)
+        writer.write(data)
+        writer.close()
+        cache.writeIfNeeded(path, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash())
     }
 
     @Override
-    @NotNull String getName() {
+    @NotNull
+    String getName() {
         return 'en_ud Patchouli'
     }
 }

@@ -16,7 +16,6 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +38,7 @@ public final class BoxTooltipClient implements ClientTooltipComponent {
         contentsTooltips.add((tooltip.stacks().isEmpty() ? Translations.EMPTY : Translations.CONTENTS).translate().getVisualOrderText());
         for (int i = 0; i < Math.min(MAX_SHOWN_STACKS, tooltip.stacks().size()); i++) {
             final var stack = tooltip.stacks().get(i);
-            final var extra = new TextComponent("  \u2022 ").append(Utils.textComponent(Utils.getCompressedCount(stack.getCount())).withStyle(ChatFormatting.GOLD)).append(" x ");
+            final var extra = Component.literal("  \u2022 ").append(Utils.textComponent(Utils.getCompressedCount(stack.getCount())).withStyle(ChatFormatting.GOLD)).append(" x ");
             final var display = stack.getHoverName();
             final var name = Minecraft.getInstance().font.substrByWidth(display, MAX_STACK_TOOLTIP_LENGTH - Minecraft.getInstance().font.width(extra));
             contentsTooltips.add(extra.append(Utils.getComponent(name, display.getStyle())).getVisualOrderText());

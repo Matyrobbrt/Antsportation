@@ -8,7 +8,6 @@ import com.matyrobbrt.antsportation.registration.AntsportationItems
 import com.matyrobbrt.antsportation.util.Translations
 import com.matyrobbrt.antsportation.util.Utils
 import net.minecraft.data.DataGenerator
-import net.minecraft.network.chat.TranslatableComponent
 import net.minecraftforge.common.data.LanguageProvider
 import org.jetbrains.annotations.NotNull
 
@@ -64,7 +63,7 @@ class Lang extends LanguageProvider {
 
         add AntsportationEntities.HILL_ANT_SOLDIER.get(), 'Ant Soldier'
 
-        add(((TranslatableComponent) Antsportation.TAB.getDisplayName()).getKey(), "Antsportation")
+        add("itemGroup.${Antsportation.MOD_ID}", "Antsportation")
     }
 
     static String capitalize(String str) {

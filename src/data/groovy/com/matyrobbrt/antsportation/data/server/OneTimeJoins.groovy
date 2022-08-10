@@ -1,15 +1,14 @@
 package com.matyrobbrt.antsportation.data.server
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+
 import com.matyrobbrt.antsportation.Antsportation
 import com.matyrobbrt.antsportation.compat.patchouli.PatchouliCompat
 import com.matyrobbrt.antsportation.onetimejoin.OneTimeReward
 import com.mojang.logging.LogUtils
 import com.mojang.serialization.JsonOps
+import net.minecraft.data.CachedOutput
 import net.minecraft.data.DataGenerator
 import net.minecraft.data.DataProvider
-import net.minecraft.data.HashCache
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.PackType
 import net.minecraftforge.common.data.ExistingFileHelper
@@ -19,7 +18,6 @@ import java.util.function.BiConsumer
 
 class OneTimeJoins implements DataProvider {
     private static final Logger LOGGER = LogUtils.getLogger()
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create()
 
     private final DataGenerator generator
     private final ExistingFileHelper existingFileHelper
@@ -36,7 +34,7 @@ class OneTimeJoins implements DataProvider {
     }
 
     @Override
-    void run(HashCache pCache) {
+    void run(CachedOutput pCache) {
         final var outputFolder = this.generator.getOutputFolder()
         final var loc = OneTimeReward.RESOURCE_KEY.location()
         final var directory = loc.getNamespace() + "/" + loc.getPath()
@@ -48,7 +46,7 @@ class OneTimeJoins implements DataProvider {
             final var encoded = OneTimeReward.CODEC.encodeStart(JsonOps.INSTANCE, oneTimeJoinReward)
                     .getOrThrow(false, msg -> LOGGER.error("Failed to encode {}: {}", path, msg))
             //noinspection UnnecessaryQualifiedReference
-            DataProvider.save(GSON, pCache, encoded, path)
+            DataProvider.saveStable(pCache, encoded, path)
         })
     }
 

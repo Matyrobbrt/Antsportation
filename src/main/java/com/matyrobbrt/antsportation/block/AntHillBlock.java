@@ -41,12 +41,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Random;
 import java.util.stream.Stream;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
 public class AntHillBlock extends BaseEntityBlock implements AntTarget, HasRecipe {
+    private static final Random RANDOM = new Random();
     public static final BooleanProperty PLACEDBYPLAYER = BooleanProperty.create("placedbyplayer");
     public static final BooleanProperty IS_GRASSY = BooleanProperty.create("grassy");
     public AntHillBlock(Properties p_49224_) {

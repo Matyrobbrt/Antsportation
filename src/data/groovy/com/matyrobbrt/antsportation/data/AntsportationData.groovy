@@ -57,7 +57,7 @@ class AntsportationData {
 
         gen.addProvider event.includeServer(), new OneTimeJoins(gen, existingFileHelper)
 
-        final ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.builtinCopy());
+        final ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.builtinCopy())
         gen.addProvider event.includeServer(), JsonCodecProvider.forDatapackRegistry(
                 gen, existingFileHelper, Antsportation.MOD_ID, ops,
                 ForgeRegistries.Keys.BIOME_MODIFIERS, BiomeModifiers.asMap(ops)
