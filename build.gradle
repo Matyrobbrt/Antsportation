@@ -15,10 +15,15 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'com.matyrobbrt.pngoptimiser' version '0.2.0'
     id 'net.darkhax.curseforgegradle' version '1.0.11'
+    id 'io.github.groovymc.modsdotgroovy' version '1.0.1'
 }
 
 // Patchouli has mixins...
 apply plugin: 'org.spongepowered.mixin'
+
+modsDotGroovy {
+    dslVersion = '1.0.1'
+}
 
 group = 'com.matyrobbrt.antsportation' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "antsportation-$mc_version"
@@ -162,7 +167,7 @@ final var props = [
         'forge_ver'    : forge_version,
         'patchouli_ver': patchouli_version,
         'jei_ver'      : jei_version,
-        'top_ver'      : top_version,
+        'top_ver'      : theoneprobe_version,
         'version'      : project.version
 ]
 
