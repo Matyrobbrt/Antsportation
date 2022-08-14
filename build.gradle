@@ -163,23 +163,6 @@ void configureJarTask(Jar jar) {
     ])
 }
 
-final var props = [
-        'forge_ver'    : forge_version,
-        'patchouli_ver': patchouli_version,
-        'jei_ver'      : jei_version,
-        'top_ver'      : theoneprobe_version,
-        'version'      : project.version
-]
-
-processResources {
-    inputs.properties props
-    exclude 'META-INF/mods.toml'
-    from('src/main/resources/META-INF/mods.toml') {
-        expand props
-        into 'META-INF'
-    }
-}
-
 jar {
     configureJarTask(jar)
     finalizedBy('reobfJar')
