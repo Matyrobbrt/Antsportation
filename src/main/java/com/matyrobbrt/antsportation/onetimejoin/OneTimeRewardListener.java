@@ -63,6 +63,13 @@ public class OneTimeRewardListener {
     @SubscribeEvent
     static void onClone(final PlayerEvent.Clone event) {
         event.getOriginal().reviveCaps();
+        event.getEntity().getCapability(OneTimeRewardCap.CAPABILITY)
+                .ifPresent(newCap -> event.getOriginal().getCapability(OneTimeRewardCap.CAPABILITY)
+                        .ifPresent(oldCap -> {
+                            newCap.getAwardedItems().clear();
+                            newCap.getAwardedItems().addAll(oldCap.getAwardedItems());
+                        }));
+        event.getOriginal().invalidateCaps();
     }
 
     private static final class Provider implements ICapabilityProvider, INBTSerializable<ListTag> {
