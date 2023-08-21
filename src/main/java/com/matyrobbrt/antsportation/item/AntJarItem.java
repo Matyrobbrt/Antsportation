@@ -31,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.function.Consumer;
 
 @ParametersAreNonnullByDefault
 @SuppressWarnings("SpellCheckingInspection")
@@ -71,7 +72,7 @@ public class AntJarItem extends BaseBlockItem {
                 itemStack.getTag().getCompound("BlockStateTag").putString("antinside", String.valueOf(true));
                 pPlayer.setItemInHand(pUsedHand, itemStack);
                 pInteractionTarget.remove(Entity.RemovalReason.DISCARDED);
-                return InteractionResult.sidedSuccess(pPlayer.level.isClientSide());
+                return InteractionResult.sidedSuccess(pPlayer.level().isClientSide());
             } else {
                 return InteractionResult.FAIL;
             }
@@ -82,7 +83,7 @@ public class AntJarItem extends BaseBlockItem {
 
     @Override
     public void onDestroyed(ItemEntity itemEntity, DamageSource damageSource) {
-        Level level = itemEntity.getLevel();
+        Level level = itemEntity.level();
         if (!level.isClientSide() && hasAntInside(itemEntity.getItem())){
             AntQueenEntity entity = new AntQueenEntity(AntsportationEntities.ANT_QUEEN.get(), level);
             entity.setPos(itemEntity.position());
@@ -127,14 +128,10 @@ public class AntJarItem extends BaseBlockItem {
         }
     }
 
-    @Override
-    public void fillItemCategory(CreativeModeTab pGroup, NonNullList<ItemStack> pItems) {
-        if (this.allowedIn(pGroup)) {
-            this.getBlock().fillItemCategory(pGroup, pItems);
-            final var withAnt = getDefaultInstance();
-            withAnt.getOrCreateTagElement("BlockStateTag").putString("antinside", String.valueOf(true));
-            pItems.add(withAnt);
-        }
+    public void fillItemCategory(Consumer<ItemStack> pItems) {
+        final var withAnt = getDefaultInstance();
+        withAnt.getOrCreateTagElement("BlockStateTag").putString("antinside", String.valueOf(true));
+        pItems.accept(withAnt);
     }
 
     @Override

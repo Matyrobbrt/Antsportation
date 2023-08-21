@@ -24,7 +24,6 @@ public class AntsportationCompat {
         }));
     }
 
-    @SuppressWarnings("SameParameterValue")
     private static void ifLoaded(String modId, Runnable toRun) {
         if (ModList.get().isLoaded(modId)) {
             toRun.run();

@@ -5,6 +5,7 @@ import com.matyrobbrt.antsportation.client.screen.widget.ProgressWidget;
 import com.matyrobbrt.antsportation.menu.boxing.UnboxerMenu;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -30,13 +31,13 @@ public class UnboxerScreen extends BaseContainerScreen<UnboxerMenu> {
     }
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
         super.renderBg(pPoseStack, pPartialTick, pMouseX, pMouseY);
         energyUsageWidget.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(GuiGraphics pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
         renderTooltip(pPoseStack, pMouseX, pMouseY);
         energyUsageWidget.attemptTooltipRender(pPoseStack, pMouseX, pMouseY, this);

@@ -99,7 +99,7 @@ public class AntWorkerEntity extends BaseAntEntity {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DATA_FLAGS_ID, (byte) 0);
-        this.entityData.define(NEXT_MARKER, null);
+        this.entityData.define(NEXT_MARKER, BlockPos.ZERO);
     }
 
     public void setNextMarker(BlockPos pos) {
@@ -113,10 +113,10 @@ public class AntWorkerEntity extends BaseAntEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.setClimbing(this.horizontalCollision);
-            if (level.getGameTime() % 5 == 0) {
-                if (this.getNextMarker() != null) {
+            if (level().getGameTime() % 5 == 0) {
+                if (!this.getNextMarker().equals(BlockPos.ZERO)) {
                     this.navigation.moveTo(getNextMarker().getX(), getNextMarker().getY(), getNextMarker().getZ(), 1);
                 }
             }
@@ -130,12 +130,12 @@ public class AntWorkerEntity extends BaseAntEntity {
         final var soliderTarget = getLastHurtByMob() == null ? pLivingEntity : getLastHurtByMob();
         super.setLastHurtByMob(pLivingEntity);
 
-        if (!summonedSoldiers && !level.isClientSide()) {
+        if (!summonedSoldiers && !level().isClientSide()) {
             getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier(HURT_BONUS_UID, "Hurt bonus", 5, AttributeModifier.Operation.ADDITION));
             heal(5);
 
             for (int i = 0; i < 3; ++i) {
-                final var soldier = AntSoldierEntity.spawnReinforcement(getLevel(), this.blockPosition());
+                final var soldier = AntSoldierEntity.spawnReinforcement(level(), this.blockPosition());
                 soldier.setTarget(soliderTarget);
             }
             summonedSoldiers = true;

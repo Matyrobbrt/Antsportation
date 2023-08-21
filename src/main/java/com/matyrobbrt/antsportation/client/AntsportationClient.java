@@ -27,6 +27,7 @@ import com.matyrobbrt.antsportation.util.config.ClientConfig;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -84,7 +85,7 @@ public class AntsportationClient {
             if (level == null || blockPos == null) return -1;
             final var blockEntity = level.getBlockEntity(blockPos);
             if (blockEntity instanceof MarkerBE marker) {
-                return marker.getColor().getMaterialColor().col;
+                return marker.getColor().getMapColor().col;
             }
             return -1;
         }, AntsportationBlocks.MARKER.get(), AntsportationBlocks.CHUNK_LOADING_MARKER.get());
@@ -120,13 +121,12 @@ public class AntsportationClient {
         }
     }
 
-    public static void renderBg(BaseContainerScreen<?> containerScreen, ResourceLocation texture, PoseStack poseStack) {
+    public static void renderBg(BaseContainerScreen<?> containerScreen, ResourceLocation texture, GuiGraphics poseStack) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, texture);
         final int i = (containerScreen.width - containerScreen.getImageWidth()) / 2;
         final int j = (containerScreen.height - containerScreen.getImageHeight()) / 2;
-        containerScreen.blit(poseStack, i, j, 0, 0, containerScreen.getImageWidth(), containerScreen.getImageHeight());
+        poseStack.blit(texture, i, j, 0, 0, containerScreen.getImageWidth(), containerScreen.getImageHeight());
     }
 
     private static void setRenderLayer() {

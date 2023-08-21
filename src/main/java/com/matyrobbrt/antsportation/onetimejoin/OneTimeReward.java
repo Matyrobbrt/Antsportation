@@ -48,8 +48,6 @@ public record OneTimeReward(String requiredMod, List<ItemStack> stacks) {
     public static final ResourceKey<Registry<OneTimeReward>> RESOURCE_KEY = ResourceKey.createRegistryKey(Antsportation
             .rl("one_time_reward"));
     public static final DeferredRegister<OneTimeReward> ONE_TIME_REWARDS = DeferredRegister.create(RESOURCE_KEY, Antsportation.MOD_ID);
-    public static final Supplier<IForgeRegistry<OneTimeReward>> REGISTRY = ONE_TIME_REWARDS.makeRegistry(() -> new RegistryBuilder<OneTimeReward>()
-            .dataPackRegistry(CODEC));
 
     public OneTimeReward(String requiredMod, ItemStack... stacks) {
         this(requiredMod, List.of(stacks));

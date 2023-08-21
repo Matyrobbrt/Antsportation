@@ -28,7 +28,7 @@ public class AntsportationJei implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addGuiContainerHandler(BoxScreen.class, new BoxScreenJeiHandler());
+        registration.addGuiContainerHandler(BoxScreen.class, new BoxScreenJeiHandler(registration.getJeiHelpers().getIngredientManager()));
     }
 
     @Override

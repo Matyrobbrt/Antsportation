@@ -1,6 +1,5 @@
 package com.matyrobbrt.antsportation.item;
 
-import com.matyrobbrt.antsportation.Antsportation;
 import com.matyrobbrt.antsportation.compat.jei.JEIInfoProvider;
 import com.matyrobbrt.antsportation.data.HasRecipe;
 import net.minecraft.network.chat.Component;
@@ -13,7 +12,7 @@ import java.util.function.Supplier;
 
 public class BaseBlockItem extends BlockItem implements HasRecipe, JEIInfoProvider {
     public BaseBlockItem(Block pBlock, Properties pProperties) {
-        super(pBlock, pProperties.tab(Antsportation.TAB));
+        super(pBlock, pProperties);
     }
     public BaseBlockItem(Supplier<? extends Block> pBlock, Properties pProperties) {
         this(pBlock.get(), pProperties);
@@ -22,5 +21,9 @@ public class BaseBlockItem extends BlockItem implements HasRecipe, JEIInfoProvid
     @Override
     public @NotNull List<Component> getInfo() {
         return List.of();
+    }
+
+    public boolean shouldFillTab() {
+        return true;
     }
 }

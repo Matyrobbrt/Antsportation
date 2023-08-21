@@ -1,6 +1,6 @@
 {
   "type": "antsportation:empty_nbt_required",
-  "emptyNbtSlots": [],
+  "emptyNbtSlots": [4],
   "key": {
     "B": {
       "item": "antsportation:advanced_box"

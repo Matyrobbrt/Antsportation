@@ -24,23 +24,23 @@ import java.util.ArrayList;
 public class OneTimeRewardListener {
     @SubscribeEvent
     static void onJoin(final PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getEntity().level.isClientSide())
+        if (event.getEntity().level().isClientSide())
             return;
         final var pPlayer = event.getEntity();
         event.getEntity().getCapability(OneTimeRewardCap.CAPABILITY).ifPresent(cap -> {
-            final var rewards = event.getEntity().level.registryAccess().registryOrThrow(OneTimeReward.RESOURCE_KEY);
+            final var rewards = event.getEntity().level().registryAccess().registryOrThrow(OneTimeReward.RESOURCE_KEY);
             rewards.entrySet().forEach(entry -> {
                 if (!cap.getAwardedItems().contains(entry.getKey().location()) && (entry.getValue().requiredMod().isBlank() || ModList.get().isLoaded(entry.getValue().requiredMod()))) {
                     boolean flag = false;
                     for (ItemStack itemstack : entry.getValue().stacks()) {
                         if (pPlayer.addItem(itemstack)) {
-                            pPlayer.level.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, ((pPlayer.getRandom().nextFloat() - pPlayer.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                            pPlayer.level().playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, ((pPlayer.getRandom().nextFloat() - pPlayer.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
                             flag = true;
                         } else {
                             ItemEntity itementity = pPlayer.drop(itemstack, false);
                             if (itementity != null) {
                                 itementity.setNoPickUpDelay();
-                                itementity.setOwner(pPlayer.getUUID());
+                                itementity.setThrower(pPlayer.getUUID());
                             }
                         }
                     }

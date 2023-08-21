@@ -1,4 +1,1 @@
-- Made Chunk Loading Marker Lime by default
-- Made ant queen in jar rotate
-- Fix crash with TOP installed
-- Patchouli book upgrades
+- Update to 1.20.1

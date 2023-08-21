@@ -36,7 +36,7 @@ public class AntQueenEntity extends BaseAntEntity implements NeutralMob {
     private UUID persistentAngerTarget;
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
-    public static final int REINFORCEMENT_DELAY = 100;
+    public static final int REINFORCEMENT_DELAY = 300;
     private int ticksSinceLastSummon = REINFORCEMENT_DELAY;
 
     public AntQueenEntity(EntityType<? extends PathfinderMob> p_21683_, Level p_21684_) {
@@ -125,7 +125,7 @@ public class AntQueenEntity extends BaseAntEntity implements NeutralMob {
         final var soliderTarget = getLastHurtByMob() == null ? pLivingEntity : getLastHurtByMob();
         super.setLastHurtByMob(pLivingEntity);
 
-        if (ticksSinceLastSummon >= REINFORCEMENT_DELAY && !level.isClientSide()) {
+        if (ticksSinceLastSummon >= REINFORCEMENT_DELAY && !level().isClientSide()) {
             final var attr = getAttribute(Attributes.MAX_HEALTH);
             // noinspection ConstantConditions
             if (!attr.hasModifier(HURT_MODIFIER))
@@ -134,7 +134,7 @@ public class AntQueenEntity extends BaseAntEntity implements NeutralMob {
             heal(5);
 
             for (int i = 0; i < 4; ++i) {
-                final var soldier = AntSoldierEntity.spawnReinforcement(getLevel(), this.blockPosition());
+                final var soldier = AntSoldierEntity.spawnReinforcement(level(), this.blockPosition());
                 soldier.setTarget(soliderTarget);
             }
             ticksSinceLastSummon = 0;

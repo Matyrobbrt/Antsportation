@@ -39,7 +39,7 @@ public class AntsportationNetwork {
 
     public static  <MSG> void sendTo(MSG message, ServerPlayer player) {
         if (!(player instanceof FakePlayer)) {
-            CHANNEL.sendTo(message, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+            CHANNEL.sendTo(message, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
         }
     }
 }

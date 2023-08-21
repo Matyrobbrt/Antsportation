@@ -81,7 +81,7 @@ public class AntSoldierEntity extends BaseAntEntity {
     }
 
     public void aggroAtNearest(Class<? extends LivingEntity> type) {
-        getLevel().getEntitiesOfClass(type, new AABB(blockPosition()).inflate(5))
+        level().getEntitiesOfClass(type, new AABB(blockPosition()).inflate(5))
                 .stream().findFirst().ifPresent(this::setTarget);
     }
 

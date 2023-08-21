@@ -31,7 +31,7 @@ public class PatchouliCompat {
     }
 
     private static String getDisplayedText(String in) {
-        if (Minecraft.getInstance().getLanguageManager().getSelected().getCode().equals("en_ud")) {
+        if (Minecraft.getInstance().getLanguageManager().getSelected().equals("en_ud")) {
             // We need to reverse the string
             return Utils.toUpsideDown(in);
         }

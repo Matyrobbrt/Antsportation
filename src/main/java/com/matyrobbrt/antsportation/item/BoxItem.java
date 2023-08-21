@@ -89,7 +89,7 @@ public class BoxItem extends BaseItem implements JEIInfoProvider {
         final var list = box.getOrCreateTag().getList(TAG_ITEMS, Tag.TAG_COMPOUND);
         int count = 0;
         for (final var tag : list) {
-            count += deserialize((CompoundTag) tag).getCount();
+            count += ((CompoundTag) tag).getInt("ExtraCount");
         }
         return count;
     }
@@ -207,6 +207,7 @@ public class BoxItem extends BaseItem implements JEIInfoProvider {
                 .define('b', BASIC)),
         @SuppressWarnings({"ConstantConditions", "deprecation"})
         EPIC(16384, 64, Rarity.EPIC.color.getColor(), Rarity.EPIC, recipe -> recipe
+                .setEmptyNBTSlots(4)
                 .pattern(
                         "OOO",
                         "DBD",

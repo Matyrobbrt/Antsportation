@@ -18,7 +18,7 @@ public record UpdateBoxerPacket(BlockPos pos, int type, int newValue) implements
     public void handle(NetworkEvent.Context context) {
         if (context.getSender() == null)
             return;
-        if (context.getSender().level.getBlockEntity(pos) instanceof BoxerBE boxerBE) {
+        if (context.getSender().level().getBlockEntity(pos) instanceof BoxerBE boxerBE) {
             if (type == 0) {
                 boxerBE.releasePercent = newValue;
             } else {

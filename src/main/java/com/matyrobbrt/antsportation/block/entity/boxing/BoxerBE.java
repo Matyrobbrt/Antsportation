@@ -4,9 +4,9 @@ import com.matyrobbrt.antsportation.block.entity.HasMultipleMenus;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.menu.boxing.BoxerMenu;
 import com.matyrobbrt.antsportation.registration.AntsportationBlocks;
-import com.matyrobbrt.antsportation.util.cap.DelegatingItemHandler;
 import com.matyrobbrt.antsportation.util.RedstoneControl;
 import com.matyrobbrt.antsportation.util.Translations;
+import com.matyrobbrt.antsportation.util.cap.DelegatingItemHandler;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,8 +19,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -109,7 +109,7 @@ public class BoxerBE extends BaseBoxingBE implements MenuProvider, HasMultipleMe
 
         if (!box.isEmpty()) {
             if (releasePercent > 0) {
-                final var fillage = (BoxItem.getStoredCount(box) / ((BoxItem) box.getItem()).tier().space) * 100;
+                final var fillage = ((double)BoxItem.getStoredCount(box) / ((BoxItem) box.getItem()).tier().space) * 100;
                 if (fillage >= releasePercent)
                     isBoxLocked = false;
             }
@@ -148,7 +148,7 @@ public class BoxerBE extends BaseBoxingBE implements MenuProvider, HasMultipleMe
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             if (side != null && side.getAxis() == Direction.Axis.Y)
                 return boxLazy.cast();
             return inventoryLazy.cast();

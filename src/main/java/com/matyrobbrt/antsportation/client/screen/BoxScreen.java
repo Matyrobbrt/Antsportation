@@ -6,11 +6,12 @@ import com.matyrobbrt.antsportation.client.tooltip.BoxTooltipClient;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.menu.BoxMenu;
 import com.matyrobbrt.antsportation.util.Utils;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BoxScreen extends BaseContainerScreen<BoxMenu> {
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(Antsportation.MOD_ID, "textures/gui/box.png");
@@ -46,26 +48,30 @@ public class BoxScreen extends BaseContainerScreen<BoxMenu> {
     }
 
     @Override
-    public void render(@NotNull PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(@NotNull GuiGraphics pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
         {
             final var entry = list.getEntryAtPos(pMouseX, pMouseY);
             if (entry != null) {
                 final var tooltip = entry.getTooltip(pMouseX - entry.x);
                 if (tooltip != null)
-                    renderTooltip(pPoseStack, tooltip, pMouseX, pMouseY);
+                    pPoseStack.renderTooltip(Minecraft.getInstance().font, List.of(tooltip), Optional.empty(), entry.getStack(pMouseX - entry.x), pMouseX, pMouseY);
             }
         }
         renderTooltip(pPoseStack, pMouseX, pMouseY);
     }
 
-    @Nullable
-    public ItemStack resolveStack(int mouseX, int mouseY) {
+    public record StackWithPose(ItemStack stack, Rect2i area) {}
+    public Optional<StackWithPose> resolveStack(int mouseX, int mouseY) {
         final var entry = list.getEntryAtPos(mouseX, mouseY);
         if (entry != null) {
-            return entry.getStack(mouseX - entry.x);
+            final var index = (mouseX - entry.x) / 18;
+            if (entry.stacks.size() > index && isWithinBounds(entry.y, entry.y + 20)) {
+                return Optional.of(new StackWithPose(entry.stacks.get(index), new Rect2i(entry.x + index * 18 + 1, 18, entry.y + 1, 18)));
+            }
+            return Optional.empty();
         }
-        return null;
+        return Optional.empty();
     }
 
     private class SelectionList extends AbstractSelectionList<Entry> {
@@ -120,16 +126,16 @@ public class BoxScreen extends BaseContainerScreen<BoxMenu> {
         }
 
         @Override
-        public void render(@NotNull PoseStack pPoseStack, int pIndex, int pTop, int pLeft, int pWidth, int pHeight, int pMouseX, int pMouseY, boolean pIsMouseOver, float pPartialTick) {
+        public void render(@NotNull GuiGraphics pPoseStack, int pIndex, int pTop, int pLeft, int pWidth, int pHeight, int pMouseX, int pMouseY, boolean pIsMouseOver, float pPartialTick) {
             this.x = pLeft;
             this.y = pTop;
             for (int i = 0; i < stacks.size(); i++) {
                 final var x = pLeft + (i * 18);
                 if (isWithinBounds(pTop, pTop + 20)) {
                     final var itemstack = stacks.get(i);
-                    BoxTooltipClient.blit(pPoseStack, x, pTop, (int) itemRenderer.blitOffset, BoxTooltipClient.Texture.SLOT);
-                    itemRenderer.renderAndDecorateItem(itemstack, x + 1, pTop + 1, i);
-                    itemRenderer.renderGuiItemDecorations(font, itemstack, x + 1, pTop + 1, Utils.getCompressedCount(itemstack.getCount()));
+                    BoxTooltipClient.blit(pPoseStack, x, pTop, BoxTooltipClient.Texture.SLOT);
+                    pPoseStack.renderItem(itemstack, x + 1, pTop + 1, i);
+                    pPoseStack.renderItemDecorations(font, itemstack, x + 1, pTop + 1, Utils.getCompressedCount(itemstack.getCount()));
                 }
             }
         }

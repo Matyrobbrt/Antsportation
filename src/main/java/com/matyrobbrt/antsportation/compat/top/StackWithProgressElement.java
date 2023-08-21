@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.api.IElementFactory;
 import mcjty.theoneprobe.apiimpl.client.ElementItemStackRender;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -19,13 +20,11 @@ public record StackWithProgressElement(ItemStack stack, int scaledProgress, Dire
     }
 
     @Override
-    public void render(PoseStack poseStack, int x, int y) {
+    public void render(GuiGraphics poseStack, int x, int y) {
         if (direction == Direction.LEFT_TO_RIGHT) {
             ElementItemStackRender.render(stack, AntsportationTOPProvider.defaultItemStyle, poseStack, x, y);
-            ProgressWidget.bindTexture();
             ProgressWidget.renderNormal(scaledProgress(), x + 5 + AntsportationTOPProvider.defaultItemStyle.getWidth(), y, poseStack);
         } else {
-            ProgressWidget.bindTexture();
             ProgressWidget.renderFlipped(scaledProgress(), x, y, poseStack);
             ElementItemStackRender.render(stack, AntsportationTOPProvider.defaultItemStyle, poseStack, x + 5 + ProgressWidget.MAX_PROGRESS, y + 2);
         }

@@ -4,20 +4,18 @@ import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.Utils;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientBundleTooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
@@ -68,11 +66,11 @@ public final class BoxTooltipClient implements ClientTooltipComponent {
     }
 
     private void drawText(Font pFont, FormattedCharSequence text, int x, int y, Matrix4f pMatrix4f, MultiBufferSource.BufferSource pBufferSource) {
-        pFont.drawInBatch(text, x, y, -1, true, pMatrix4f, pBufferSource, false, 0, 15728880);
+        pFont.drawInBatch(text, x, y, -1, true, pMatrix4f, pBufferSource, Font.DisplayMode.NORMAL, 0, 15728880);
     }
 
     @Override
-    public void renderImage(Font pFont, int pMouseX, int pMouseY, PoseStack pPoseStack, ItemRenderer pItemRenderer, int pBlitOffset) {
+    public void renderImage(Font pFont, int pMouseX, int pMouseY, GuiGraphics pPoseStack) {
         if (Screen.hasShiftDown())
             return;
         int i = getGridSize();
@@ -81,56 +79,55 @@ public final class BoxTooltipClient implements ClientTooltipComponent {
         for (int i1 = 0; i1 < i; ++i1) {
             int j1 = pMouseX + i1 * 18 + 1;
             int k1 = pMouseY + 1;
-            this.renderSlot(j1, k1, k++, pFont, pPoseStack, pItemRenderer, pBlitOffset);
+            this.renderSlot(j1, k1, k++, pFont, pPoseStack);
         }
 
         final var actualSize = Math.min(i, MAX_TOOLTIP_LENGTH);
-        this.drawBorder(pMouseX, pMouseY, actualSize, 1, pPoseStack, pBlitOffset);
+        this.drawBorder(pMouseX, pMouseY, actualSize, 1, pPoseStack);
     }
 
-    private void renderSlot(int pX, int pY, int pItemIndex, Font pFont, PoseStack pPoseStack, ItemRenderer pItemRenderer, int pBlitOffset) {
+    private void renderSlot(int pX, int pY, int pItemIndex, Font pFont, GuiGraphics pPoseStack) {
         if (pItemIndex >= MAX_TOOLTIP_LENGTH) {
-            pPoseStack.translate(0.0D, 0.0D, pBlitOffset + 200.0F);
+//            pPoseStack.pose().translate(0.0D, 0D, 0.0D + 200.0F);
             final var xOffset = 20;
             final var y = pY - 2;
             drawCenteredString(pPoseStack, pFont, Utils.textComponent(Utils.getCompressedCount(tooltip.stacks().size() - MAX_TOOLTIP_LENGTH)), pX + xOffset, y + 2, 0xffffff);
             drawCenteredString(pPoseStack, pFont, Translations.MORE.translate(), pX + xOffset, y + 5 + pFont.lineHeight, 0xf8f8ff);
         } else {
             final var itemstack = tooltip.stacks().get(pItemIndex);
-            blit(pPoseStack, pX, pY, pBlitOffset, Texture.SLOT);
-            pItemRenderer.renderAndDecorateItem(itemstack, pX + 1, pY + 1, pItemIndex);
-            pItemRenderer.renderGuiItemDecorations(pFont, itemstack, pX + 1, pY + 1, Utils.getCompressedCount(itemstack.getCount()));
+            blit(pPoseStack, pX, pY, Texture.SLOT);
+            pPoseStack.renderItem(itemstack, pX + 1, pY + 1);
+            pPoseStack.renderItemDecorations(pFont, itemstack, pX + 1, pY + 1, Utils.getCompressedCount(itemstack.getCount()));
         }
     }
 
-    public static void drawCenteredString(PoseStack pPoseStack, Font pFont, Component pText, int pX, int pY, int pColor) {
+    public static void drawCenteredString(GuiGraphics pPoseStack, Font pFont, Component pText, int pX, int pY, int pColor) {
         FormattedCharSequence formattedcharsequence = pText.getVisualOrderText();
-        pFont.drawShadow(pPoseStack, formattedcharsequence, (float)(pX - pFont.width(formattedcharsequence) / 2), (float)pY, pColor);
+        pPoseStack.drawString(pFont, formattedcharsequence, (float)(pX - pFont.width(formattedcharsequence) / 2), (float)pY, pColor, true);
     }
 
     @SuppressWarnings("SameParameterValue")
-    private void drawBorder(int pX, int pY, int pSlotWidth, int pSlotHeight, PoseStack pPoseStack, int pBlitOffset) {
-        blit(pPoseStack, pX, pY, pBlitOffset, Texture.BORDER_CORNER_TOP);
-        blit(pPoseStack, pX + pSlotWidth * 18 + 1, pY, pBlitOffset, Texture.BORDER_CORNER_TOP);
+    private void drawBorder(int pX, int pY, int pSlotWidth, int pSlotHeight, GuiGraphics pPoseStack) {
+        blit(pPoseStack, pX, pY, Texture.BORDER_CORNER_TOP);
+        blit(pPoseStack, pX + pSlotWidth * 18 + 1, pY, Texture.BORDER_CORNER_TOP);
 
         for (int i = 0; i < pSlotWidth; ++i) {
-            blit(pPoseStack, pX + 1 + i * 18, pY, pBlitOffset, Texture.BORDER_HORIZONTAL_TOP);
-            blit(pPoseStack, pX + 1 + i * 18, pY + pSlotHeight * 20, pBlitOffset, Texture.BORDER_HORIZONTAL_BOTTOM);
+            blit(pPoseStack, pX + 1 + i * 18, pY, Texture.BORDER_HORIZONTAL_TOP);
+            blit(pPoseStack, pX + 1 + i * 18, pY + pSlotHeight * 20, Texture.BORDER_HORIZONTAL_BOTTOM);
         }
 
         for (int j = 0; j < pSlotHeight; ++j) {
-            blit(pPoseStack, pX, pY + j * 20 + 1, pBlitOffset, Texture.BORDER_VERTICAL);
-            blit(pPoseStack, pX + pSlotWidth * 18 + 1, pY + j * 20 + 1, pBlitOffset, Texture.BORDER_VERTICAL);
+            blit(pPoseStack, pX, pY + j * 20 + 1, Texture.BORDER_VERTICAL);
+            blit(pPoseStack, pX + pSlotWidth * 18 + 1, pY + j * 20 + 1, Texture.BORDER_VERTICAL);
         }
 
-        blit(pPoseStack, pX, pY + pSlotHeight * 20, pBlitOffset, Texture.BORDER_CORNER_BOTTOM);
-        blit(pPoseStack, pX + pSlotWidth * 18 + 1, pY + pSlotHeight * 20, pBlitOffset, Texture.BORDER_CORNER_BOTTOM);
+        blit(pPoseStack, pX, pY + pSlotHeight * 20, Texture.BORDER_CORNER_BOTTOM);
+        blit(pPoseStack, pX + pSlotWidth * 18 + 1, pY + pSlotHeight * 20, Texture.BORDER_CORNER_BOTTOM);
     }
 
-    public static void blit(PoseStack pPoseStack, int pX, int pY, int pBlitOffset, Texture pTexture) {
+    public static void blit(GuiGraphics pPoseStack, int pX, int pY, Texture pTexture) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, ClientBundleTooltip.TEXTURE_LOCATION);
-        GuiComponent.blit(pPoseStack, pX, pY, pBlitOffset, (float) pTexture.x, (float) pTexture.y, pTexture.w, pTexture.h, 128, 128);
+        pPoseStack.blit(ClientBundleTooltip.TEXTURE_LOCATION, pX, pY, (float) pTexture.x, (float) pTexture.y, pTexture.w, pTexture.h, 128, 128);
     }
 
     public int getGridSize() {

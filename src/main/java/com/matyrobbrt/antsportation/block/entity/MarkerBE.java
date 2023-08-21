@@ -239,9 +239,11 @@ public class MarkerBE extends BlockEntity implements TOPInfoDriver {
                 Utils.textComponent(getColor().getName().replace('_', ' '))
                         .withStyle(s -> s.withColor(getColor().getTextColor()))
         ));
-        context.text(Translations.TOP_MARKER_DEFAULT_COLOUR.translate(
-                Utils.textComponent(defaultColor.getName().replace('_', ' '))
-                        .withStyle(s -> s.withColor(getColor().getTextColor()))
-        ));
+        if (defaultColor != getColor()) {
+            context.text(Translations.TOP_MARKER_DEFAULT_COLOUR.translate(
+                    Utils.textComponent(defaultColor.getName().replace('_', ' '))
+                            .withStyle(s -> s.withColor(getColor().getTextColor()))
+            ));
+        }
     }
 }

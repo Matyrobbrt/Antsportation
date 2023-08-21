@@ -5,11 +5,13 @@ import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationRecipes;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -30,8 +32,8 @@ public class EmptyNBTRequiredRecipe extends ShapedRecipe {
 
     private final IntegerList emptyNBTSlots;
 
-    public EmptyNBTRequiredRecipe(ResourceLocation pId, String pGroup, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult, IntegerList emptyNBTSlots) {
-        super(pId, pGroup, pWidth, pHeight, pRecipeItems, pResult);
+    public EmptyNBTRequiredRecipe(ResourceLocation pId, String pGroup, CraftingBookCategory pCategory, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult, boolean pShowNotification, IntegerList emptyNBTSlots) {
+        super(pId, pGroup, pCategory, pWidth, pHeight, pRecipeItems, pResult, pShowNotification);
         this.emptyNBTSlots = emptyNBTSlots;
     }
 
@@ -81,7 +83,7 @@ public class EmptyNBTRequiredRecipe extends ShapedRecipe {
             final var shaped = RecipeSerializer.SHAPED_RECIPE.fromJson(pRecipeId, pSerializedRecipe);
             final IntegerList intList = new IntegerList();
             GsonHelper.getAsJsonArray(pSerializedRecipe, "emptyNbtSlots").forEach(e -> intList.add(e.getAsInt()));
-            return new EmptyNBTRequiredRecipe(pRecipeId, shaped.getGroup(), shaped.getWidth(), shaped.getHeight(), shaped.recipeItems, shaped.getResultItem(), intList);
+            return new EmptyNBTRequiredRecipe(pRecipeId, shaped.getGroup(), shaped.category(), shaped.getWidth(), shaped.getHeight(), shaped.recipeItems, shaped.getResultItem(RegistryAccess.EMPTY), shaped.showNotification(), intList);
         }
 
         @Override
@@ -89,6 +91,7 @@ public class EmptyNBTRequiredRecipe extends ShapedRecipe {
             int i = pBuffer.readVarInt();
             int j = pBuffer.readVarInt();
             String s = pBuffer.readUtf();
+            CraftingBookCategory category = pBuffer.readEnum(CraftingBookCategory.class);
             NonNullList<Ingredient> items = NonNullList.withSize(i * j, Ingredient.EMPTY);
 
             for(int k = 0; k < items.size(); ++k) {
@@ -96,12 +99,13 @@ public class EmptyNBTRequiredRecipe extends ShapedRecipe {
             }
 
             ItemStack itemstack = pBuffer.readItem();
+            boolean showNotifi = pBuffer.readBoolean();
             IntegerList intList = new IntegerList();
             final var amount = pBuffer.readByte();
             for (var x = 0; x < amount; x++) {
                 intList.add(pBuffer.readByte());
             }
-            return new EmptyNBTRequiredRecipe(pRecipeId, s, i, j, items, itemstack, intList);
+            return new EmptyNBTRequiredRecipe(pRecipeId, s, category, i, j, items, itemstack, showNotifi, intList);
         }
 
         @Override

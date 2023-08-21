@@ -5,6 +5,7 @@ import com.matyrobbrt.antsportation.entity.AntQueenEntity;
 import com.matyrobbrt.antsportation.entity.AntSoldierEntity;
 import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.item.AntJarItem;
+import com.matyrobbrt.antsportation.item.BaseBlockItem;
 import com.matyrobbrt.antsportation.network.AntsportationNetwork;
 import com.matyrobbrt.antsportation.onetimejoin.OneTimeReward;
 import com.matyrobbrt.antsportation.onetimejoin.OneTimeRewardCap;
@@ -22,6 +23,8 @@ import com.matyrobbrt.antsportation.util.Translations;
 import com.matyrobbrt.antsportation.util.config.ClientConfig;
 import com.matyrobbrt.antsportation.util.config.ServerConfig;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -40,6 +43,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DataPackRegistryEvent;
+import net.minecraftforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,8 +71,8 @@ public class Antsportation {
         AntsportationRecipes.TYPES.register(bus);
         AntsportationRecipes.SERIALIZERS.register(bus);
         AntsportationSounds.SOUNDS.register(bus);
-        AntsportationConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
-        AntsportationPlacedFeatures.PLACED_FEATURES.register(bus);
+//        AntsportationConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
+//        AntsportationPlacedFeatures.PLACED_FEATURES.register(bus);
         OneTimeReward.ONE_TIME_REWARDS.register(bus);
 
         bus.addListener((final FMLCommonSetupEvent event) -> {
@@ -86,6 +91,10 @@ public class Antsportation {
 
         AntsportationCompat.init(bus);
         MinecraftForge.EVENT_BUS.register(OneTimeRewardListener.class);
+
+        bus.addListener((final DataPackRegistryEvent.NewRegistry event) -> event.dataPackRegistry(OneTimeReward.RESOURCE_KEY, OneTimeReward.CODEC));
+        bus.addListener((final RegisterEvent registerEvent) -> registerEvent
+                .register(Registries.CREATIVE_MODE_TAB, cons -> cons.register(MOD_ID, TAB)));
     }
 
     private static void entityAttributeEvent(EntityAttributeCreationEvent event) {
@@ -95,16 +104,17 @@ public class Antsportation {
         event.put(AntsportationEntities.ANT_WORKER.get(), AntWorkerEntity.setAttributes());
     }
 
-    public static final CreativeModeTab TAB = new CreativeModeTab(CreativeModeTab.getGroupCountSafe(), MOD_ID) {
-        private ItemStack icon;
-        @Override
-        public @NotNull ItemStack makeIcon() {
-            if (icon == null) {
-                icon = AntJarItem.withAnt();
-            }
-            return icon;
-        }
-    };
+    public static final CreativeModeTab TAB = CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup." + MOD_ID))
+            .icon(AntJarItem::withAnt)
+            .displayItems((params, output) -> {
+                AntsportationItems.ITEMS.getEntries().forEach(ro -> {
+                    final var item = ro.get();
+                    if (item instanceof BaseBlockItem baseBlockItem && !baseBlockItem.shouldFillTab()) return;
+                    output.accept(item);
+                });
+                AntsportationItems.ANT_JAR.get().fillItemCategory(output::accept); // TODO - ordering
+            }).build();
 
     public static ResourceLocation rl(String path) {
         return new ResourceLocation(MOD_ID, path);
@@ -123,7 +133,7 @@ public class Antsportation {
             return;
         }
         Random random = new Random();
-        if (random.nextInt(100) > 95 && (event.getState() != event.getFinalState() || event.getState() != event.getState().getBlock().getToolModifiedState(event.getState(), event.getContext(), ToolActions.HOE_TILL, false))) {
+        if (event.getContext().getItemInHand().canPerformAction(ToolActions.HOE_TILL) && random.nextInt(100) > 97 && (event.getState() != event.getFinalState() || event.getState() != event.getState().getBlock().getToolModifiedState(event.getState(), event.getContext(), ToolActions.HOE_TILL, false))) {
             final var ant = new AntQueenEntity(AntsportationEntities.ANT_QUEEN.get(), event.getContext().getLevel());
             ant.setPos(event.getPos().getX() + 0.5, event.getPos().getY() + 1, event.getPos().getZ() + 0.5);
             event.getContext().getLevel().addFreshEntity(ant);

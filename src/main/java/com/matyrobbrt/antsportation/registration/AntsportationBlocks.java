@@ -14,7 +14,7 @@ import com.matyrobbrt.antsportation.block.entity.AntNestBE;
 import com.matyrobbrt.antsportation.block.entity.MarkerBE;
 import com.matyrobbrt.antsportation.block.entity.boxing.BoxerBE;
 import com.matyrobbrt.antsportation.block.entity.boxing.UnboxerBE;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
@@ -23,8 +23,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -36,39 +37,41 @@ import java.util.function.Supplier;
 @SuppressWarnings("ConstantConditions")
 public class AntsportationBlocks {
     public static final Map<Supplier<? extends Block>, MineData> MINE_DATA = new HashMap<>();
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registry.BLOCK_REGISTRY, Antsportation.MOD_ID);
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registry.BLOCK_ENTITY_TYPE_REGISTRY, Antsportation.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Antsportation.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Antsportation.MOD_ID);
 
-    public static final RegistryObject<BoxerBlock> BOXER = registerWithItem("boxer", Mineable.PICKAXE, ToolTier.IRON, () -> new BoxerBlock(BlockBehaviour.Properties.of(Material.METAL)
-            .color(MaterialColor.COLOR_BLACK)
+    public static final RegistryObject<BoxerBlock> BOXER = registerWithItem("boxer", Mineable.PICKAXE, ToolTier.IRON, () -> new BoxerBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_BLACK)
             .strength(5.0f)
+            .pushReaction(PushReaction.BLOCK)
     ));
-    public static final RegistryObject<UnboxerBlock> UNBOXER = registerWithItem("unboxer", Mineable.PICKAXE, ToolTier.IRON, () -> new UnboxerBlock(BlockBehaviour.Properties.of(Material.METAL)
-            .color(MaterialColor.COLOR_BLACK)
+    public static final RegistryObject<UnboxerBlock> UNBOXER = registerWithItem("unboxer", Mineable.PICKAXE, ToolTier.IRON, () -> new UnboxerBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_BLACK)
             .strength(5.0f)
+            .pushReaction(PushReaction.BLOCK)
     ));
-    public static final RegistryObject<AntNestBlock> ANT_NEST = registerWithItem("ant_nest",Mineable.SHOVEL,ToolTier.WOODEN, ()-> new AntNestBlock(BlockBehaviour.Properties.of(Material.DIRT)
-            .color(MaterialColor.COLOR_BROWN)
+    public static final RegistryObject<AntNestBlock> ANT_NEST = registerWithItem("ant_nest",Mineable.SHOVEL,ToolTier.WOODEN, ()-> new AntNestBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_BROWN)
             .strength(1.0f)
     ));
-    public static final RegistryObject<AntHillBlock> ANT_HILL = registerWithItem("ant_hill",Mineable.SHOVEL,ToolTier.WOODEN, ()-> new AntHillBlock(BlockBehaviour.Properties.of(Material.DIRT)
-            .color(MaterialColor.COLOR_BROWN)
+    public static final RegistryObject<AntHillBlock> ANT_HILL = registerWithItem("ant_hill",Mineable.SHOVEL,ToolTier.WOODEN, ()-> new AntHillBlock(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_BROWN)
             .strength(1.0f)
             .sound(SoundType.ROOTED_DIRT)
     ));
     public static final RegistryObject<AntJarBlock> ANT_JAR = register("ant_jar", Mineable.PICKAXE, ToolTier.WOODEN,
-            () -> new AntJarBlock(BlockBehaviour.Properties.of(Material.GLASS).requiresCorrectToolForDrops()));
+            () -> new AntJarBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).requiresCorrectToolForDrops()));
 
-    public static final RegistryObject<MarkerBlock> MARKER = register("marker", Mineable.SHOVEL, ToolTier.WOODEN, () -> new MarkerBlock(BlockBehaviour.Properties.of(Material.WOOL)
+    public static final RegistryObject<MarkerBlock> MARKER = register("marker", Mineable.SHOVEL, ToolTier.WOODEN, () -> new MarkerBlock(BlockBehaviour.Properties.of()
             .instabreak()
             .sound(SoundType.SAND)
             .noCollission()
-            .color(MaterialColor.COLOR_BROWN)));
-    public static final RegistryObject<ChunkLoadingMarkerBlock> CHUNK_LOADING_MARKER = register("chunk_loading_marker", Mineable.SHOVEL, ToolTier.WOODEN, () -> new ChunkLoadingMarkerBlock(BlockBehaviour.Properties.of(Material.WOOL)
+            .mapColor(MapColor.COLOR_BROWN)));
+    public static final RegistryObject<ChunkLoadingMarkerBlock> CHUNK_LOADING_MARKER = register("chunk_loading_marker", Mineable.SHOVEL, ToolTier.WOODEN, () -> new ChunkLoadingMarkerBlock(BlockBehaviour.Properties.of()
             .instabreak()
             .sound(SoundType.SAND)
             .noCollission()
-            .color(MaterialColor.COLOR_GREEN)));
+            .mapColor(MapColor.COLOR_GREEN)));
 
     public static final RegistryObject<BlockEntityType<BoxerBE>> BOXER_BE = BLOCK_ENTITIES.register("boxer", () ->
             BlockEntityType.Builder.of(BoxerBE::new, BOXER.get()).build(null));
@@ -93,7 +96,7 @@ public class AntsportationBlocks {
 
     private static <T extends Block> RegistryObject<T> registerWithItem(String name, Mineable mineable, ToolTier tier, Supplier<T> factory) {
         final var block = register(name, mineable, tier, factory);
-        AntsportationItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(Antsportation.TAB)));
+        AntsportationItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
         return block;
     }
 

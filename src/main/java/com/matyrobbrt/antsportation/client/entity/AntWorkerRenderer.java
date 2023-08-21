@@ -6,8 +6,7 @@ import com.matyrobbrt.antsportation.entity.AntWorkerEntity;
 import com.matyrobbrt.antsportation.item.BoxItem;
 import com.matyrobbrt.antsportation.registration.AntsportationTags;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -18,6 +17,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerModel<AntWorkerEntity>> {
@@ -50,7 +50,7 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
             if (boxitem.is(AntsportationTags.Items.BOXES)) {
                 pPoseStack.pushPose();
                 pPoseStack.translate(0, 0.51, 0);
-                pPoseStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw + 90));
+                pPoseStack.mulPose(Axis.YN.rotationDegrees(pEntityYaw + 90));
                 box.all.xRot = Mth.sin(pEntity.tickCount / 10f) / 30f;
                 box.all.zRot = (float) Math.PI;
                 box.all.y = -3.7f + -(float) Math.sin(0.1f * pEntity.tickCount) * 0.05f;
@@ -73,13 +73,13 @@ public class AntWorkerRenderer extends MobRenderer<AntWorkerEntity, AntWorkerMod
                 }
             }
             pPoseStack.pushPose();
-            pPoseStack.mulPose(Vector3f.YN.rotationDegrees(pEntityYaw));
+            pPoseStack.mulPose(Axis.YN.rotationDegrees(pEntityYaw));
             pPoseStack.translate(0.0f, f1 + 0.29f - Math.sin(0.1f * pEntity.tickCount) * 0.005f, 0f);
-            pPoseStack.mulPose(Vector3f.XP.rotationDegrees(90));
-            pPoseStack.mulPose(Vector3f.XP.rotation(Mth.sin(pEntity.tickCount / 10f) / 80f));
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(90));
+            pPoseStack.mulPose(Axis.XP.rotation(Mth.sin(pEntity.tickCount / 10f) / 80f));
             pPoseStack.translate(0.0f, (f1 + 0.29f - Math.sin(0.1f * pEntity.tickCount) * 0.005f) * 0.275f, 0f);
             pPoseStack.scale(0.275f, 0.275f, 0.275f);
-            itemRenderer.renderStatic(null, itemStack, ItemTransforms.TransformType.GROUND, false, pPoseStack, pBuffer, pEntity.level, pPackedLight, OverlayTexture.NO_OVERLAY, 1);
+            itemRenderer.renderStatic(null, itemStack, ItemDisplayContext.GROUND, false, pPoseStack, pBuffer, pEntity.level(), pPackedLight, OverlayTexture.NO_OVERLAY, 1);
             pPoseStack.popPose();
 
         }

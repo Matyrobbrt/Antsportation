@@ -1,0 +1,47 @@
+{
+  "type": "minecraft:block_column",
+  "config": {
+    "allowed_placement": {
+      "type": "minecraft:any_of",
+      "predicates": [
+        {
+          "type": "minecraft:matching_blocks",
+          "blocks": "minecraft:air"
+        },
+        {
+          "type": "minecraft:matching_block_tag",
+          "tag": "minecraft:dirt"
+        }
+      ]
+    },
+    "direction": "down",
+    "layers": [
+      {
+        "height": 1,
+        "provider": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "antsportation:ant_hill",
+            "Properties": {
+              "grassy": "false",
+              "placedbyplayer": "false"
+            }
+          }
+        }
+      },
+      {
+        "height": 1,
+        "provider": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "antsportation:ant_nest",
+            "Properties": {
+              "placedbyplayer": "false"
+            }
+          }
+        }
+      }
+    ],
+    "prioritize_tip": false
+  }
+}

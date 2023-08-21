@@ -18,8 +18,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +38,13 @@ public abstract class BaseBoxingBE extends BlockEntity implements TOPInfoDriver 
         @Override
         public void onChanged() {
             BaseBoxingBE.this.setChanged();
+        }
+
+        @Override
+        public void extractInternal(int amount) {
+            if (ServerConfig.CONFIG.boxing().useEnergy().get()) {
+                super.extractInternal(amount);
+            }
         }
     };
 
@@ -109,7 +116,7 @@ public abstract class BaseBoxingBE extends BlockEntity implements TOPInfoDriver 
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityEnergy.ENERGY && ServerConfig.CONFIG.boxing().useEnergy().get()) {
+        if (cap == ForgeCapabilities.ENERGY && ServerConfig.CONFIG.boxing().useEnergy().get()) {
             return energyLazy.cast();
         }
         return super.getCapability(cap, side);

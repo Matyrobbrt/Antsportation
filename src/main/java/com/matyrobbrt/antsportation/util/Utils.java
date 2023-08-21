@@ -53,7 +53,7 @@ public class Utils {
     public static boolean checkTileStillValid(Player pPlayer, @Nullable BlockEntity tile) {
         if (tile == null)
             return false;
-        if (pPlayer.level.getBlockEntity(tile.getBlockPos()) != tile) {
+        if (pPlayer.level().getBlockEntity(tile.getBlockPos()) != tile) {
             return false;
         } else {
             return !(pPlayer.distanceToSqr((double) tile.getBlockPos().getX() + 0.5D, (double) tile.getBlockPos().getY() + 0.5D, (double) tile.getBlockPos().getZ() + 0.5D) > 64.0D);
