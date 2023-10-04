@@ -1,1 +1,1 @@
-- Hopefully fix issue with players getting the antsportation book when joining the world again
+- Decrease ant spawn chance and fix ant spawning behaviour on till

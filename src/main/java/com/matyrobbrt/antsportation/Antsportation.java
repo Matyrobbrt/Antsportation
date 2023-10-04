@@ -31,6 +31,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -132,8 +133,9 @@ public class Antsportation {
         if (event.isSimulated()) {
             return;
         }
-        Random random = new Random();
-        if (event.getContext().getItemInHand().canPerformAction(ToolActions.HOE_TILL) && random.nextInt(100) > 97 && (event.getState() != event.getFinalState() || event.getState() != event.getState().getBlock().getToolModifiedState(event.getState(), event.getContext(), ToolActions.HOE_TILL, false))) {
+
+        final Random random = new Random();
+        if (event.getContext().getItemInHand().canPerformAction(ToolActions.HOE_TILL) && random.nextDouble() < ServerConfig.CONFIG.antTillSpawnChance().get()&& event.getState().is(Blocks.FARMLAND)) {
             final var ant = new AntQueenEntity(AntsportationEntities.ANT_QUEEN.get(), event.getContext().getLevel());
             ant.setPos(event.getPos().getX() + 0.5, event.getPos().getY() + 1, event.getPos().getZ() + 0.5);
             event.getContext().getLevel().addFreshEntity(ant);

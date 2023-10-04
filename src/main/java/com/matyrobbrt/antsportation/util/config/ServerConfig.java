@@ -9,7 +9,7 @@ import net.minecraftforge.fml.ModList;
 import java.util.Map;
 import java.util.function.Function;
 
-public record ServerConfig(Boxing boxing, Ants ants) {
+public record ServerConfig(Boxing boxing, Ants ants, ForgeConfigSpec.DoubleValue antTillSpawnChance) {
     public static final ServerConfig CONFIG;
     public static final ForgeConfigSpec SPEC;
 
@@ -57,9 +57,14 @@ public record ServerConfig(Boxing boxing, Ants ants) {
         }
         builder.pop();
 
+        builder.push("general");
+        final var antTillSpawnChance = builder.comment("How often tilling dirt with a hoe should cause an ant queen to be spawned.")
+                .defineInRange("antTillSpawnChance", 0.02d, 0.0d, 1d);
+        builder.pop();
+
         SPEC = builder.build();
 
-        CONFIG = new ServerConfig(boxing, ants);
+        CONFIG = new ServerConfig(boxing, ants, antTillSpawnChance);
         BY_PATH = builder.getByPath();
     }
 
